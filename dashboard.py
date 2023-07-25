@@ -8,7 +8,7 @@ from dash import Dash, html, dcc, Input, Output, State, ctx
 import plotly.express as px
 import pandas as pd
 import dash_bootstrap_components as dbc
-from datetime import date
+from datetime import date, datetime
 import time
 import math
 
@@ -1576,7 +1576,7 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
     if 'id_botao_novaApostaInserir' == ctx.triggered_id:
         if state_calendario_novaAposta and state_dpd_novaApostaEsportes and state_dpd_novaApostaTipo and state_input_novaApostaInvestimento and state_input_novaApostaOdd and state_dpd_novaApostaResultado and state_dpd_novaApostaFinalizacao is not None:
             
-            aposta_data = state_calendario_novaAposta
+            aposta_data = datetime.strptime(state_calendario_novaAposta, '%Y-%m-%d')
             aposta_esporte = state_dpd_novaApostaEsportes
             aposta_tipo = state_dpd_novaApostaTipo
             aposta_investimento = float(state_input_novaApostaInvestimento)
@@ -1585,7 +1585,7 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
             aposta_finalizacao = state_dpd_novaApostaFinalizacao
             aposta_retirada = state_input_novaApostaRetirada
             soma = 1
-            
+
             if state_dpd_novaApostaFinalizacao == 'Normal': 
                 if aposta_resultado == 'Acerto':
                     aposta_saldo = round((aposta_investimento * aposta_odd)-aposta_investimento,2)
@@ -1605,8 +1605,8 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
                     mode="a", 
                     engine="openpyxl", 
                     if_sheet_exists="overlay",
-                    date_format="DD-MM-YYYY",
-                    datetime_format="DD-MM-YYYY"
+                    date_format="YYYY-MM-DD",
+                    datetime_format="YYYY-MM-DD HH:MM:SS"
                 ) as writer:
                     df_concat.to_excel(writer, sheet_name="Plan1", index=False)  
                 
@@ -1637,8 +1637,8 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
                         mode="a", 
                         engine="openpyxl", 
                         if_sheet_exists="overlay",
-                        date_format="DD-MM-YYYY",
-                        datetime_format="DD-MM-YYYY"
+                        date_format="YYYY-MM-DD",
+                        datetime_format="YYYY-MM-DD HH:MM:SS"
                     ) as writer:
                         df_concat.to_excel(writer, sheet_name="Plan1", index=False)  
                     
