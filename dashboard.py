@@ -1145,14 +1145,18 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                     t=20, b=0, l=0, r=0
                 )
             )
-        
-            saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
-            roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
-            saldo_diario = 'R$' + " " + str(saldo_diario)
-            if math.isnan(roi_diario) == True:
-                roi_diario = '0 %'
-            else:
-                roi_diario = str(roi_diario) + ' %'
+
+            if tabela_filtrada.empty:
+                saldo_diario = 'Sem dados'
+                roi_diario = 'Sem dados'
+            else: 
+                saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
+                roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
+                saldo_diario = 'R$' + " " + str(saldo_diario)
+                if math.isnan(roi_diario) == True:
+                    roi_diario = '0 %'
+                else:
+                    roi_diario = str(roi_diario) + ' %'
 
         if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is None:
 
@@ -1190,13 +1194,17 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 )
             )
         
-            saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
-            roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
-            saldo_diario = 'R$' + " " + str(saldo_diario)
-            if math.isnan(roi_diario) == True:
-                roi_diario = '0 %'
-            else:
-                roi_diario = str(roi_diario) + ' %'
+            if tabela_filtrada.empty:
+                saldo_diario = 'Sem dados'
+                roi_diario = 'Sem dados'
+            else: 
+                saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
+                roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
+                saldo_diario = 'R$' + " " + str(saldo_diario)
+                if math.isnan(roi_diario) == True:
+                    roi_diario = '0 %'
+                else:
+                    roi_diario = str(roi_diario) + ' %'
 
         if input_dpd_abaDiariaEsporte is None and input_dpd_abaDiariaTipo is not None:
 
@@ -1234,13 +1242,17 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 )
             )
         
-            saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
-            roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
-            saldo_diario = 'R$' + " " + str(saldo_diario)
-            if math.isnan(roi_diario) == True:
-                roi_diario = '0 %'
-            else:
-                roi_diario = str(roi_diario) + ' %'
+            if tabela_filtrada.empty:
+                saldo_diario = 'Sem dados'
+                roi_diario = 'Sem dados'
+            else: 
+                saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
+                roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
+                saldo_diario = 'R$' + " " + str(saldo_diario)
+                if math.isnan(roi_diario) == True:
+                    roi_diario = '0 %'
+                else:
+                    roi_diario = str(roi_diario) + ' %'
 
         if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is not None:
 
@@ -1278,13 +1290,17 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 )
             )
         
-            saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
-            roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
-            saldo_diario = 'R$' + " " + str(saldo_diario)
-            if math.isnan(roi_diario) == True:
-                roi_diario = '0 %'
-            else:
-                roi_diario = str(roi_diario) + ' %'
+            if tabela_filtrada.empty:
+                saldo_diario = 'Sem dados'
+                roi_diario = 'Sem dados'
+            else: 
+                saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
+                roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
+                saldo_diario = 'R$' + " " + str(saldo_diario)
+                if math.isnan(roi_diario) == True:
+                    roi_diario = '0 %'
+                else:
+                    roi_diario = str(roi_diario) + ' %'
 
     return fig_aproveitamentoDiario, saldo_diario, roi_diario
 
@@ -1336,13 +1352,17 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             )
         )
 
-        saldo_geral = float(round(df_apostas['Saldo'].sum(),2))
-        roi_geral = round(saldo_geral*100/df_apostas["Investimento"].sum(),2)
-        saldo_geral = 'R$' + " " + str(saldo_geral)
-        if math.isnan(roi_geral) == True:
-            roi_geral = '0 %'
-        else:
-            roi_geral = str(roi_geral) + ' %'
+        if df_apostas.empty:
+            saldo_geral = 'Sem dados'
+            roi_geral = 'Sem dados'
+        else: 
+            saldo_geral = float(round(df_apostas['Saldo'].sum(),2))
+            roi_geral = round(saldo_geral*100/df_apostas["Investimento"].sum(),2)
+            saldo_geral = 'R$' + " " + str(saldo_geral)
+            if math.isnan(roi_geral) == True:
+                roi_geral = '0 %'
+            else:
+                roi_geral = str(roi_geral) + ' %'
 
     if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is None:
 
@@ -1380,13 +1400,17 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             )
         )
 
-        saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
-        roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
-        saldo_geral = 'R$' + " " + str(saldo_geral)
-        if math.isnan(roi_geral) == True:
-            roi_geral = '0 %'
-        else:
-            roi_geral = str(roi_geral) + ' %'
+        if df_apostas.tabela_filtrada:
+            saldo_geral = 'Sem dados'
+            roi_geral = 'Sem dados'
+        else: 
+            saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
+            roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
+            saldo_geral = 'R$' + " " + str(saldo_geral)
+            if math.isnan(roi_geral) == True:
+                roi_geral = '0 %'
+            else:
+                roi_geral = str(roi_geral) + ' %'
 
     if input_dpd_abaGeralEsporte is None and input_dpd_abaGeralTipo is not None:
 
@@ -1424,13 +1448,17 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             )
         )
 
-        saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
-        roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
-        saldo_geral = 'R$' + " " + str(saldo_geral)
-        if math.isnan(roi_geral) == True:
-            roi_geral = '0 %'
-        else:
-            roi_geral = str(roi_geral) + ' %'
+        if df_apostas.tabela_filtrada:
+            saldo_geral = 'Sem dados'
+            roi_geral = 'Sem dados'
+        else: 
+            saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
+            roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
+            saldo_geral = 'R$' + " " + str(saldo_geral)
+            if math.isnan(roi_geral) == True:
+                roi_geral = '0 %'
+            else:
+                roi_geral = str(roi_geral) + ' %'
 
     if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is not None:
 
@@ -1468,13 +1496,17 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             )
         )
 
-        saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
-        roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
-        saldo_geral = 'R$' + " " + str(saldo_geral)
-        if math.isnan(roi_geral) == True:
-            roi_geral = '0 %'
-        else:
-            roi_geral = str(roi_geral) + ' %'
+        if df_apostas.tabela_filtrada:
+            saldo_geral = 'Sem dados'
+            roi_geral = 'Sem dados'
+        else: 
+            saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
+            roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
+            saldo_geral = 'R$' + " " + str(saldo_geral)
+            if math.isnan(roi_geral) == True:
+                roi_geral = '0 %'
+            else:
+                roi_geral = str(roi_geral) + ' %'
 
     return fig_aproveitamentoGeral, saldo_geral, roi_geral
 
@@ -1812,17 +1844,23 @@ def cards(input_botao_novaApostaClose, input_title_header):
     df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
     df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
 
-    banca_inicial = round(float(df_parametros["Banca Inicial"].dropna()),2)
+    if df_apostas.empty:
+        str_banca_inicial = 'Sem dados'
+        str_banca_atual = 'Sem dados'
+        str_saldo = 'Sem dados'
+        str_roi = 'Sem dados'
+    else:
+        banca_inicial = round(float(df_parametros["Banca Inicial"].dropna()),2)
 
-    banca_atual = round(banca_inicial + df_apostas["Saldo"].sum(),2)
-    saldo = round(banca_atual-banca_inicial,2)
-    roi = round(saldo*100/df_apostas["Investimento"].sum(),2)
+        banca_atual = round(banca_inicial + df_apostas["Saldo"].sum(),2)
+        saldo = round(banca_atual-banca_inicial,2)
+        roi = round(saldo*100/df_apostas["Investimento"].sum(),2)
 
-    str_reais = 'R$'
-    str_banca_inicial = str_reais + ' ' + str(banca_inicial)
-    str_banca_atual = str_reais + ' ' + str(banca_atual)
-    str_saldo = str_reais + ' ' + str(saldo)
-    str_roi = str(roi) + ' %'
+        str_reais = 'R$'
+        str_banca_inicial = str_reais + ' ' + str(banca_inicial)
+        str_banca_atual = str_reais + ' ' + str(banca_atual)
+        str_saldo = str_reais + ' ' + str(saldo)
+        str_roi = str(roi) + ' %'
 
     return str_banca_inicial, str_banca_atual, str_saldo, str_roi
 
