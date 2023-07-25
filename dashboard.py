@@ -22,8 +22,8 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.CYBORG], suppress_callback
 ########### BASE DE DADOS 
 ########### ########### ###########
 
-df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_bets.xlsx")
-df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parameters.xlsx")
+df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
+df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
 
 ########### ########### ###########
 ########### VARIÁVEIS GLOBAIS
@@ -721,8 +721,8 @@ app.layout = html.Div(
 )
 def graf_banca(input_botao_novaApostaClose,input_title_header):
     
-    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_bets.xlsx")
-    df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parameters.xlsx")
+    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
+    df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
 
     banca_inicial = round(float(df_parametros["Banca Inicial"].dropna()),2)
 
@@ -878,7 +878,7 @@ def graf_banca(input_botao_novaApostaClose,input_title_header):
 )
 def switch_tab(input_tab_abas):
 
-    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_bets.xlsx")
+    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
 
     lista_esportessUsados = list(df_apostas["Esporte"].unique())
     lista_esportessUsados.sort()
@@ -1103,7 +1103,7 @@ def switch_tab(input_tab_abas):
 )
 def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd_abaDiariaTipo, input_botao_novaApostaClose):
     
-    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_bets.xlsx")
+    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
 
     if input_calendario_abaDiaria is not None:
 
@@ -1300,7 +1300,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
 )
 def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_novaApostaClose):
 
-    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_bets.xlsx")
+    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
 
     if input_dpd_abaGeralEsporte is None and input_dpd_abaGeralTipo is None:
 
@@ -1530,14 +1530,14 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
                 elif aposta_resultado == 'Retornada':
                     aposta_saldo = 0
                     
-                df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_bets.xlsx")
+                df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
 
                 nova_aposta = [aposta_data, aposta_esporte, aposta_tipo, aposta_odd, aposta_investimento, aposta_finalizacao, aposta_resultado, aposta_saldo, soma]
                 df_nova_aposta = pd.DataFrame([nova_aposta], columns=list(['Data', 'Esporte', 'Tipo', 'Odd', 'Investimento', 'Finalização', 'Resultado', 'Saldo', 'Soma']))
                 df_concat = pd.concat([df_apostas,df_nova_aposta], ignore_index=True)
                 
                 with pd.ExcelWriter(
-                    r"E:\Programação\Python\Projetos\Dashboard Apostas\db_bets.xlsx", 
+                    r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx", 
                     mode="a", 
                     engine="openpyxl", 
                     if_sheet_exists="overlay",
@@ -1562,14 +1562,14 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
                     elif aposta_resultado == 'Retornada':
                         aposta_saldo = 0
                         
-                    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_bets.xlsx")
+                    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
 
                     nova_aposta = [aposta_data, aposta_esporte, aposta_tipo, aposta_odd, aposta_investimento, aposta_finalizacao, aposta_resultado, aposta_saldo, soma]
                     df_nova_aposta = pd.DataFrame([nova_aposta], columns=list(['Data', 'Esporte', 'Tipo', 'Odd', 'Investimento', 'Finalização', 'Resultado', 'Saldo', 'Soma']))
                     df_concat = pd.concat([df_apostas,df_nova_aposta], ignore_index=True)
                     
                     with pd.ExcelWriter(
-                        r"E:\Programação\Python\Projetos\Dashboard Apostas\db_bets.xlsx", 
+                        r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx", 
                         mode="a", 
                         engine="openpyxl", 
                         if_sheet_exists="overlay",
@@ -1690,13 +1690,13 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
     if 'id_botao_configInserirEsporte' == ctx.triggered_id:
         if state_input_configEsporte is not None: 
             
-            df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parameters.xlsx")
+            df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
             novo_esporte = state_input_configEsporte
             df_parametros_novo = pd.DataFrame([novo_esporte], columns=list(['Esporte']))
             df_concat = pd.concat([df_parametros,df_parametros_novo], ignore_index=True)
             
             with pd.ExcelWriter(
-                r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parameters.xlsx", 
+                r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx", 
                 mode="a", 
                 engine="openpyxl", 
                 if_sheet_exists="overlay",
@@ -1722,7 +1722,7 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
     elif 'id_botao_configBancaInicial' == ctx.triggered_id:
         if state_input_configBancaInicial is not None: 
             
-            df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parameters.xlsx")
+            df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
             
             df_nova_banca = df_parametros
             lista_banca_inicial = list(df_parametros['Banca Inicial'])
@@ -1731,7 +1731,7 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
             df_nova_banca['Banca Inicial'] = lista_banca_inicial
 
             with pd.ExcelWriter(
-                r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parameters.xlsx", 
+                r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx", 
                 mode="a", 
                 engine="openpyxl", 
                 if_sheet_exists="overlay",
@@ -1775,7 +1775,7 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
 )
 def modal_config_limpeza(input_botao_configInserirEsporte, input_botao_configBancaInicial, input_botao_configClose, input_input_configEsporte, input_input_configBancaInicial):
     
-    df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parameters.xlsx")
+    df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
     lista_esportes = list(df_parametros["Esporte"].dropna())
 
     dropdown = [
@@ -1809,8 +1809,8 @@ def modal_config_limpeza(input_botao_configInserirEsporte, input_botao_configBan
 )
 def cards(input_botao_novaApostaClose, input_title_header):
 
-    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_bets.xlsx")
-    df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parameters.xlsx")
+    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
+    df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
 
     banca_inicial = round(float(df_parametros["Banca Inicial"].dropna()),2)
 
