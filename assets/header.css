@@ -1,0 +1,27 @@
+.app-header {
+
+    background: rgb(49, 252, 195); /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, rgb(49, 252, 195), #9f08c9); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, rgb(49, 252, 195), #9f08c9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  
+}
+/* .app-header .app-header--title {
+    font-size: 22px;
+    padding-left: 5px;
+} */
+
+
+/* CORES USADAS
+
+#b61616, #9f08c9
+
+
+*/
+
+
+
+
+
