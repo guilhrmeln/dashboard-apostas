@@ -1105,51 +1105,79 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
     
     df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
 
-    if input_calendario_abaDiaria is not None:
+    if df_apostas.empty:
 
-        data_objeto = date.fromisoformat(input_calendario_abaDiaria)
-        data_string = data_objeto.strftime('%Y, %m, %d')
+        fig_aproveitamentoDiario = px.pie(
+            df_apostas, 
+            values='Soma', 
+            names='Resultado', 
+            title='Resultado diário',
+            hole=0.5,
+            height=400,
+            color='Resultado',
+            color_discrete_map = {
+                'Acerto': colors['col_acerto'],
+                'Erro': colors['col_erro'],
+                'Retornada': colors['col_retornada']
+            }
+        )
+        fig_aproveitamentoDiario.update_traces(
+            textinfo='percent + value'
+        )
+        fig_aproveitamentoDiario.update_layout(
+            #title='Acertos diários',
+            title_x=0.5,
+            plot_bgcolor=colors['background2'],
+            paper_bgcolor=colors['background2'],
+            font_color=colors['text'],
+            autosize=True
+        )
+        saldo_diario = 'Sem dados'
+        roi_diario = 'Sem dados'
 
-        if input_dpd_abaDiariaEsporte is None and input_dpd_abaDiariaTipo is None:
+    else:
 
-            tabela_filtrada = df_apostas.loc[df_apostas['Data']==data_string]
+        if input_calendario_abaDiaria is not None:
 
-            fig_aproveitamentoDiario = px.pie(
-                tabela_filtrada, 
-                values='Soma', 
-                names='Resultado', 
-                #title='Aproveitamento',
-                hole=0.5,
-                height=300,
-                color='Resultado',
-                color_discrete_map = {
-                    'Acerto': colors['col_acerto'],
-                    'Erro': colors['col_erro'],
-                    'Retornada': colors['col_retornada']
-                }
-            )
+            data_objeto = date.fromisoformat(input_calendario_abaDiaria)
+            data_string = data_objeto.strftime('%Y, %m, %d')
 
-            fig_aproveitamentoDiario.update_traces(
-                textinfo='percent + value',
-                insidetextorientation='horizontal'
-            )
+            if input_dpd_abaDiariaEsporte is None and input_dpd_abaDiariaTipo is None:
 
-            fig_aproveitamentoDiario.update_layout(
-                #title='Aproveitamento',
-                title_x=0.5,
-                plot_bgcolor=colors['background2'],
-                paper_bgcolor=colors['background2'],
-                font_color=colors['text'],
-                autosize=True,
-                margin=dict(
-                    t=20, b=0, l=0, r=0
+                tabela_filtrada = df_apostas.loc[df_apostas['Data']==data_string]
+
+                fig_aproveitamentoDiario = px.pie(
+                    tabela_filtrada, 
+                    values='Soma', 
+                    names='Resultado', 
+                    #title='Aproveitamento',
+                    hole=0.5,
+                    height=300,
+                    color='Resultado',
+                    color_discrete_map = {
+                        'Acerto': colors['col_acerto'],
+                        'Erro': colors['col_erro'],
+                        'Retornada': colors['col_retornada']
+                    }
                 )
-            )
 
-            if tabela_filtrada.empty:
-                saldo_diario = 'Sem dados'
-                roi_diario = 'Sem dados'
-            else: 
+                fig_aproveitamentoDiario.update_traces(
+                    textinfo='percent + value',
+                    insidetextorientation='horizontal'
+                )
+
+                fig_aproveitamentoDiario.update_layout(
+                    #title='Aproveitamento',
+                    title_x=0.5,
+                    plot_bgcolor=colors['background2'],
+                    paper_bgcolor=colors['background2'],
+                    font_color=colors['text'],
+                    autosize=True,
+                    margin=dict(
+                        t=20, b=0, l=0, r=0
+                    )
+                )
+
                 saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
                 roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
                 saldo_diario = 'R$' + " " + str(saldo_diario)
@@ -1158,46 +1186,42 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 else:
                     roi_diario = str(roi_diario) + ' %'
 
-        if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is None:
+            if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is None:
 
-            tabela_filtrada = df_apostas.loc[(df_apostas['Data']==data_string) & (df_apostas['Esporte']==input_dpd_abaDiariaEsporte)]
-            
-            fig_aproveitamentoDiario = px.pie(
-                tabela_filtrada, 
-                values='Soma', 
-                names='Resultado', 
-                #title='Aproveitamento',
-                hole=0.5,
-                height=300,
-                color='Resultado',
-                color_discrete_map = {
-                    'Acerto': colors['col_acerto'],
-                    'Erro': colors['col_erro'],
-                    'Retornada': colors['col_retornada']
-                }
-            )
-
-            fig_aproveitamentoDiario.update_traces(
-                textinfo='percent + value',
-                insidetextorientation='horizontal'
-            )
-
-            fig_aproveitamentoDiario.update_layout(
-                #title='Aproveitamento',
-                title_x=0.5,
-                plot_bgcolor=colors['background2'],
-                paper_bgcolor=colors['background2'],
-                font_color=colors['text'],
-                autosize=True,
-                margin=dict(
-                    t=20, b=0, l=0, r=0
+                tabela_filtrada = df_apostas.loc[(df_apostas['Data']==data_string) & (df_apostas['Esporte']==input_dpd_abaDiariaEsporte)]
+                
+                fig_aproveitamentoDiario = px.pie(
+                    tabela_filtrada, 
+                    values='Soma', 
+                    names='Resultado', 
+                    #title='Aproveitamento',
+                    hole=0.5,
+                    height=300,
+                    color='Resultado',
+                    color_discrete_map = {
+                        'Acerto': colors['col_acerto'],
+                        'Erro': colors['col_erro'],
+                        'Retornada': colors['col_retornada']
+                    }
                 )
-            )
-        
-            if tabela_filtrada.empty:
-                saldo_diario = 'Sem dados'
-                roi_diario = 'Sem dados'
-            else: 
+
+                fig_aproveitamentoDiario.update_traces(
+                    textinfo='percent + value',
+                    insidetextorientation='horizontal'
+                )
+
+                fig_aproveitamentoDiario.update_layout(
+                    #title='Aproveitamento',
+                    title_x=0.5,
+                    plot_bgcolor=colors['background2'],
+                    paper_bgcolor=colors['background2'],
+                    font_color=colors['text'],
+                    autosize=True,
+                    margin=dict(
+                        t=20, b=0, l=0, r=0
+                    )
+                )
+            
                 saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
                 roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
                 saldo_diario = 'R$' + " " + str(saldo_diario)
@@ -1206,46 +1230,42 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 else:
                     roi_diario = str(roi_diario) + ' %'
 
-        if input_dpd_abaDiariaEsporte is None and input_dpd_abaDiariaTipo is not None:
+            if input_dpd_abaDiariaEsporte is None and input_dpd_abaDiariaTipo is not None:
 
-            tabela_filtrada = df_apostas.loc[(df_apostas['Data']==data_string) & (df_apostas['Tipo']==input_dpd_abaDiariaTipo)]
-            
-            fig_aproveitamentoDiario = px.pie(
-                tabela_filtrada, 
-                values='Soma', 
-                names='Resultado', 
-                #title='Aproveitamento',
-                hole=0.5,
-                height=300,
-                color='Resultado',
-                color_discrete_map = {
-                    'Acerto': colors['col_acerto'],
-                    'Erro': colors['col_erro'],
-                    'Retornada': colors['col_retornada']
-                }
-            )
-
-            fig_aproveitamentoDiario.update_traces(
-                textinfo='percent + value',
-                insidetextorientation='horizontal'
-            )
-
-            fig_aproveitamentoDiario.update_layout(
-                #title='Aproveitamento',
-                title_x=0.5,
-                plot_bgcolor=colors['background2'],
-                paper_bgcolor=colors['background2'],
-                font_color=colors['text'],
-                autosize=True,
-                margin=dict(
-                    t=20, b=0, l=0, r=0
+                tabela_filtrada = df_apostas.loc[(df_apostas['Data']==data_string) & (df_apostas['Tipo']==input_dpd_abaDiariaTipo)]
+                
+                fig_aproveitamentoDiario = px.pie(
+                    tabela_filtrada, 
+                    values='Soma', 
+                    names='Resultado', 
+                    #title='Aproveitamento',
+                    hole=0.5,
+                    height=300,
+                    color='Resultado',
+                    color_discrete_map = {
+                        'Acerto': colors['col_acerto'],
+                        'Erro': colors['col_erro'],
+                        'Retornada': colors['col_retornada']
+                    }
                 )
-            )
-        
-            if tabela_filtrada.empty:
-                saldo_diario = 'Sem dados'
-                roi_diario = 'Sem dados'
-            else: 
+
+                fig_aproveitamentoDiario.update_traces(
+                    textinfo='percent + value',
+                    insidetextorientation='horizontal'
+                )
+
+                fig_aproveitamentoDiario.update_layout(
+                    #title='Aproveitamento',
+                    title_x=0.5,
+                    plot_bgcolor=colors['background2'],
+                    paper_bgcolor=colors['background2'],
+                    font_color=colors['text'],
+                    autosize=True,
+                    margin=dict(
+                        t=20, b=0, l=0, r=0
+                    )
+                )
+            
                 saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
                 roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
                 saldo_diario = 'R$' + " " + str(saldo_diario)
@@ -1254,46 +1274,42 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 else:
                     roi_diario = str(roi_diario) + ' %'
 
-        if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is not None:
+            if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is not None:
 
-            tabela_filtrada = df_apostas.loc[(df_apostas['Data']==data_string) & (df_apostas['Esporte']==input_dpd_abaDiariaEsporte) & (df_apostas['Tipo']==input_dpd_abaDiariaTipo)]
-            
-            fig_aproveitamentoDiario = px.pie(
-                tabela_filtrada, 
-                values='Soma', 
-                names='Resultado', 
-                #title='Aproveitamento',
-                hole=0.5,
-                height=300,
-                color='Resultado',
-                color_discrete_map = {
-                    'Acerto': colors['col_acerto'],
-                    'Erro': colors['col_erro'],
-                    'Retornada': colors['col_retornada']
-                }
-            )
-
-            fig_aproveitamentoDiario.update_traces(
-                textinfo='percent + value',
-                insidetextorientation='horizontal'
-            )
-
-            fig_aproveitamentoDiario.update_layout(
-                #title='Aproveitamento',
-                title_x=0.5,
-                plot_bgcolor=colors['background2'],
-                paper_bgcolor=colors['background2'],
-                font_color=colors['text'],
-                autosize=True,
-                margin=dict(
-                    t=20, b=0, l=0, r=0
+                tabela_filtrada = df_apostas.loc[(df_apostas['Data']==data_string) & (df_apostas['Esporte']==input_dpd_abaDiariaEsporte) & (df_apostas['Tipo']==input_dpd_abaDiariaTipo)]
+                
+                fig_aproveitamentoDiario = px.pie(
+                    tabela_filtrada, 
+                    values='Soma', 
+                    names='Resultado', 
+                    #title='Aproveitamento',
+                    hole=0.5,
+                    height=300,
+                    color='Resultado',
+                    color_discrete_map = {
+                        'Acerto': colors['col_acerto'],
+                        'Erro': colors['col_erro'],
+                        'Retornada': colors['col_retornada']
+                    }
                 )
-            )
-        
-            if tabela_filtrada.empty:
-                saldo_diario = 'Sem dados'
-                roi_diario = 'Sem dados'
-            else: 
+
+                fig_aproveitamentoDiario.update_traces(
+                    textinfo='percent + value',
+                    insidetextorientation='horizontal'
+                )
+
+                fig_aproveitamentoDiario.update_layout(
+                    #title='Aproveitamento',
+                    title_x=0.5,
+                    plot_bgcolor=colors['background2'],
+                    paper_bgcolor=colors['background2'],
+                    font_color=colors['text'],
+                    autosize=True,
+                    margin=dict(
+                        t=20, b=0, l=0, r=0
+                    )
+                )
+            
                 saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
                 roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
                 saldo_diario = 'R$' + " " + str(saldo_diario)
@@ -1318,15 +1334,15 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
 
     df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
 
-    if input_dpd_abaGeralEsporte is None and input_dpd_abaGeralTipo is None:
-
+    if df_apostas.empty:
+        
         fig_aproveitamentoGeral = px.pie(
             df_apostas, 
             values='Soma', 
             names='Resultado', 
-            #title='Aproveitamento',
+            title='Resultado diário',
             hole=0.5,
-            height=300,
+            height=400,
             color='Resultado',
             color_discrete_map = {
                 'Acerto': colors['col_acerto'],
@@ -1334,28 +1350,56 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
                 'Retornada': colors['col_retornada']
             }
         )
-
         fig_aproveitamentoGeral.update_traces(
-            textinfo='percent + value',
-            insidetextorientation='horizontal'
+            textinfo='percent + value'
         )
-
         fig_aproveitamentoGeral.update_layout(
-            #title='Aproveitamento',
+            #title='Acertos diários',
             title_x=0.5,
             plot_bgcolor=colors['background2'],
             paper_bgcolor=colors['background2'],
             font_color=colors['text'],
-            autosize=True,
-            margin=dict(
-                t=20, b=0, l=0, r=0
-            )
-        )
+            autosize=True
+        )    
+        saldo_geral = 'Sem dados'
+        roi_geral = 'Sem dados'
+        
+    else:
 
-        if df_apostas.empty:
-            saldo_geral = 'Sem dados'
-            roi_geral = 'Sem dados'
-        else: 
+        if input_dpd_abaGeralEsporte is None and input_dpd_abaGeralTipo is None:
+
+            fig_aproveitamentoGeral = px.pie(
+                df_apostas, 
+                values='Soma', 
+                names='Resultado', 
+                #title='Aproveitamento',
+                hole=0.5,
+                height=300,
+                color='Resultado',
+                color_discrete_map = {
+                    'Acerto': colors['col_acerto'],
+                    'Erro': colors['col_erro'],
+                    'Retornada': colors['col_retornada']
+                }
+            )
+
+            fig_aproveitamentoGeral.update_traces(
+                textinfo='percent + value',
+                insidetextorientation='horizontal'
+            )
+
+            fig_aproveitamentoGeral.update_layout(
+                #title='Aproveitamento',
+                title_x=0.5,
+                plot_bgcolor=colors['background2'],
+                paper_bgcolor=colors['background2'],
+                font_color=colors['text'],
+                autosize=True,
+                margin=dict(
+                    t=20, b=0, l=0, r=0
+                )
+            )
+
             saldo_geral = float(round(df_apostas['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/df_apostas["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
@@ -1364,46 +1408,42 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             else:
                 roi_geral = str(roi_geral) + ' %'
 
-    if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is None:
+        if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is None:
 
-        tabela_filtrada = df_apostas.loc[df_apostas['Esporte']==input_dpd_abaGeralEsporte]
-        
-        fig_aproveitamentoGeral = px.pie(
-            tabela_filtrada, 
-            values='Soma', 
-            names='Resultado', 
-            #title='Aproveitamento',
-            hole=0.5,
-            height=300,
-            color='Resultado',
-            color_discrete_map = {
-                'Acerto': colors['col_acerto'],
-                'Erro': colors['col_erro'],
-                'Retornada': colors['col_retornada']
-            }
-        )
-
-        fig_aproveitamentoGeral.update_traces(
-            textinfo='percent + value',
-            insidetextorientation='horizontal'
-        )
-
-        fig_aproveitamentoGeral.update_layout(
-            #title='Aproveitamento',
-            title_x=0.5,
-            plot_bgcolor=colors['background2'],
-            paper_bgcolor=colors['background2'],
-            font_color=colors['text'],
-            autosize=True,
-            margin=dict(
-                t=20, b=0, l=0, r=0
+            tabela_filtrada = df_apostas.loc[df_apostas['Esporte']==input_dpd_abaGeralEsporte]
+            
+            fig_aproveitamentoGeral = px.pie(
+                tabela_filtrada, 
+                values='Soma', 
+                names='Resultado', 
+                #title='Aproveitamento',
+                hole=0.5,
+                height=300,
+                color='Resultado',
+                color_discrete_map = {
+                    'Acerto': colors['col_acerto'],
+                    'Erro': colors['col_erro'],
+                    'Retornada': colors['col_retornada']
+                }
             )
-        )
 
-        if df_apostas.tabela_filtrada:
-            saldo_geral = 'Sem dados'
-            roi_geral = 'Sem dados'
-        else: 
+            fig_aproveitamentoGeral.update_traces(
+                textinfo='percent + value',
+                insidetextorientation='horizontal'
+            )
+
+            fig_aproveitamentoGeral.update_layout(
+                #title='Aproveitamento',
+                title_x=0.5,
+                plot_bgcolor=colors['background2'],
+                paper_bgcolor=colors['background2'],
+                font_color=colors['text'],
+                autosize=True,
+                margin=dict(
+                    t=20, b=0, l=0, r=0
+                )
+            )
+
             saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
@@ -1412,46 +1452,42 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             else:
                 roi_geral = str(roi_geral) + ' %'
 
-    if input_dpd_abaGeralEsporte is None and input_dpd_abaGeralTipo is not None:
+        if input_dpd_abaGeralEsporte is None and input_dpd_abaGeralTipo is not None:
 
-        tabela_filtrada = df_apostas.loc[df_apostas['Tipo']==input_dpd_abaGeralTipo]
-        
-        fig_aproveitamentoGeral = px.pie(
-            tabela_filtrada, 
-            values='Soma', 
-            names='Resultado', 
-            #title='Aproveitamento',
-            hole=0.5,
-            height=300,
-            color='Resultado',
-            color_discrete_map = {
-                'Acerto': colors['col_acerto'],
-                'Erro': colors['col_erro'],
-                'Retornada': colors['col_retornada']
-            }
-        )
-
-        fig_aproveitamentoGeral.update_traces(
-            textinfo='percent + value',
-            insidetextorientation='horizontal'
-        )
-
-        fig_aproveitamentoGeral.update_layout(
-            #title='Aproveitamento',
-            title_x=0.5,
-            plot_bgcolor=colors['background2'],
-            paper_bgcolor=colors['background2'],
-            font_color=colors['text'],
-            autosize=True,
-            margin=dict(
-                t=20, b=0, l=0, r=0
+            tabela_filtrada = df_apostas.loc[df_apostas['Tipo']==input_dpd_abaGeralTipo]
+            
+            fig_aproveitamentoGeral = px.pie(
+                tabela_filtrada, 
+                values='Soma', 
+                names='Resultado', 
+                #title='Aproveitamento',
+                hole=0.5,
+                height=300,
+                color='Resultado',
+                color_discrete_map = {
+                    'Acerto': colors['col_acerto'],
+                    'Erro': colors['col_erro'],
+                    'Retornada': colors['col_retornada']
+                }
             )
-        )
 
-        if df_apostas.tabela_filtrada:
-            saldo_geral = 'Sem dados'
-            roi_geral = 'Sem dados'
-        else: 
+            fig_aproveitamentoGeral.update_traces(
+                textinfo='percent + value',
+                insidetextorientation='horizontal'
+            )
+
+            fig_aproveitamentoGeral.update_layout(
+                #title='Aproveitamento',
+                title_x=0.5,
+                plot_bgcolor=colors['background2'],
+                paper_bgcolor=colors['background2'],
+                font_color=colors['text'],
+                autosize=True,
+                margin=dict(
+                    t=20, b=0, l=0, r=0
+                )
+            )
+
             saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
@@ -1460,46 +1496,42 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             else:
                 roi_geral = str(roi_geral) + ' %'
 
-    if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is not None:
+        if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is not None:
 
-        tabela_filtrada = df_apostas.loc[(df_apostas['Esporte']==input_dpd_abaGeralEsporte) & (df_apostas['Tipo']==input_dpd_abaGeralTipo)]
-        
-        fig_aproveitamentoGeral = px.pie(
-            tabela_filtrada, 
-            values='Soma', 
-            names='Resultado', 
-            #title='Aproveitamento',
-            hole=0.5,
-            height=300,
-            color='Resultado',
-            color_discrete_map = {
-                'Acerto': colors['col_acerto'],
-                'Erro': colors['col_erro'],
-                'Retornada': colors['col_retornada']
-            }
-        )
-
-        fig_aproveitamentoGeral.update_traces(
-            textinfo='percent + value',
-            insidetextorientation='horizontal'
-        )
-
-        fig_aproveitamentoGeral.update_layout(
-            #title='Aproveitamento',
-            title_x=0.5,
-            plot_bgcolor=colors['background2'],
-            paper_bgcolor=colors['background2'],
-            font_color=colors['text'],
-            autosize=True,
-            margin=dict(
-                t=20, b=0, l=0, r=0
+            tabela_filtrada = df_apostas.loc[(df_apostas['Esporte']==input_dpd_abaGeralEsporte) & (df_apostas['Tipo']==input_dpd_abaGeralTipo)]
+            
+            fig_aproveitamentoGeral = px.pie(
+                tabela_filtrada, 
+                values='Soma', 
+                names='Resultado', 
+                #title='Aproveitamento',
+                hole=0.5,
+                height=300,
+                color='Resultado',
+                color_discrete_map = {
+                    'Acerto': colors['col_acerto'],
+                    'Erro': colors['col_erro'],
+                    'Retornada': colors['col_retornada']
+                }
             )
-        )
 
-        if df_apostas.tabela_filtrada:
-            saldo_geral = 'Sem dados'
-            roi_geral = 'Sem dados'
-        else: 
+            fig_aproveitamentoGeral.update_traces(
+                textinfo='percent + value',
+                insidetextorientation='horizontal'
+            )
+
+            fig_aproveitamentoGeral.update_layout(
+                #title='Aproveitamento',
+                title_x=0.5,
+                plot_bgcolor=colors['background2'],
+                paper_bgcolor=colors['background2'],
+                font_color=colors['text'],
+                autosize=True,
+                margin=dict(
+                    t=20, b=0, l=0, r=0
+                )
+            )
+
             saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
