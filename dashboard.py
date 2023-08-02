@@ -1086,7 +1086,7 @@ def switch_tab(input_tab_abas):
                             )      
                         ]),
                         dbc.CardBody([
-                            html.H5(
+                            html.H6(
                                 'ROI',
                                 className="card-title",
                                 style={
@@ -1094,7 +1094,7 @@ def switch_tab(input_tab_abas):
                                     "margin-top": "10px"
                                 },
                             ),
-                            html.H2(
+                            html.H3(
                                 id="id_card_abaGeralRoi",
                                 children='',
                                 className="card-text",
@@ -1979,23 +1979,20 @@ def cards(input_botao_novaApostaClose, input_title_header):
     df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
     df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
 
+    banca_inicial = round(float(df_parametros["Banca Inicial"].dropna()),2)
+    banca_atual = round(banca_inicial + df_apostas["Saldo"].sum(),2)
+    saldo = round(banca_atual-banca_inicial,2)
+
     if df_apostas.empty:
-        str_banca_inicial = 'Sem dados'
-        str_banca_atual = 'Sem dados'
-        str_saldo = 'Sem dados'
-        str_roi = 'Sem dados'
+        str_roi = '0 %'
     else:
-        banca_inicial = round(float(df_parametros["Banca Inicial"].dropna()),2)
-
-        banca_atual = round(banca_inicial + df_apostas["Saldo"].sum(),2)
-        saldo = round(banca_atual-banca_inicial,2)
         roi = round(saldo*100/df_apostas["Investimento"].sum(),2)
-
-        str_reais = 'R$'
-        str_banca_inicial = str_reais + ' ' + str(banca_inicial)
-        str_banca_atual = str_reais + ' ' + str(banca_atual)
-        str_saldo = str_reais + ' ' + str(saldo)
         str_roi = str(roi) + ' %'
+
+    str_reais = 'R$ '
+    str_banca_inicial = str_reais + str(banca_inicial)
+    str_banca_atual = str_reais + str(banca_atual)
+    str_saldo = str_reais + str(saldo)
 
     return str_banca_inicial, str_banca_atual, str_saldo, str_roi
 
