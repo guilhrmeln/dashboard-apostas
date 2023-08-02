@@ -1162,7 +1162,7 @@ def switch_tab(input_tab_abas):
         ]
 
         return aba_geral_conteudo
-    return html.P("Houve um problema")
+    return html.P("Houve um problema...")
 
 # Aba análise diaria (conteúdo e processamento)
 
