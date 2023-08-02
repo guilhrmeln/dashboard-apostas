@@ -3,7 +3,6 @@
 #################### Guilherme L. Nascimento 
 ##################################################
 
-from sre_parse import State
 from dash import Dash, html, dcc, Input, Output, State, ctx
 import plotly.express as px
 import pandas as pd
