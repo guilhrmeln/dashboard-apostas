@@ -18,4 +18,4 @@ Para utilizar o dashboard é preciso ter instalado a linguagem Python e as segui
 - Pandas: pip install pandas
 - Dash bootstrap components: pip install dash-bootstrap-components
 
-Após rodar o código, basta acessar o endereço apresentado no terminal em um navegador. 
+Após rodar o código do arquivo "dashboard.py", basta acessar o endereço descrito no terminal em um navegador. 
