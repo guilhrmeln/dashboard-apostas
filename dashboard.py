@@ -889,7 +889,7 @@ def switch_tab(input_tab_abas):
             dbc.Row([
                 dbc.Col([
                         dbc.CardBody([
-                            html.H5(
+                            html.H6(
                                 'Filtros',
                                 className="card-title",
                                 style={
@@ -937,7 +937,7 @@ def switch_tab(input_tab_abas):
                 ], md=3),
                 dbc.Col([
                         dbc.CardBody([
-                            html.H5(
+                            html.H6(
                                 'Saldo diário',
                                 className="card-title",
                                 style={
@@ -945,7 +945,7 @@ def switch_tab(input_tab_abas):
                                     "margin-top": "10px"
                                 },
                             ),
-                            html.H2(
+                            html.H3(
                                 id="id_card_abaDiariaSaldo",
                                 children='',
                                 className="card-text",
@@ -955,7 +955,7 @@ def switch_tab(input_tab_abas):
                             )      
                         ]),
                         dbc.CardBody([
-                            html.H5(
+                            html.H6(
                                 'ROI diário',
                                 className="card-title",
                                 style={
@@ -963,7 +963,7 @@ def switch_tab(input_tab_abas):
                                     "margin-top": "10px"
                                 },
                             ),
-                            html.H2(
+                            html.H3(
                                 id="id_card_abaDiariaRoi",
                                 children='',
                                 className="card-text",
@@ -971,9 +971,46 @@ def switch_tab(input_tab_abas):
                                     'textAlign': 'center',
                                 },
                             )      
+                        ]),
+                ], md=2),
+                dbc.Col([
+                        dbc.CardBody([
+                            html.H6(
+                                'Número de apostas',
+                                className="card-title",
+                                style={
+                                    'textAlign': 'center',
+                                    "margin-top": "10px"
+                                },
+                            ),
+                            html.H3(
+                                id="id_card_abaDiariaNumApostas",
+                                children='',
+                                className="card-text",
+                                style={
+                                    'textAlign': 'center',
+                                },
+                            )      
+                        ]),
+                        dbc.CardBody([
+                            html.H6(
+                                'Investimento total',
+                                className="card-title",
+                                style={
+                                    'textAlign': 'center',
+                                    "margin-top": "10px"
+                                },
+                            ),
+                            html.H3(
+                                id="id_card_abaDiariaInvestimento",
+                                children='',
+                                className="card-text",
+                                style={
+                                    'textAlign': 'center',
+                                },
+                            )      
                         ])
-
-                ], md=3),
+                ], md=2),
                 dbc.Col([
                         dbc.CardBody([
                             html.H5(
@@ -988,7 +1025,7 @@ def switch_tab(input_tab_abas):
                                 figure=fig_aproveitamentoDiario
                             )
                         ]) 
-                ], md=6)
+                ], md=5)
             ])
         ]
 
@@ -999,7 +1036,7 @@ def switch_tab(input_tab_abas):
             dbc.Row([
                 dbc.Col([
                         dbc.CardBody([
-                            html.H5(
+                            html.H6(
                                 'Filtros',
                                 style={
                                     'textAlign': 'center',
@@ -1032,7 +1069,7 @@ def switch_tab(input_tab_abas):
                 ], md=3),
                 dbc.Col([
                         dbc.CardBody([
-                            html.H5(
+                            html.H6(
                                 'Saldo',
                                 className="card-title",
                                 style={
@@ -1040,7 +1077,7 @@ def switch_tab(input_tab_abas):
                                     "margin-top": "10px"
                                 },
                             ),
-                            html.H2(
+                            html.H3(
                                 id="id_card_abaGeralSaldo",
                                 children='',
                                 className="card-text",
@@ -1067,8 +1104,45 @@ def switch_tab(input_tab_abas):
                                 },
                             )      
                         ])
-
-                ], md=3),
+                ], md=2),
+                dbc.Col([
+                        dbc.CardBody([
+                            html.H6(
+                                'Número de apostas',
+                                className="card-title",
+                                style={
+                                    'textAlign': 'center',
+                                    "margin-top": "10px"
+                                },
+                            ),
+                            html.H3(
+                                id="id_card_abaGeralNumApostas",
+                                children='',
+                                className="card-text",
+                                style={
+                                    'textAlign': 'center',
+                                },
+                            )      
+                        ]),
+                        dbc.CardBody([
+                            html.H6(
+                                'Investimento total',
+                                className="card-title",
+                                style={
+                                    'textAlign': 'center',
+                                    "margin-top": "10px"
+                                },
+                            ),
+                            html.H3(
+                                id="id_card_abaGeralInvestimento",
+                                children='',
+                                className="card-text",
+                                style={
+                                    'textAlign': 'center',
+                                },
+                            )      
+                        ])
+                ], md=2),
                 dbc.Col([
                         dbc.CardBody([
                             html.H5(
@@ -1083,7 +1157,7 @@ def switch_tab(input_tab_abas):
                                 figure=fig_aproveitamentoGeral
                             )
                         ]) 
-                ], md=6)
+                ], md=5)
             ])
         ]
 
@@ -1096,6 +1170,8 @@ def switch_tab(input_tab_abas):
     Output('id_graf_aprovDiario', 'figure'),
     Output('id_card_abaDiariaSaldo', 'children'),
     Output('id_card_abaDiariaRoi', 'children'),
+    Output('id_card_abaDiariaNumApostas', 'children'),
+    Output('id_card_abaDiariaInvestimento', 'children'),
     Input('id_calendario_abaDiaria', 'date'),
     Input('id_dpd_abaDiariaEsporte', 'value'),
     Input('id_dpd_abaDiariaTipo', 'value'),
@@ -1134,6 +1210,8 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
         )
         saldo_diario = 'Sem dados'
         roi_diario = 'Sem dados'
+        numApostas_diario = 'Sem dados'
+        investimento_diario = 'Sem dados'
 
     else:
 
@@ -1178,9 +1256,12 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                     )
                 )
 
+                numApostas_diario = str(tabela_filtrada['Saldo'].count())
+                investimento_diario = str(round(tabela_filtrada['Investimento'].sum(),2))
                 saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
                 roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
                 saldo_diario = 'R$' + " " + str(saldo_diario)
+                
                 if math.isnan(roi_diario) == True:
                     roi_diario = '0 %'
                 else:
@@ -1222,9 +1303,12 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                     )
                 )
             
+                numApostas_diario = str(tabela_filtrada['Saldo'].count())
+                investimento_diario = str(round(tabela_filtrada['Investimento'].sum(),2))
                 saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
                 roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
                 saldo_diario = 'R$' + " " + str(saldo_diario)
+
                 if math.isnan(roi_diario) == True:
                     roi_diario = '0 %'
                 else:
@@ -1266,9 +1350,12 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                     )
                 )
             
+                numApostas_diario = str(tabela_filtrada['Saldo'].count())
+                investimento_diario = str(round(tabela_filtrada['Investimento'].sum(),2))
                 saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
                 roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
                 saldo_diario = 'R$' + " " + str(saldo_diario)
+
                 if math.isnan(roi_diario) == True:
                     roi_diario = '0 %'
                 else:
@@ -1310,6 +1397,8 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                     )
                 )
             
+                numApostas_diario = str(tabela_filtrada['Saldo'].count())
+                investimento_diario = str(round(tabela_filtrada['Investimento'].sum(),2))
                 saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
                 roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
                 saldo_diario = 'R$' + " " + str(saldo_diario)
@@ -1318,7 +1407,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 else:
                     roi_diario = str(roi_diario) + ' %'
 
-    return fig_aproveitamentoDiario, saldo_diario, roi_diario
+    return fig_aproveitamentoDiario, saldo_diario, roi_diario, numApostas_diario, investimento_diario
 
 # Aba análise geral (conteúdo e processamento)
 
@@ -1326,6 +1415,8 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
     Output('id_graf_aprovGeral', 'figure'),
     Output('id_card_abaGeralSaldo', 'children'),
     Output('id_card_abaGeralRoi', 'children'),
+    Output('id_card_abaGeralNumApostas', 'children'),
+    Output('id_card_abaGeralInvestimento', 'children'),
     Input('id_dpd_abaGeralEsporte', 'value'),
     Input('id_dpd_abaGeralTipo', 'value'),
     Input("id_botao_novaApostaClose","n_clicks"),
@@ -1363,6 +1454,8 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
         )    
         saldo_geral = 'Sem dados'
         roi_geral = 'Sem dados'
+        numApostas_geral = 'Sem dados'
+        investimento_geral = 'Sem dados'
         
     else:
 
@@ -1400,6 +1493,8 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
                 )
             )
 
+            numApostas_geral = str(df_apostas['Saldo'].count())
+            investimento_geral = str(round(df_apostas['Investimento'].sum(),2))
             saldo_geral = float(round(df_apostas['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/df_apostas["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
@@ -1444,9 +1539,12 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
                 )
             )
 
+            numApostas_geral = str(tabela_filtrada['Saldo'].count())
+            investimento_geral = str(round(tabela_filtrada['Investimento'].sum(),2))
             saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
+
             if math.isnan(roi_geral) == True:
                 roi_geral = '0 %'
             else:
@@ -1487,10 +1585,13 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
                     t=20, b=0, l=0, r=0
                 )
             )
-
+            
+            numApostas_geral = str(tabela_filtrada['Saldo'].count())
+            investimento_geral = str(round(tabela_filtrada['Investimento'].sum(),2))
             saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
+
             if math.isnan(roi_geral) == True:
                 roi_geral = '0 %'
             else:
@@ -1532,15 +1633,18 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
                 )
             )
 
+            numApostas_geral = str(tabela_filtrada['Saldo'].count())
+            investimento_geral = str(round(tabela_filtrada['Investimento'].sum(),2))
             saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
+
             if math.isnan(roi_geral) == True:
                 roi_geral = '0 %'
             else:
                 roi_geral = str(roi_geral) + ' %'
 
-    return fig_aproveitamentoGeral, saldo_geral, roi_geral
+    return fig_aproveitamentoGeral, saldo_geral, roi_geral, numApostas_geral, investimento_geral
 
 # Modal de inserir apostas (abertura/fechamento)
 
