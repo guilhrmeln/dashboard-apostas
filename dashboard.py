@@ -1257,7 +1257,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 )
 
                 numApostas_diario = str(tabela_filtrada['Saldo'].count())
-                investimento_diario = str(round(tabela_filtrada['Investimento'].sum(),2))
+                investimento_diario = 'R$' + " " + str(round(tabela_filtrada['Investimento'].sum(),2))
                 saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
                 roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
                 saldo_diario = 'R$' + " " + str(saldo_diario)
@@ -1494,7 +1494,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             )
 
             numApostas_geral = str(df_apostas['Saldo'].count())
-            investimento_geral = str(round(df_apostas['Investimento'].sum(),2))
+            investimento_geral = 'R$' + " " + str(round(df_apostas['Investimento'].sum(),2))
             saldo_geral = float(round(df_apostas['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/df_apostas["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
@@ -1540,7 +1540,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             )
 
             numApostas_geral = str(tabela_filtrada['Saldo'].count())
-            investimento_geral = str(round(tabela_filtrada['Investimento'].sum(),2))
+            investimento_geral = 'R$' + " " + str(round(tabela_filtrada['Investimento'].sum(),2))
             saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
@@ -1587,7 +1587,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             )
             
             numApostas_geral = str(tabela_filtrada['Saldo'].count())
-            investimento_geral = str(round(tabela_filtrada['Investimento'].sum(),2))
+            investimento_geral = 'R$' + " " + str(round(tabela_filtrada['Investimento'].sum(),2))
             saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
@@ -1634,7 +1634,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             )
 
             numApostas_geral = str(tabela_filtrada['Saldo'].count())
-            investimento_geral = str(round(tabela_filtrada['Investimento'].sum(),2))
+            investimento_geral = 'R$' + " " + str(round(tabela_filtrada['Investimento'].sum(),2))
             saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
