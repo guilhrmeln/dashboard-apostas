@@ -703,7 +703,7 @@ app.layout = html.Div(
         ])
     ], 
     style={
-        "margin": '20px 20px 20px 20px'
+        "margin": '10px 20px 20px 20px'
     }
 )
 
@@ -893,8 +893,15 @@ def switch_tab(input_tab_abas):
                                 className="card-title",
                                 style={
                                     'textAlign': 'center',
-                                    "margin-top": "10px"
+                                    'margin-top': "0px",
+                                    #'font-weight': 'bold'
                                 },
+                            ),
+                            html.Hr(
+                                style={
+                                    "width": "100%", 
+                                    "color": "white"
+                                }
                             ),
                             dcc.DatePickerSingle(
                                 id='id_calendario_abaDiaria',
@@ -941,8 +948,14 @@ def switch_tab(input_tab_abas):
                                 className="card-title",
                                 style={
                                     'textAlign': 'center',
-                                    "margin-top": "10px"
+                                    "margin-top": "0px"
                                 },
+                            ),
+                            html.Hr(
+                                style={
+                                    "width": "100%", 
+                                    "color": "white"
+                                }
                             ),
                             html.H3(
                                 id="id_card_abaDiariaSaldo",
@@ -957,7 +970,7 @@ def switch_tab(input_tab_abas):
                                 children='',
                                 className="card-text",
                                 style={
-                                    'textAlign': 'center'
+                                    'textAlign': 'center',
                                 },
                             )     
                         ]),
@@ -967,8 +980,14 @@ def switch_tab(input_tab_abas):
                                 className="card-title",
                                 style={
                                     'textAlign': 'center',
-                                    "margin-top": "10px"
+                                    "margin-top": "0px"
                                 },
+                            ),
+                            html.Hr(
+                                style={
+                                    "width": "100%", 
+                                    "color": "white"
+                                }
                             ),
                             html.H3(
                                 id="id_card_abaDiariaRoi",
@@ -995,8 +1014,14 @@ def switch_tab(input_tab_abas):
                                 className="card-title",
                                 style={
                                     'textAlign': 'center',
-                                    "margin-top": "10px"
+                                    "margin-top": "0px"
                                 },
+                            ),
+                            html.Hr(
+                                style={
+                                    "width": "100%", 
+                                    "color": "white"
+                                }
                             ),
                             html.H3(
                                 id="id_card_abaDiariaNumApostas",
@@ -1013,8 +1038,14 @@ def switch_tab(input_tab_abas):
                                 className="card-title",
                                 style={
                                     'textAlign': 'center',
-                                    "margin-top": "10px"
+                                    "margin-top": "0px"
                                 },
+                            ),
+                            html.Hr(
+                                style={
+                                    "width": "100%", 
+                                    "color": "white"
+                                }
                             ),
                             html.H3(
                                 id="id_card_abaDiariaInvestimento",
@@ -1031,8 +1062,14 @@ def switch_tab(input_tab_abas):
                                 className="card-title",
                                 style={
                                     'textAlign': 'center',
-                                    "margin-top": "10px"
+                                    "margin-top": "0px"
                                 },
+                            ),
+                            html.Hr(
+                                style={
+                                    "width": "100%", 
+                                    "color": "white"
+                                }
                             ),
                             html.H3(
                                 id="id_card_abaDiariaOddMedia",
@@ -1046,12 +1083,18 @@ def switch_tab(input_tab_abas):
                 ], md=2),
                 dbc.Col([
                         dbc.CardBody([
-                            html.H5(
+                            html.H6(
                                 'Aproveitamento diário',
                                 style={
                                     'textAlign': 'center',
-                                    "margin-top": "10px"
+                                    "margin-top": "0px"
                                 },
+                            ),
+                            html.Hr(
+                                style={
+                                    "width": "100%", 
+                                    "color": "white"
+                                }
                             ),
                             dcc.Graph(
                                 id='id_graf_aprovDiario',
@@ -1073,8 +1116,14 @@ def switch_tab(input_tab_abas):
                                 'Filtros',
                                 style={
                                     'textAlign': 'center',
-                                    "margin-top": "10px"
+                                    "margin-top": "0px"
                                 },
+                            ),
+                            html.Hr(
+                                style={
+                                    "width": "100%", 
+                                    "color": "white"
+                                }
                             ),
                             dcc.Dropdown(
                                 lista_esportessUsados, 
@@ -1107,8 +1156,14 @@ def switch_tab(input_tab_abas):
                                 className="card-title",
                                 style={
                                     'textAlign': 'center',
-                                    "margin-top": "10px"
+                                    "margin-top": "0px"
                                 },
+                            ),
+                            html.Hr(
+                                style={
+                                    "width": "100%", 
+                                    "color": "white"
+                                }
                             ),
                             html.H3(
                                 id="id_card_abaGeralSaldo",
@@ -1133,8 +1188,14 @@ def switch_tab(input_tab_abas):
                                 className="card-title",
                                 style={
                                     'textAlign': 'center',
-                                    "margin-top": "10px"
+                                    "margin-top": "0px"
                                 },
+                            ),
+                            html.Hr(
+                                style={
+                                    "width": "100%", 
+                                    "color": "white"
+                                }
                             ),
                             html.H3(
                                 id="id_card_abaGeralRoi",
@@ -1161,8 +1222,14 @@ def switch_tab(input_tab_abas):
                                 className="card-title",
                                 style={
                                     'textAlign': 'center',
-                                    "margin-top": "10px"
+                                    "margin-top": "0px"
                                 },
+                            ),
+                            html.Hr(
+                                style={
+                                    "width": "100%", 
+                                    "color": "white"
+                                }
                             ),
                             html.H3(
                                 id="id_card_abaGeralNumApostas",
@@ -1179,8 +1246,14 @@ def switch_tab(input_tab_abas):
                                 className="card-title",
                                 style={
                                     'textAlign': 'center',
-                                    "margin-top": "10px"
+                                    "margin-top": "0px"
                                 },
+                            ),
+                            html.Hr(
+                                style={
+                                    "width": "100%", 
+                                    "color": "white"
+                                }
                             ),
                             html.H3(
                                 id="id_card_abaGeralInvestimento",
@@ -1197,8 +1270,14 @@ def switch_tab(input_tab_abas):
                                 className="card-title",
                                 style={
                                     'textAlign': 'center',
-                                    "margin-top": "10px"
+                                    "margin-top": "0px"
                                 },
+                            ),
+                            html.Hr(
+                                style={
+                                    "width": "100%", 
+                                    "color": "white"
+                                }
                             ),
                             html.H3(
                                 id="id_card_abaGeralOddMedia",
@@ -1212,12 +1291,18 @@ def switch_tab(input_tab_abas):
                 ], md=2),
                 dbc.Col([
                         dbc.CardBody([
-                            html.H5(
+                            html.H6(
                                 'Aproveitamento geral',
                                 style={
                                     'textAlign': 'center',
-                                    "margin-top": "10px"
+                                    "margin-top": "0px"
                                 },
+                            ),
+                            html.Hr(
+                                style={
+                                    "width": "100%", 
+                                    "color": "white"
+                                }
                             ),
                             dcc.Graph(
                                 id='id_graf_aprovGeral',
