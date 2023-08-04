@@ -1008,6 +1008,24 @@ def switch_tab(input_tab_abas):
                                     'textAlign': 'center',
                                 },
                             )      
+                        ]),
+                        dbc.CardBody([
+                            html.H6(
+                                'Odd média',
+                                className="card-title",
+                                style={
+                                    'textAlign': 'center',
+                                    "margin-top": "10px"
+                                },
+                            ),
+                            html.H3(
+                                id="id_card_abaDiariaOddMedia",
+                                children='',
+                                className="card-text",
+                                style={
+                                    'textAlign': 'center',
+                                },
+                            )      
                         ])
                 ], md=2),
                 dbc.Col([
@@ -1140,6 +1158,24 @@ def switch_tab(input_tab_abas):
                                     'textAlign': 'center',
                                 },
                             )      
+                        ]),
+                        dbc.CardBody([
+                            html.H6(
+                                'Odd média',
+                                className="card-title",
+                                style={
+                                    'textAlign': 'center',
+                                    "margin-top": "10px"
+                                },
+                            ),
+                            html.H3(
+                                id="id_card_abaGeralOddMedia",
+                                children='',
+                                className="card-text",
+                                style={
+                                    'textAlign': 'center',
+                                },
+                            )      
                         ])
                 ], md=2),
                 dbc.Col([
@@ -1171,6 +1207,7 @@ def switch_tab(input_tab_abas):
     Output('id_card_abaDiariaRoi', 'children'),
     Output('id_card_abaDiariaNumApostas', 'children'),
     Output('id_card_abaDiariaInvestimento', 'children'),
+    Output('id_card_abaDiariaOddMedia', 'children'),
     Input('id_calendario_abaDiaria', 'date'),
     Input('id_dpd_abaDiariaEsporte', 'value'),
     Input('id_dpd_abaDiariaTipo', 'value'),
@@ -1211,6 +1248,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
         roi_diario = 'Sem dados'
         numApostas_diario = 'Sem dados'
         investimento_diario = 'Sem dados'
+        oddMedia_diario = 'Sem dados'
 
     else:
 
@@ -1260,11 +1298,14 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
                 roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
                 saldo_diario = 'R$' + " " + str(saldo_diario)
+                oddMedia_diario = tabela_filtrada["Odd"].mean()
                 
-                if math.isnan(roi_diario) == True:
+                if math.isnan(roi_diario and oddMedia_diario) == True:
                     roi_diario = '0 %'
+                    oddMedia_diario = 'R$ 0.00'
                 else:
                     roi_diario = str(roi_diario) + ' %'
+                    oddMedia_diario = 'R$' + " " + str(round(oddMedia_diario,2))
 
             if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is None:
 
@@ -1303,15 +1344,18 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 )
             
                 numApostas_diario = str(tabela_filtrada['Saldo'].count())
-                investimento_diario = str(round(tabela_filtrada['Investimento'].sum(),2))
+                investimento_diario = 'R$' + " " + str(round(tabela_filtrada['Investimento'].sum(),2))
                 saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
                 roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
                 saldo_diario = 'R$' + " " + str(saldo_diario)
-
-                if math.isnan(roi_diario) == True:
+                oddMedia_diario = tabela_filtrada["Odd"].mean()
+                
+                if math.isnan(roi_diario and oddMedia_diario) == True:
                     roi_diario = '0 %'
+                    oddMedia_diario = 'R$ 0.00'
                 else:
                     roi_diario = str(roi_diario) + ' %'
+                    oddMedia_diario = 'R$' + " " + str(round(oddMedia_diario,2))
 
             if input_dpd_abaDiariaEsporte is None and input_dpd_abaDiariaTipo is not None:
 
@@ -1350,15 +1394,18 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 )
             
                 numApostas_diario = str(tabela_filtrada['Saldo'].count())
-                investimento_diario = str(round(tabela_filtrada['Investimento'].sum(),2))
+                investimento_diario = 'R$' + " " + str(round(tabela_filtrada['Investimento'].sum(),2))
                 saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
                 roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
                 saldo_diario = 'R$' + " " + str(saldo_diario)
-
-                if math.isnan(roi_diario) == True:
+                oddMedia_diario = tabela_filtrada["Odd"].mean()
+                
+                if math.isnan(roi_diario and oddMedia_diario) == True:
                     roi_diario = '0 %'
+                    oddMedia_diario = 'R$ 0.00'
                 else:
                     roi_diario = str(roi_diario) + ' %'
+                    oddMedia_diario = 'R$' + " " + str(round(oddMedia_diario,2))
 
             if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is not None:
 
@@ -1397,16 +1444,20 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 )
             
                 numApostas_diario = str(tabela_filtrada['Saldo'].count())
-                investimento_diario = str(round(tabela_filtrada['Investimento'].sum(),2))
+                investimento_diario = 'R$' + " " + str(round(tabela_filtrada['Investimento'].sum(),2))
                 saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
                 roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
                 saldo_diario = 'R$' + " " + str(saldo_diario)
-                if math.isnan(roi_diario) == True:
+                oddMedia_diario = tabela_filtrada["Odd"].mean()
+                
+                if math.isnan(roi_diario and oddMedia_diario) == True:
                     roi_diario = '0 %'
+                    oddMedia_diario = 'R$ 0.00'
                 else:
                     roi_diario = str(roi_diario) + ' %'
+                    oddMedia_diario = 'R$' + " " + str(round(oddMedia_diario,2))
 
-    return fig_aproveitamentoDiario, saldo_diario, roi_diario, numApostas_diario, investimento_diario
+    return fig_aproveitamentoDiario, saldo_diario, roi_diario, numApostas_diario, investimento_diario, oddMedia_diario
 
 # Aba análise geral (conteúdo e processamento)
 
@@ -1416,6 +1467,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
     Output('id_card_abaGeralRoi', 'children'),
     Output('id_card_abaGeralNumApostas', 'children'),
     Output('id_card_abaGeralInvestimento', 'children'),
+    Output('id_card_abaGeralOddMedia', 'children'), 
     Input('id_dpd_abaGeralEsporte', 'value'),
     Input('id_dpd_abaGeralTipo', 'value'),
     Input("id_botao_novaApostaClose","n_clicks"),
@@ -1455,6 +1507,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
         roi_geral = 'Sem dados'
         numApostas_geral = 'Sem dados'
         investimento_geral = 'Sem dados'
+        oddMedia_geral = 'Sem dados'
         
     else:
 
@@ -1497,10 +1550,14 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             saldo_geral = float(round(df_apostas['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/df_apostas["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
-            if math.isnan(roi_geral) == True:
+            oddMedia_geral = df_apostas["Odd"].mean()
+            
+            if math.isnan(roi_geral and oddMedia_geral) == True:
                 roi_geral = '0 %'
+                oddMedia_geral = 'R$ 0.00'
             else:
                 roi_geral = str(roi_geral) + ' %'
+                oddMedia_geral = 'R$' + " " + str(round(oddMedia_geral,2))
 
         if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is None:
 
@@ -1543,11 +1600,14 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
-
-            if math.isnan(roi_geral) == True:
+            oddMedia_geral = tabela_filtrada["Odd"].mean()
+            
+            if math.isnan(roi_geral and oddMedia_geral) == True:
                 roi_geral = '0 %'
+                oddMedia_geral = 'R$ 0.00'
             else:
                 roi_geral = str(roi_geral) + ' %'
+                oddMedia_geral = 'R$' + " " + str(round(oddMedia_geral,2))
 
         if input_dpd_abaGeralEsporte is None and input_dpd_abaGeralTipo is not None:
 
@@ -1590,11 +1650,14 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
-
-            if math.isnan(roi_geral) == True:
+            oddMedia_geral = tabela_filtrada["Odd"].mean()
+            
+            if math.isnan(roi_geral and oddMedia_geral) == True:
                 roi_geral = '0 %'
+                oddMedia_geral = 'R$ 0.00'
             else:
                 roi_geral = str(roi_geral) + ' %'
+                oddMedia_geral = 'R$' + " " + str(round(oddMedia_geral,2))
 
         if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is not None:
 
@@ -1637,13 +1700,16 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
             roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
             saldo_geral = 'R$' + " " + str(saldo_geral)
-
-            if math.isnan(roi_geral) == True:
+            oddMedia_geral = tabela_filtrada["Odd"].mean()
+            
+            if math.isnan(roi_geral and oddMedia_geral) == True:
                 roi_geral = '0 %'
+                oddMedia_geral = 'R$ 0.00'
             else:
                 roi_geral = str(roi_geral) + ' %'
+                oddMedia_geral = 'R$' + " " + str(round(oddMedia_geral,2))
 
-    return fig_aproveitamentoGeral, saldo_geral, roi_geral, numApostas_geral, investimento_geral
+    return fig_aproveitamentoGeral, saldo_geral, roi_geral, numApostas_geral, investimento_geral, oddMedia_geral
 
 # Modal de inserir apostas (abertura/fechamento)
 
