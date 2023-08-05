@@ -1435,7 +1435,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                         'color': colors['col_erro']
                     }
                 else:
-                    simbolo_diario = '='
+                    simbolo_diario = ''
                     style_diario = {
 
                         'textAlign': 'center',
@@ -1506,7 +1506,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                         'color': colors['col_erro']
                     }
                 else:
-                    simbolo_diario = '='
+                    simbolo_diario = ''
                     style_diario = {
 
                         'textAlign': 'center',
@@ -1577,7 +1577,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                         'color': colors['col_erro']
                     }
                 else:
-                    simbolo_diario = '='
+                    simbolo_diario = ''
                     style_diario = {
 
                         'textAlign': 'center',
@@ -1648,7 +1648,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                         'color': colors['col_erro']
                     }
                 else:
-                    simbolo_diario = '='
+                    simbolo_diario = ''
                     style_diario = {
 
                         'textAlign': 'center',
@@ -1780,7 +1780,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
                     'color': colors['col_erro']
                 }
             else:
-                simbolo_geral = '='
+                simbolo_geral = ''
                 style_geral = {
 
                     'textAlign': 'center',
@@ -1851,7 +1851,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
                     'color': colors['col_erro']
                 }
             else:
-                simbolo_geral = '='
+                simbolo_geral = ''
                 style_geral = {
 
                     'textAlign': 'center',
@@ -1922,7 +1922,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
                     'color': colors['col_erro']
                 }
             else:
-                simbolo_geral = '='
+                simbolo_geral = ''
                 style_geral = {
 
                     'textAlign': 'center',
@@ -1993,7 +1993,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
                     'color': colors['col_erro']
                 }
             else:
-                simbolo_geral = '='
+                simbolo_geral = ''
                 style_geral = {
 
                     'textAlign': 'center',
