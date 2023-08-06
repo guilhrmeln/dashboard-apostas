@@ -1448,10 +1448,10 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 
                 if math.isnan(roi_diario and oddMedia_diario) == True:
                     roi_diario = '0 %'
-                    oddMedia_diario = 'R$ 0.00'
+                    oddMedia_diario = '0.00'
                 else:
                     roi_diario = str(roi_diario) + ' %'
-                    oddMedia_diario = 'R$' + " " + str(round(oddMedia_diario,2))
+                    oddMedia_diario = str(round(oddMedia_diario,2))
 
             if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is None:
 
@@ -1519,10 +1519,10 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 
                 if math.isnan(roi_diario and oddMedia_diario) == True:
                     roi_diario = '0 %'
-                    oddMedia_diario = 'R$ 0.00'
+                    oddMedia_diario = '0.00'
                 else:
                     roi_diario = str(roi_diario) + ' %'
-                    oddMedia_diario = 'R$' + " " + str(round(oddMedia_diario,2))
+                    oddMedia_diario = str(round(oddMedia_diario,2))
 
             if input_dpd_abaDiariaEsporte is None and input_dpd_abaDiariaTipo is not None:
 
@@ -1590,10 +1590,10 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 
                 if math.isnan(roi_diario and oddMedia_diario) == True:
                     roi_diario = '0 %'
-                    oddMedia_diario = 'R$ 0.00'
+                    oddMedia_diario = '0.00'
                 else:
                     roi_diario = str(roi_diario) + ' %'
-                    oddMedia_diario = 'R$' + " " + str(round(oddMedia_diario,2))
+                    oddMedia_diario = str(round(oddMedia_diario,2))
 
             if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is not None:
 
@@ -1661,10 +1661,10 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 
                 if math.isnan(roi_diario and oddMedia_diario) == True:
                     roi_diario = '0 %'
-                    oddMedia_diario = 'R$ 0.00'
+                    oddMedia_diario = '0.00'
                 else:
                     roi_diario = str(roi_diario) + ' %'
-                    oddMedia_diario = 'R$' + " " + str(round(oddMedia_diario,2))
+                    oddMedia_diario = str(round(oddMedia_diario,2))
 
     return fig_aproveitamentoDiario, saldo_diario, roi_diario, numApostas_diario, investimento_diario, oddMedia_diario, simbolo_diario, style_diario, simbolo_diario, style_diario
 
@@ -1793,10 +1793,10 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             
             if math.isnan(roi_geral and oddMedia_geral) == True:
                 roi_geral = '0 %'
-                oddMedia_geral = 'R$ 0.00'
+                oddMedia_geral = '0.00'
             else:
                 roi_geral = str(roi_geral) + ' %'
-                oddMedia_geral = 'R$' + " " + str(round(oddMedia_geral,2))
+                oddMedia_geral = str(round(oddMedia_geral,2))
 
         if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is None:
 
@@ -1864,10 +1864,10 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             
             if math.isnan(roi_geral and oddMedia_geral) == True:
                 roi_geral = '0 %'
-                oddMedia_geral = 'R$ 0.00'
+                oddMedia_geral = '0.00'
             else:
                 roi_geral = str(roi_geral) + ' %'
-                oddMedia_geral = 'R$' + " " + str(round(oddMedia_geral,2))
+                oddMedia_geral = str(round(oddMedia_geral,2))
 
         if input_dpd_abaGeralEsporte is None and input_dpd_abaGeralTipo is not None:
 
@@ -1935,10 +1935,10 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             
             if math.isnan(roi_geral and oddMedia_geral) == True:
                 roi_geral = '0 %'
-                oddMedia_geral = 'R$ 0.00'
+                oddMedia_geral = '0.00'
             else:
                 roi_geral = str(roi_geral) + ' %'
-                oddMedia_geral = 'R$' + " " + str(round(oddMedia_geral,2))
+                oddMedia_geral = str(round(oddMedia_geral,2))
 
         if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is not None:
 
@@ -2006,10 +2006,10 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             
             if math.isnan(roi_geral and oddMedia_geral) == True:
                 roi_geral = '0 %'
-                oddMedia_geral = 'R$ 0.00'
+                oddMedia_geral = '0.00'
             else:
                 roi_geral = str(roi_geral) + ' %'
-                oddMedia_geral = 'R$' + " " + str(round(oddMedia_geral,2))
+                oddMedia_geral = str(round(oddMedia_geral,2))
 
     return fig_aproveitamentoGeral, saldo_geral, roi_geral, numApostas_geral, investimento_geral, oddMedia_geral, simbolo_geral, style_geral, simbolo_geral, style_geral
 
