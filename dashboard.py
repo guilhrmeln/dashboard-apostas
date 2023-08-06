@@ -11,6 +11,8 @@ from datetime import date, datetime
 import time
 import math
 
+from functions import relatorio_dbVazio, relatorio_db
+
 ########### ########### ###########
 ########### CONFIGURAÇÕES DO APP
 ########### ########### ###########
@@ -1365,16 +1367,9 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
             font_color=colors['text'],
             autosize=True
         )
-        saldo_diario = 'Sem dados'
-        roi_diario = 'Sem dados'
-        numApostas_diario = 'Sem dados'
-        investimento_diario = 'Sem dados'
-        oddMedia_diario = 'Sem dados'
-        simbolo_diario = ''
-        style_diario = {
-            'textAlign': 'center',
-            'color':'white'
-        }
+        
+        saldo, roi, numApostas, investimento, oddMedia, bancaAtual, simbolo, style = relatorio_dbVazio()
+
     else:
 
         if input_calendario_abaDiaria is not None:
@@ -1418,40 +1413,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                     )
                 )
 
-                numApostas_diario = str(tabela_filtrada['Saldo'].count())
-                investimento_diario = 'R$' + " " + str(round(tabela_filtrada['Investimento'].sum(),2))
-                saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
-
-                if saldo_diario > 0:
-                    simbolo_diario = '▲'
-                    style_diario = {
-                        'textAlign': 'center',
-                        'color': colors['col_acerto']
-                    }
-                elif saldo_diario < 0: 
-                    simbolo_diario = '▼'
-                    style_diario = {
-                        'textAlign': 'center',
-                        'color': colors['col_erro']
-                    }
-                else:
-                    simbolo_diario = ''
-                    style_diario = {
-
-                        'textAlign': 'center',
-                        'color':'white'
-                    }
-
-                roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
-                saldo_diario = 'R$' + " " + str(saldo_diario)
-                oddMedia_diario = tabela_filtrada["Odd"].mean()
-                
-                if math.isnan(roi_diario and oddMedia_diario) == True:
-                    roi_diario = '0 %'
-                    oddMedia_diario = '0.00'
-                else:
-                    roi_diario = str(roi_diario) + ' %'
-                    oddMedia_diario = str(round(oddMedia_diario,2))
+                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, colors)
 
             if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is None:
 
@@ -1489,40 +1451,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                     )
                 )
             
-                numApostas_diario = str(tabela_filtrada['Saldo'].count())
-                investimento_diario = 'R$' + " " + str(round(tabela_filtrada['Investimento'].sum(),2))
-                saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
-
-                if saldo_diario > 0:
-                    simbolo_diario = '▲'
-                    style_diario = {
-                        'textAlign': 'center',
-                        'color': colors['col_acerto']
-                    }
-                elif saldo_diario < 0: 
-                    simbolo_diario = '▼'
-                    style_diario = {
-                        'textAlign': 'center',
-                        'color': colors['col_erro']
-                    }
-                else:
-                    simbolo_diario = ''
-                    style_diario = {
-
-                        'textAlign': 'center',
-                        'color':'white'
-                    }
-
-                roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
-                saldo_diario = 'R$' + " " + str(saldo_diario)
-                oddMedia_diario = tabela_filtrada["Odd"].mean()
-                
-                if math.isnan(roi_diario and oddMedia_diario) == True:
-                    roi_diario = '0 %'
-                    oddMedia_diario = '0.00'
-                else:
-                    roi_diario = str(roi_diario) + ' %'
-                    oddMedia_diario = str(round(oddMedia_diario,2))
+                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, colors)
 
             if input_dpd_abaDiariaEsporte is None and input_dpd_abaDiariaTipo is not None:
 
@@ -1560,40 +1489,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                     )
                 )
             
-                numApostas_diario = str(tabela_filtrada['Saldo'].count())
-                investimento_diario = 'R$' + " " + str(round(tabela_filtrada['Investimento'].sum(),2))
-                saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
-
-                if saldo_diario > 0:
-                    simbolo_diario = '▲'
-                    style_diario = {
-                        'textAlign': 'center',
-                        'color': colors['col_acerto']
-                    }
-                elif saldo_diario < 0: 
-                    simbolo_diario = '▼'
-                    style_diario = {
-                        'textAlign': 'center',
-                        'color': colors['col_erro']
-                    }
-                else:
-                    simbolo_diario = ''
-                    style_diario = {
-
-                        'textAlign': 'center',
-                        'color':'white'
-                    }
-
-                roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
-                saldo_diario = 'R$' + " " + str(saldo_diario)
-                oddMedia_diario = tabela_filtrada["Odd"].mean()
-                
-                if math.isnan(roi_diario and oddMedia_diario) == True:
-                    roi_diario = '0 %'
-                    oddMedia_diario = '0.00'
-                else:
-                    roi_diario = str(roi_diario) + ' %'
-                    oddMedia_diario = str(round(oddMedia_diario,2))
+                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, colors)
 
             if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is not None:
 
@@ -1631,42 +1527,9 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                     )
                 )
             
-                numApostas_diario = str(tabela_filtrada['Saldo'].count())
-                investimento_diario = 'R$' + " " + str(round(tabela_filtrada['Investimento'].sum(),2))
-                saldo_diario = float(round(tabela_filtrada['Saldo'].sum(),2))
+                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, colors)
 
-                if saldo_diario > 0:
-                    simbolo_diario = '▲'
-                    style_diario = {
-                        'textAlign': 'center',
-                        'color': colors['col_acerto']
-                    }
-                elif saldo_diario < 0: 
-                    simbolo_diario = '▼'
-                    style_diario = {
-                        'textAlign': 'center',
-                        'color': colors['col_erro']
-                    }
-                else:
-                    simbolo_diario = ''
-                    style_diario = {
-
-                        'textAlign': 'center',
-                        'color':'white'
-                    }
-
-                roi_diario = round(saldo_diario*100/tabela_filtrada["Investimento"].sum(),2)
-                saldo_diario = 'R$' + " " + str(saldo_diario)
-                oddMedia_diario = tabela_filtrada["Odd"].mean()
-                
-                if math.isnan(roi_diario and oddMedia_diario) == True:
-                    roi_diario = '0 %'
-                    oddMedia_diario = '0.00'
-                else:
-                    roi_diario = str(roi_diario) + ' %'
-                    oddMedia_diario = str(round(oddMedia_diario,2))
-
-    return fig_aproveitamentoDiario, saldo_diario, roi_diario, numApostas_diario, investimento_diario, oddMedia_diario, simbolo_diario, style_diario, simbolo_diario, style_diario
+    return fig_aproveitamentoDiario, saldo, roi, numApostas, investimento, oddMedia, simbolo, style, simbolo, style
 
 # Aba análise geral (conteúdo e processamento)
 
@@ -1716,16 +1579,8 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             font_color=colors['text'],
             autosize=True
         )    
-        saldo_geral = 'Sem dados'
-        roi_geral = 'Sem dados'
-        numApostas_geral = 'Sem dados'
-        investimento_geral = 'Sem dados'
-        oddMedia_geral = 'Sem dados'
-        simbolo_geral = ''
-        style_geral = {
-            'textAlign': 'center',
-            'color':'white'
-        }
+
+        saldo, roi, numApostas, investimento, oddMedia, bancaAtual, simbolo, style = relatorio_dbVazio()
         
     else:
 
@@ -1763,40 +1618,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
                 )
             )
 
-            numApostas_geral = str(df_apostas['Saldo'].count())
-            investimento_geral = 'R$' + " " + str(round(df_apostas['Investimento'].sum(),2))
-            saldo_geral = float(round(df_apostas['Saldo'].sum(),2))
-
-            if saldo_geral > 0:
-                simbolo_geral = '▲'
-                style_geral = {
-                    'textAlign': 'center',
-                    'color': colors['col_acerto']
-                }
-            elif saldo_geral < 0: 
-                simbolo_geral = '▼'
-                style_geral = {
-                    'textAlign': 'center',
-                    'color': colors['col_erro']
-                }
-            else:
-                simbolo_geral = ''
-                style_geral = {
-
-                    'textAlign': 'center',
-                    'color':'white'
-                }
-
-            roi_geral = round(saldo_geral*100/df_apostas["Investimento"].sum(),2)
-            saldo_geral = 'R$' + " " + str(saldo_geral)
-            oddMedia_geral = df_apostas["Odd"].mean()
-            
-            if math.isnan(roi_geral and oddMedia_geral) == True:
-                roi_geral = '0 %'
-                oddMedia_geral = '0.00'
-            else:
-                roi_geral = str(roi_geral) + ' %'
-                oddMedia_geral = str(round(oddMedia_geral,2))
+            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(df_apostas, df_parametros, colors)
 
         if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is None:
 
@@ -1834,40 +1656,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
                 )
             )
 
-            numApostas_geral = str(tabela_filtrada['Saldo'].count())
-            investimento_geral = 'R$' + " " + str(round(tabela_filtrada['Investimento'].sum(),2))
-            saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
-
-            if saldo_geral > 0:
-                simbolo_geral = '▲'
-                style_geral = {
-                    'textAlign': 'center',
-                    'color': colors['col_acerto']
-                }
-            elif saldo_geral < 0: 
-                simbolo_geral = '▼'
-                style_geral = {
-                    'textAlign': 'center',
-                    'color': colors['col_erro']
-                }
-            else:
-                simbolo_geral = ''
-                style_geral = {
-
-                    'textAlign': 'center',
-                    'color':'white'
-                }
-
-            roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
-            saldo_geral = 'R$' + " " + str(saldo_geral)
-            oddMedia_geral = tabela_filtrada["Odd"].mean()
-            
-            if math.isnan(roi_geral and oddMedia_geral) == True:
-                roi_geral = '0 %'
-                oddMedia_geral = '0.00'
-            else:
-                roi_geral = str(roi_geral) + ' %'
-                oddMedia_geral = str(round(oddMedia_geral,2))
+            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, colors)
 
         if input_dpd_abaGeralEsporte is None and input_dpd_abaGeralTipo is not None:
 
@@ -1905,40 +1694,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
                 )
             )
             
-            numApostas_geral = str(tabela_filtrada['Saldo'].count())
-            investimento_geral = 'R$' + " " + str(round(tabela_filtrada['Investimento'].sum(),2))
-            saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
-
-            if saldo_geral > 0:
-                simbolo_geral = '▲'
-                style_geral = {
-                    'textAlign': 'center',
-                    'color': colors['col_acerto']
-                }
-            elif saldo_geral < 0: 
-                simbolo_geral = '▼'
-                style_geral = {
-                    'textAlign': 'center',
-                    'color': colors['col_erro']
-                }
-            else:
-                simbolo_geral = ''
-                style_geral = {
-
-                    'textAlign': 'center',
-                    'color':'white'
-                }
-
-            roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
-            saldo_geral = 'R$' + " " + str(saldo_geral)
-            oddMedia_geral = tabela_filtrada["Odd"].mean()
-            
-            if math.isnan(roi_geral and oddMedia_geral) == True:
-                roi_geral = '0 %'
-                oddMedia_geral = '0.00'
-            else:
-                roi_geral = str(roi_geral) + ' %'
-                oddMedia_geral = str(round(oddMedia_geral,2))
+            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, colors)
 
         if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is not None:
 
@@ -1976,42 +1732,9 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
                 )
             )
 
-            numApostas_geral = str(tabela_filtrada['Saldo'].count())
-            investimento_geral = 'R$' + " " + str(round(tabela_filtrada['Investimento'].sum(),2))
-            saldo_geral = float(round(tabela_filtrada['Saldo'].sum(),2))
+            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, colors)
 
-            if saldo_geral > 0:
-                simbolo_geral = '▲'
-                style_geral = {
-                    'textAlign': 'center',
-                    'color': colors['col_acerto']
-                }
-            elif saldo_geral < 0: 
-                simbolo_geral = '▼'
-                style_geral = {
-                    'textAlign': 'center',
-                    'color': colors['col_erro']
-                }
-            else:
-                simbolo_geral = ''
-                style_geral = {
-
-                    'textAlign': 'center',
-                    'color':'white'
-                }
-
-            roi_geral = round(saldo_geral*100/tabela_filtrada["Investimento"].sum(),2)
-            saldo_geral = 'R$' + " " + str(saldo_geral)
-            oddMedia_geral = tabela_filtrada["Odd"].mean()
-            
-            if math.isnan(roi_geral and oddMedia_geral) == True:
-                roi_geral = '0 %'
-                oddMedia_geral = '0.00'
-            else:
-                roi_geral = str(roi_geral) + ' %'
-                oddMedia_geral = str(round(oddMedia_geral,2))
-
-    return fig_aproveitamentoGeral, saldo_geral, roi_geral, numApostas_geral, investimento_geral, oddMedia_geral, simbolo_geral, style_geral, simbolo_geral, style_geral
+    return fig_aproveitamentoGeral, saldo, roi, numApostas, investimento, oddMedia, simbolo, style, simbolo, style
 
 # Modal de inserir apostas (abertura/fechamento)
 
@@ -2347,22 +2070,9 @@ def cards(input_botao_novaApostaClose, input_title_header):
     df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
     df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
 
-    banca_inicial = round(float(df_parametros["Banca Inicial"].dropna()),2)
-    banca_atual = round(banca_inicial + df_apostas["Saldo"].sum(),2)
-    saldo = round(banca_atual-banca_inicial,2)
+    saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(df_apostas, df_parametros, colors)
 
-    if df_apostas.empty:
-        str_roi = '0 %'
-    else:
-        roi = round(saldo*100/df_apostas["Investimento"].sum(),2)
-        str_roi = str(roi) + ' %'
-
-    str_reais = 'R$ '
-    str_banca_inicial = str_reais + str(banca_inicial)
-    str_banca_atual = str_reais + str(banca_atual)
-    str_saldo = str_reais + str(saldo)
-
-    return str_banca_inicial, str_banca_atual, str_saldo, str_roi
+    return bancaInicial, bancaAtual, saldo, roi
 
 ########### ########### ###########
 ########### LOCAL HOST
