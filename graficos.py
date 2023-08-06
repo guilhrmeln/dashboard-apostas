@@ -70,7 +70,6 @@ def graficoAproveitamentoDiario(dataframe, cores):
         dataframe, 
         values='Soma', 
         names='Resultado', 
-        #title='Resultado diário',
         hole=0.5,
         height=400,
         color='Resultado',
@@ -86,7 +85,6 @@ def graficoAproveitamentoDiario(dataframe, cores):
     )
 
     grafico.update_layout(
-        #title='Acertos diários',
         title_x=0.5,
         plot_bgcolor=cores['background2'],
         paper_bgcolor=cores['background2'],
@@ -102,7 +100,6 @@ def graficoAproveitamentoGeral(dataframe, cores):
         dataframe, 
         values='Soma', 
         names='Resultado', 
-        #title='Resultado diário',
         hole=0.5,
         height=300,
         color='Resultado',
@@ -118,7 +115,6 @@ def graficoAproveitamentoGeral(dataframe, cores):
     )
 
     grafico.update_layout(
-        #title='Acertos diários',
         title_x=0.5,
         plot_bgcolor=cores['background2'],
         paper_bgcolor=cores['background2'],
