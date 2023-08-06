@@ -11,7 +11,7 @@ from datetime import date, datetime
 import time
 import math
 
-from functions import relatorio_dbVazio, relatorio_db
+from funcoes import relatorio_dbVazio, relatorio_db
 
 ########### ########### ###########
 ########### CONFIGURAÇÕES DO APP
