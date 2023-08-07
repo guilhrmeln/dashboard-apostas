@@ -59,7 +59,7 @@ def relatorio_db(dataframe, parametros, colors):
 
     return saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style
 
-#Função para mensagem de alerta ao enviar uma aposta (sucesso ou erro) ou definir um parâmetro
+#Função para mensagens de alerta
 
 def mensagem(resultado,tipo):
 

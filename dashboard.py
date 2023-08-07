@@ -1475,7 +1475,7 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
 
                     time.sleep(0.1)
                     mensagemAlerta, corAlerta, stateAlerta = mensagem('Erro','Aposta')
-
+ 
                     return stateAlerta, mensagemAlerta, corAlerta
         else:
             
