@@ -59,4 +59,40 @@ def relatorio_db(dataframe, parametros, colors):
 
     return saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style
 
+#Função para mensagem de alerta ao enviar uma aposta (sucesso ou erro) ou definir um parâmetro
+
+def mensagem(resultado,tipo):
+
+    if resultado == 'Sucesso':
+        if tipo == 'Aposta':
+            corAlerta = 'success'
+            mensagemAlerta = 'Aposta adicionada com sucesso!'
+            stateAlerta = True
+        elif tipo == 'Esporte':
+            corAlerta = 'success'
+            mensagemAlerta = 'Esporte adicionado com sucesso!'
+            stateAlerta = True
+        elif tipo == 'Banca':
+            corAlerta = 'success'
+            mensagemAlerta = 'Banca inicial definida com sucesso! Atualize a página para o novo valor entrar em vigor.'
+            stateAlerta = True
+    elif resultado == 'Erro':
+        if tipo == 'Aposta':
+            corAlerta = 'danger'
+            mensagemAlerta = 'ERRO: informe todos os dados da aposta antes de adicioná-la.'
+            stateAlerta = True
+        elif tipo == 'Esporte':
+            corAlerta = 'danger'
+            mensagemAlerta = 'ERRO: informe um novo esporte antes de adicioná-lo.'
+            stateAlerta = True
+        elif tipo == 'Banca':
+            corAlerta = 'danger'
+            mensagemAlerta = 'ERRO: informe um valor para banca inicial antes de adicioná-la.'
+            stateAlerta = True
+    else:
+        mensagemAlerta = '...'
+        corAlerta = 'success'
+        stateAlerta = False    
+
+    return mensagemAlerta, corAlerta, stateAlerta
 

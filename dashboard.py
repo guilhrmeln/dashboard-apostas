@@ -11,7 +11,7 @@ from datetime import date, datetime
 import time
 import math
 
-from funcoes import relatorio_dbVazio, relatorio_db
+from funcoes import relatorio_dbVazio, relatorio_db, mensagem
 from graficos import graficoBanca, graficoAproveitamentoDiario, graficoAproveitamentoGeral
 
 ########### ########### ###########
@@ -1436,9 +1436,8 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
                     df_concat.to_excel(writer, sheet_name="Plan1", index=False)  
                 
                 time.sleep(0.1)
-                cor_alerta = 'success'
-                msg = 'Aposta adicionada com sucesso!'
-                alerta_state = True
+
+                msg, cor_alerta, alerta_state = mensagem('Sucesso','Aposta')
 
                 return alerta_state, msg, cor_alerta
             else: 
@@ -1468,32 +1467,26 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
                         df_concat.to_excel(writer, sheet_name="Plan1", index=False)  
                     
                     time.sleep(0.1)
-                    cor_alerta = 'success'
-                    msg = 'Aposta adicionada com sucesso!'
-                    alerta_state = True
+
+                    msg, cor_alerta, alerta_state = mensagem('Sucesso','Aposta')
 
                     return alerta_state, msg, cor_alerta
                 else: 
 
                     time.sleep(0.1)
-                    cor_alerta = 'danger'
-                    msg = 'ERRO: informe todos os dados da aposta antes de adicioná-la.'
-                    alerta_state = True
+                    msg, cor_alerta, alerta_state = mensagem('Erro','Aposta')
 
                     return alerta_state, msg, cor_alerta
         else:
             
             time.sleep(0.1)
-            cor_alerta = 'danger'
-            msg = 'ERRO: informe todos os dados da aposta antes de adicioná-la.'
-            alerta_state = True
+
+            msg, cor_alerta, alerta_state = mensagem('Erro','Aposta')
 
             return alerta_state, msg, cor_alerta
     else:  
 
-        msg = '...'
-        cor_alerta = 'success'
-        alerta_state = False
+        msg, cor_alerta, alerta_state = mensagem('Nulo','Nulo')
 
         return alerta_state, msg, cor_alerta
 
@@ -1595,17 +1588,15 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
                 df_concat.to_excel(writer, sheet_name="Plan1", index=False)      
 
                 time.sleep(0.1)
-                cor_alerta = 'success'
-                msg = 'Esporte adicionado com sucesso!'
-                alerta_state = True
+
+                msg, cor_alerta, alerta_state = mensagem('Sucesso','Esporte')
 
                 return alerta_state, msg, cor_alerta, False, '', 'danger'
         else:
             
             time.sleep(0.1)
-            cor_alerta = 'danger'
-            msg = 'ERRO: informe um novo esporte antes de adicioná-lo.'
-            alerta_state = True
+            
+            msg, cor_alerta, alerta_state = mensagem('Erro','Esporte')
 
             return alerta_state, msg, cor_alerta, False, '', 'danger'
     elif 'id_botao_configBancaInicial' == ctx.triggered_id:
@@ -1630,28 +1621,23 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
                 df_nova_banca.to_excel(writer, sheet_name="Plan1", index=False)      
 
                 time.sleep(0.1)
-                cor_alerta = 'success'
-                msg = 'Banca inicial definida com sucesso! Atualize a página para o novo valor entrar em vigor.'
-                alerta_state = True
+                msg, cor_alerta, alerta_state = mensagem('Sucesso','Banca')
 
                 return False, '', 'danger', alerta_state, msg, cor_alerta
         else:
             
             time.sleep(0.1)
-            cor_alerta = 'danger'
-            msg = 'ERRO: informe um valor para banca inicial antes de adicioná-la.'
-            alerta_state = True
+
+            msg, cor_alerta, alerta_state = mensagem('Erro','Banca')
 
             return False, '', 'danger', alerta_state, msg, cor_alerta
     else:
-        msg = '...'
-        cor_alerta = 'success'
-        alerta_state = False
+        msg, cor_alerta, alerta_state = mensagem('Nulo','Nulo')
 
         return alerta_state, msg, cor_alerta, alerta_state, msg, cor_alerta
            
 # Modal de configurações (limpeza dos dados) e Modal de configurações (atualização do DPD dos esportes no modal de inserir apostas)
-# FAZER UPDATE APÓS NOVA BANCA
+
 @app.callback(
     Output("id_input_configEsporte", "value"),
     Output("id_div_novaApostaEsportes", "children"),
