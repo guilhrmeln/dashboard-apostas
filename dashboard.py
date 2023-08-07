@@ -1119,7 +1119,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
 
         fig_aproveitamentoDiario = graficoAproveitamento(df_apostas, cores)
         
-        saldo, roi, numApostas, investimento, oddMedia, bancaAtual, simbolo, style = relatorio_dbVazio()
+        saldo, roi, numApostas, investimento, oddMedia, simbolo, style = relatorio_dbVazio()
 
     else:
 
@@ -1187,7 +1187,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
         
         fig_aproveitamentoGeral = graficoAproveitamento(df_apostas, cores) 
 
-        saldo, roi, numApostas, investimento, oddMedia, bancaAtual, simbolo, style = relatorio_dbVazio()
+        saldo, roi, numApostas, investimento, oddMedia, simbolo, style = relatorio_dbVazio()
         
     else:
 
