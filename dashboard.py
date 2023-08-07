@@ -12,7 +12,7 @@ import time
 import math
 
 from funcoes import relatorio_dbVazio, relatorio_db, mensagem, calcularSaldoNormal, calcularSaldoRetirada, inserirAposta, inserirParametro
-from graficos import graficoBanca, graficoAproveitamentoDiario, graficoAproveitamentoGeral
+from graficos import graficoBanca, graficoAproveitamento
 
 ########### ########### ###########
 ########### CONFIGURAÇÕES DO APP
@@ -67,11 +67,11 @@ fig_banca = graficoBanca(df_apostas, dummy_data_x, dummy_data_y, cores)
 
 # Diario
 
-fig_aproveitamentoDiario = graficoAproveitamentoDiario(df_apostas, cores)
+fig_aproveitamentoDiario = graficoAproveitamento(df_apostas, cores)
 
 # Geral
 
-fig_aproveitamentoGeral = graficoAproveitamentoGeral(df_apostas, cores)
+fig_aproveitamentoGeral = graficoAproveitamento(df_apostas, cores)
 
 ########### ########### ###########
 ########### LAYOUT
@@ -1117,31 +1117,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
 
     if df_apostas.empty:
 
-        fig_aproveitamentoDiario = px.pie(
-            df_apostas, 
-            values='Soma', 
-            names='Resultado', 
-            title='Resultado diário',
-            hole=0.5,
-            height=400,
-            color='Resultado',
-            color_discrete_map = {
-                'Acerto': cores['col_acerto'],
-                'Erro': cores['col_erro'],
-                'Retornada': cores['col_retornada']
-            }
-        )
-        fig_aproveitamentoDiario.update_traces(
-            textinfo='percent + value'
-        )
-        fig_aproveitamentoDiario.update_layout(
-            #title='Acertos diários',
-            title_x=0.5,
-            plot_bgcolor=cores['background2'],
-            paper_bgcolor=cores['background2'],
-            font_color=cores['text'],
-            autosize=True
-        )
+        fig_aproveitamentoDiario = graficoAproveitamento(df_apostas, cores)
         
         saldo, roi, numApostas, investimento, oddMedia, bancaAtual, simbolo, style = relatorio_dbVazio()
 
@@ -1156,37 +1132,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
 
                 tabela_filtrada = df_apostas.loc[df_apostas['Data']==data_string]
 
-                fig_aproveitamentoDiario = px.pie(
-                    tabela_filtrada, 
-                    values='Soma', 
-                    names='Resultado', 
-                    #title='Aproveitamento',
-                    hole=0.5,
-                    height=300,
-                    color='Resultado',
-                    color_discrete_map = {
-                        'Acerto': cores['col_acerto'],
-                        'Erro': cores['col_erro'],
-                        'Retornada': cores['col_retornada']
-                    }
-                )
-
-                fig_aproveitamentoDiario.update_traces(
-                    textinfo='percent + value',
-                    insidetextorientation='horizontal'
-                )
-
-                fig_aproveitamentoDiario.update_layout(
-                    #title='Aproveitamento',
-                    title_x=0.5,
-                    plot_bgcolor=cores['background2'],
-                    paper_bgcolor=cores['background2'],
-                    font_color=cores['text'],
-                    autosize=True,
-                    margin=dict(
-                        t=20, b=0, l=0, r=0
-                    )
-                )
+                fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
 
                 saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, cores)
 
@@ -1194,37 +1140,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
 
                 tabela_filtrada = df_apostas.loc[(df_apostas['Data']==data_string) & (df_apostas['Esporte']==input_dpd_abaDiariaEsporte)]
                 
-                fig_aproveitamentoDiario = px.pie(
-                    tabela_filtrada, 
-                    values='Soma', 
-                    names='Resultado', 
-                    #title='Aproveitamento',
-                    hole=0.5,
-                    height=300,
-                    color='Resultado',
-                    color_discrete_map = {
-                        'Acerto': cores['col_acerto'],
-                        'Erro': cores['col_erro'],
-                        'Retornada': cores['col_retornada']
-                    }
-                )
-
-                fig_aproveitamentoDiario.update_traces(
-                    textinfo='percent + value',
-                    insidetextorientation='horizontal'
-                )
-
-                fig_aproveitamentoDiario.update_layout(
-                    #title='Aproveitamento',
-                    title_x=0.5,
-                    plot_bgcolor=cores['background2'],
-                    paper_bgcolor=cores['background2'],
-                    font_color=cores['text'],
-                    autosize=True,
-                    margin=dict(
-                        t=20, b=0, l=0, r=0
-                    )
-                )
+                fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
             
                 saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, cores)
 
@@ -1232,37 +1148,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
 
                 tabela_filtrada = df_apostas.loc[(df_apostas['Data']==data_string) & (df_apostas['Tipo']==input_dpd_abaDiariaTipo)]
                 
-                fig_aproveitamentoDiario = px.pie(
-                    tabela_filtrada, 
-                    values='Soma', 
-                    names='Resultado', 
-                    #title='Aproveitamento',
-                    hole=0.5,
-                    height=300,
-                    color='Resultado',
-                    color_discrete_map = {
-                        'Acerto': cores['col_acerto'],
-                        'Erro': cores['col_erro'],
-                        'Retornada': cores['col_retornada']
-                    }
-                )
-
-                fig_aproveitamentoDiario.update_traces(
-                    textinfo='percent + value',
-                    insidetextorientation='horizontal'
-                )
-
-                fig_aproveitamentoDiario.update_layout(
-                    #title='Aproveitamento',
-                    title_x=0.5,
-                    plot_bgcolor=cores['background2'],
-                    paper_bgcolor=cores['background2'],
-                    font_color=cores['text'],
-                    autosize=True,
-                    margin=dict(
-                        t=20, b=0, l=0, r=0
-                    )
-                )
+                fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
             
                 saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, cores)
 
@@ -1270,37 +1156,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
 
                 tabela_filtrada = df_apostas.loc[(df_apostas['Data']==data_string) & (df_apostas['Esporte']==input_dpd_abaDiariaEsporte) & (df_apostas['Tipo']==input_dpd_abaDiariaTipo)]
                 
-                fig_aproveitamentoDiario = px.pie(
-                    tabela_filtrada, 
-                    values='Soma', 
-                    names='Resultado', 
-                    #title='Aproveitamento',
-                    hole=0.5,
-                    height=300,
-                    color='Resultado',
-                    color_discrete_map = {
-                        'Acerto': cores['col_acerto'],
-                        'Erro': cores['col_erro'],
-                        'Retornada': cores['col_retornada']
-                    }
-                )
-
-                fig_aproveitamentoDiario.update_traces(
-                    textinfo='percent + value',
-                    insidetextorientation='horizontal'
-                )
-
-                fig_aproveitamentoDiario.update_layout(
-                    #title='Aproveitamento',
-                    title_x=0.5,
-                    plot_bgcolor=cores['background2'],
-                    paper_bgcolor=cores['background2'],
-                    font_color=cores['text'],
-                    autosize=True,
-                    margin=dict(
-                        t=20, b=0, l=0, r=0
-                    )
-                )
+                fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
             
                 saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, cores)
 
@@ -1329,7 +1185,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
 
     if df_apostas.empty:
         
-        fig_aproveitamentoGeral = graficoAproveitamentoGeral(df_apostas, cores)  
+        fig_aproveitamentoGeral = graficoAproveitamento(df_apostas, cores) 
 
         saldo, roi, numApostas, investimento, oddMedia, bancaAtual, simbolo, style = relatorio_dbVazio()
         
@@ -1337,7 +1193,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
 
         if input_dpd_abaGeralEsporte is None and input_dpd_abaGeralTipo is None:
 
-            fig_aproveitamentoGeral = graficoAproveitamentoGeral(df_apostas, cores)
+            fig_aproveitamentoGeral = graficoAproveitamento(df_apostas, cores) 
 
             saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(df_apostas, df_parametros, cores)
 
@@ -1345,7 +1201,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
 
             tabela_filtrada = df_apostas.loc[df_apostas['Esporte']==input_dpd_abaGeralEsporte]
             
-            fig_aproveitamentoGeral = graficoAproveitamentoGeral(tabela_filtrada, cores)
+            fig_aproveitamentoGeral = graficoAproveitamento(tabela_filtrada, cores) 
 
             saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, cores)
 
@@ -1353,7 +1209,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
 
             tabela_filtrada = df_apostas.loc[df_apostas['Tipo']==input_dpd_abaGeralTipo]
             
-            fig_aproveitamentoGeral = graficoAproveitamentoGeral(tabela_filtrada, cores)
+            fig_aproveitamentoGeral = graficoAproveitamento(tabela_filtrada, cores) 
             
             saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, cores)
 
@@ -1361,7 +1217,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
 
             tabela_filtrada = df_apostas.loc[(df_apostas['Esporte']==input_dpd_abaGeralEsporte) & (df_apostas['Tipo']==input_dpd_abaGeralTipo)]
             
-            fig_aproveitamentoGeral = graficoAproveitamentoGeral(df_apostas, cores)
+            fig_aproveitamentoGeral = graficoAproveitamento(tabela_filtrada, cores) 
 
             saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, cores)
 

@@ -63,38 +63,8 @@ def graficoBanca(dataframe, dadosX, dadosY, cores):
     )
 
     return grafico
- 
-def graficoAproveitamentoDiario(dataframe, cores):
 
-    grafico = px.pie(
-        dataframe, 
-        values='Soma', 
-        names='Resultado', 
-        hole=0.5,
-        height=400,
-        color='Resultado',
-        color_discrete_map = {
-            'Acerto': cores['col_acerto'],
-            'Erro': cores['col_erro'],
-            'Retornada': cores['col_retornada']
-        }
-    )
-
-    grafico.update_traces(
-        textinfo='percent + value'
-    )
-
-    grafico.update_layout(
-        title_x=0.5,
-        plot_bgcolor=cores['background2'],
-        paper_bgcolor=cores['background2'],
-        font_color=cores['text'],
-        autosize=True
-    )
-
-    return grafico
-
-def graficoAproveitamentoGeral(dataframe, cores):
+def graficoAproveitamento(dataframe, cores):
 
     grafico = px.pie(
         dataframe, 
