@@ -8,9 +8,9 @@ def leituraDB(nomeArquivo):
 
     dir = os.getcwd()
     filePath = dir + '\\' + nomeArquivo
-    df_apostas = pd.read_excel(filePath)
+    dataframe = pd.read_excel(filePath)
 
-    return df_apostas
+    return dataframe
 
 #Função que retorna os parâmetros de análise de um DB vazio
 
@@ -132,14 +132,17 @@ def calcularSaldoRetirada(resultado, investimento, valorRetirado):
 
 #Função para inserir aposta no DB
 
-def inserirAposta(dataframe, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma):
+def inserirAposta(dataframe, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma, nomeArquivo):
     
     novaAposta = [apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma]
     df_novaAposta = pd.DataFrame([novaAposta], columns=list(['Data', 'Esporte', 'Tipo', 'Odd', 'Investimento', 'Finalização', 'Resultado', 'Saldo', 'Soma']))
     dataframe = pd.concat([dataframe,df_novaAposta], ignore_index=True)
     
+    dir = os.getcwd()
+    filePath = dir + '\\' + nomeArquivo
+
     with pd.ExcelWriter(
-        r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx", 
+        filePath, 
         mode="a", 
         engine="openpyxl", 
         if_sheet_exists="overlay",
@@ -148,7 +151,7 @@ def inserirAposta(dataframe, apostaData, apostaEsporte, apostaTipo, apostaOdd, a
     ) as writer:
         dataframe.to_excel(writer, sheet_name="Plan1", index=False)  
 
-def inserirParametro(dataframe, tipo, novoParametro):
+def inserirParametro(dataframe, tipo, novoParametro, nomeArquivo):
 
     if tipo == 'Esporte':
 
@@ -159,8 +162,11 @@ def inserirParametro(dataframe, tipo, novoParametro):
 
         dataframe['Banca Inicial'][0] = novoParametro
 
+    dir = os.getcwd()
+    filePath = dir + '\\' + nomeArquivo
+
     with pd.ExcelWriter(
-        r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx", 
+        filePath, 
         mode="a", 
         engine="openpyxl", 
         if_sheet_exists="overlay",

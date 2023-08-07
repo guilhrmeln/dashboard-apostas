@@ -25,8 +25,11 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.CYBORG], suppress_callback
 ########### BASE DE DADOS 
 ########### ########### ###########
 
-df_apostas = leituraDB('db_apostas.xlsx')
-df_parametros = leituraDB('db_parametros.xlsx')
+nomeArquivoDBApostas = 'db_apostas.xlsx'
+nomeArquivoDBParametros = 'db_parametros.xlsx'
+
+df_apostas = leituraDB(nomeArquivoDBApostas)
+df_parametros = leituraDB(nomeArquivoDBParametros)
 
 ########### ########### ###########
 ########### VARIÁVEIS GLOBAIS
@@ -614,8 +617,8 @@ app.layout = html.Div(
 )
 def graf_banca(input_botao_novaApostaClose,input_title_header):
     
-    df_apostas = leituraDB('db_apostas.xlsx')
-    df_parametros = leituraDB('db_parametros.xlsx')
+    df_apostas = leituraDB(nomeArquivoDBApostas)
+    df_parametros = leituraDB(nomeArquivoDBParametros)
 
     banca_inicial = round(float(df_parametros["Banca Inicial"].dropna()),2)
 
@@ -655,7 +658,7 @@ def graf_banca(input_botao_novaApostaClose,input_title_header):
 )
 def switch_tab(input_tab_abas):
 
-    df_apostas = leituraDB('db_apostas.xlsx')
+    df_apostas = leituraDB(nomeArquivoDBApostas)
 
     lista_esportessUsados = list(df_apostas["Esporte"].unique())
     lista_esportessUsados.sort()
@@ -1114,7 +1117,7 @@ def switch_tab(input_tab_abas):
 )
 def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd_abaDiariaTipo, input_botao_novaApostaClose):
     
-    df_apostas = leituraDB('db_apostas.xlsx')
+    df_apostas = leituraDB(nomeArquivoDBApostas)
 
     if df_apostas.empty:
 
@@ -1182,7 +1185,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
 )
 def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_novaApostaClose):
 
-    df_apostas = leituraDB('db_apostas.xlsx')
+    df_apostas = leituraDB(nomeArquivoDBApostas)
 
     if df_apostas.empty:
         
@@ -1272,9 +1275,9 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
 
                 apostaSaldo = calcularSaldoNormal(apostaResultado, apostaInvestimento, apostaOdd)
                     
-                df_apostas = leituraDB('db_apostas.xlsx')
+                df_apostas = leituraDB(nomeArquivoDBApostas)
 
-                inserirAposta(df_apostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma)
+                inserirAposta(df_apostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma, nomeArquivoDBApostas)
                 
                 time.sleep(0.1)
 
@@ -1286,9 +1289,9 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
 
                     apostaSaldo = calcularSaldoRetirada(apostaResultado, apostaInvestimento, apostaRetirada)
 
-                    df_apostas = leituraDB('db_apostas.xlsx')
+                    df_apostas = leituraDB(nomeArquivoDBApostas)
 
-                    inserirAposta(df_apostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma)
+                    inserirAposta(df_apostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma, nomeArquivoDBApostas)
      
                     time.sleep(0.1)
 
@@ -1396,9 +1399,9 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
     if 'id_botao_configInserirEsporte' == ctx.triggered_id:
         if state_input_configEsporte is not None: 
             
-            df_parametros = leituraDB('db_parametros.xlsx')
+            df_parametros = leituraDB(nomeArquivoDBParametros)
 
-            inserirParametro(df_parametros, 'Esporte', state_input_configEsporte)  
+            inserirParametro(df_parametros, 'Esporte', state_input_configEsporte, nomeArquivoDBParametros)  
 
             time.sleep(0.1)
 
@@ -1416,9 +1419,9 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
     elif 'id_botao_configBancaInicial' == ctx.triggered_id:
         if state_input_configBancaInicial is not None: 
             
-            df_parametros = leituraDB('db_parametros.xlsx')
+            df_parametros = leituraDB(nomeArquivoDBParametros)
             
-            inserirParametro(df_parametros, 'Banca Inicial', state_input_configBancaInicial) 
+            inserirParametro(df_parametros, 'Banca Inicial', state_input_configBancaInicial, nomeArquivoDBParametros) 
 
             time.sleep(0.1)
 
@@ -1452,7 +1455,7 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
 )
 def modal_config_limpeza(input_botao_configInserirEsporte, input_botao_configBancaInicial, input_botao_configClose, input_input_configEsporte, input_input_configBancaInicial):
     
-    df_parametros = leituraDB('db_parametros.xlsx')
+    df_parametros = leituraDB(nomeArquivoDBParametros)
     lista_esportes = list(df_parametros["Esporte"].dropna())
 
     dropdown = [
@@ -1486,8 +1489,8 @@ def modal_config_limpeza(input_botao_configInserirEsporte, input_botao_configBan
 )
 def cards(input_botao_novaApostaClose, input_title_header):
 
-    df_apostas = leituraDB('db_apostas.xlsx')
-    df_parametros = leituraDB('db_parametros.xlsx')
+    df_apostas = leituraDB(nomeArquivoDBApostas)
+    df_parametros = leituraDB(nomeArquivoDBParametros)
 
     saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(df_apostas, df_parametros, cores)
 
