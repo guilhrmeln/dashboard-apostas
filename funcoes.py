@@ -95,3 +95,23 @@ def mensagem(resultado,tipo):
         stateAlerta = False    
 
     return mensagemAlerta, corAlerta, stateAlerta
+
+#Função para definir o saldo da aposta
+
+def calcularSaldoNormal(resultado, investimento, odd):
+    if resultado == 'Acerto':
+        saldo = round((investimento * odd)-investimento,2)
+    elif resultado == 'Erro':
+        saldo = round(-1*investimento,2)
+    elif resultado == 'Retornada':
+        saldo = 0
+    return saldo
+
+def calcularSaldoRetirada(resultado, investimento, valorRetirado):
+    if resultado == 'Acerto':
+        saldo = round(valorRetirado-investimento,2)
+    elif resultado == 'Erro':
+        saldo = round(valorRetirado-investimento,2)
+    elif resultado == 'Retornada':
+        saldo = 0
+    return saldo

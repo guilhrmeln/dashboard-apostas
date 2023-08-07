@@ -11,7 +11,7 @@ from datetime import date, datetime
 import time
 import math
 
-from funcoes import relatorio_dbVazio, relatorio_db, mensagem
+from funcoes import relatorio_dbVazio, relatorio_db, mensagem, calcularSaldoNormal, calcularSaldoRetirada
 from graficos import graficoBanca, graficoAproveitamentoDiario, graficoAproveitamentoGeral
 
 ########### ########### ###########
@@ -1412,12 +1412,8 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
             soma = 1
 
             if state_dpd_novaApostaFinalizacao == 'Normal': 
-                if aposta_resultado == 'Acerto':
-                    aposta_saldo = round((aposta_investimento * aposta_odd)-aposta_investimento,2)
-                elif aposta_resultado == 'Erro':
-                    aposta_saldo = round(-1*aposta_investimento,2)
-                elif aposta_resultado == 'Retornada':
-                    aposta_saldo = 0
+
+                aposta_saldo = calcularSaldoNormal(aposta_resultado, aposta_investimento, aposta_odd)
                     
                 df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
 
@@ -1443,13 +1439,8 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
             else: 
                 if state_input_novaApostaRetirada is not None:
 
-                    if aposta_resultado == 'Acerto':
-                        aposta_saldo = round(aposta_retirada-aposta_investimento,2)
-                    elif aposta_resultado == 'Erro':
-                        aposta_saldo = round(aposta_retirada-aposta_investimento,2)
-                    elif aposta_resultado == 'Retornada':
-                        aposta_saldo = 0
-                        
+                    aposta_saldo = calcularSaldoRetirada(aposta_resultado, aposta_investimento, aposta_retirada)
+
                     df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
 
                     nova_aposta = [aposta_data, aposta_esporte, aposta_tipo, aposta_odd, aposta_investimento, aposta_finalizacao, aposta_resultado, aposta_saldo, soma]
