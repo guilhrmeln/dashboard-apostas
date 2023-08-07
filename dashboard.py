@@ -1437,9 +1437,9 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
                 
                 time.sleep(0.1)
 
-                msg, cor_alerta, alerta_state = mensagem('Sucesso','Aposta')
+                mensagemAlerta, corAlerta, stateAlerta = mensagem('Sucesso','Aposta')
 
-                return alerta_state, msg, cor_alerta
+                return stateAlerta, mensagemAlerta, corAlerta
             else: 
                 if state_input_novaApostaRetirada is not None:
 
@@ -1468,27 +1468,27 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
                     
                     time.sleep(0.1)
 
-                    msg, cor_alerta, alerta_state = mensagem('Sucesso','Aposta')
+                    mensagemAlerta, corAlerta, stateAlerta = mensagem('Sucesso','Aposta')
 
-                    return alerta_state, msg, cor_alerta
+                    return stateAlerta, mensagemAlerta, corAlerta
                 else: 
 
                     time.sleep(0.1)
-                    msg, cor_alerta, alerta_state = mensagem('Erro','Aposta')
+                    mensagemAlerta, corAlerta, stateAlerta = mensagem('Erro','Aposta')
 
-                    return alerta_state, msg, cor_alerta
+                    return stateAlerta, mensagemAlerta, corAlerta
         else:
             
             time.sleep(0.1)
 
-            msg, cor_alerta, alerta_state = mensagem('Erro','Aposta')
+            mensagemAlerta, corAlerta, stateAlerta = mensagem('Erro','Aposta')
 
-            return alerta_state, msg, cor_alerta
+            return stateAlerta, mensagemAlerta, corAlerta
     else:  
 
-        msg, cor_alerta, alerta_state = mensagem('Nulo','Nulo')
+        mensagemAlerta, corAlerta, stateAlerta = mensagem('Nulo','Nulo')
 
-        return alerta_state, msg, cor_alerta
+        return stateAlerta, mensagemAlerta, corAlerta
 
 # Modal de inserir apostas (colapse para apostas retiradas) 
 
@@ -1589,16 +1589,16 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
 
                 time.sleep(0.1)
 
-                msg, cor_alerta, alerta_state = mensagem('Sucesso','Esporte')
+                mensagemAlerta, corAlerta, stateAlerta = mensagem('Sucesso','Esporte')
 
-                return alerta_state, msg, cor_alerta, False, '', 'danger'
+                return stateAlerta, mensagemAlerta, corAlerta, False, '', 'danger'
         else:
             
             time.sleep(0.1)
             
-            msg, cor_alerta, alerta_state = mensagem('Erro','Esporte')
+            mensagemAlerta, corAlerta, stateAlerta = mensagem('Erro','Esporte')
 
-            return alerta_state, msg, cor_alerta, False, '', 'danger'
+            return stateAlerta, mensagemAlerta, corAlerta, False, '', 'danger'
     elif 'id_botao_configBancaInicial' == ctx.triggered_id:
         if state_input_configBancaInicial is not None: 
             
@@ -1621,20 +1621,20 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
                 df_nova_banca.to_excel(writer, sheet_name="Plan1", index=False)      
 
                 time.sleep(0.1)
-                msg, cor_alerta, alerta_state = mensagem('Sucesso','Banca')
+                mensagemAlerta, corAlerta, stateAlerta = mensagem('Sucesso','Banca')
 
-                return False, '', 'danger', alerta_state, msg, cor_alerta
+                return False, '', 'danger', stateAlerta, mensagemAlerta, corAlerta
         else:
             
             time.sleep(0.1)
 
-            msg, cor_alerta, alerta_state = mensagem('Erro','Banca')
+            mensagemAlerta, corAlerta, stateAlerta = mensagem('Erro','Banca')
 
-            return False, '', 'danger', alerta_state, msg, cor_alerta
+            return False, '', 'danger', stateAlerta, mensagemAlerta, corAlerta
     else:
-        msg, cor_alerta, alerta_state = mensagem('Nulo','Nulo')
+        mensagemAlerta, corAlerta, stateAlerta = mensagem('Nulo','Nulo')
 
-        return alerta_state, msg, cor_alerta, alerta_state, msg, cor_alerta
+        return stateAlerta, mensagemAlerta, corAlerta, stateAlerta, mensagemAlerta, corAlerta
            
 # Modal de configurações (limpeza dos dados) e Modal de configurações (atualização do DPD dos esportes no modal de inserir apostas)
 

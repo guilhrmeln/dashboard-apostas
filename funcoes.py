@@ -95,4 +95,3 @@ def mensagem(resultado,tipo):
         stateAlerta = False    
 
     return mensagemAlerta, corAlerta, stateAlerta
-
