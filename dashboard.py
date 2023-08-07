@@ -1134,8 +1134,6 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
 
                 fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
 
-                print(tabela_filtrada["Investimento"].sum())
-                print(tabela_filtrada["Odd"].mean())
                 saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, cores)
 
             if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is None:
