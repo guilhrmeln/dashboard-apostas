@@ -11,7 +11,7 @@ from datetime import date, datetime
 import time
 import math
 
-from funcoes import relatorio_dbVazio, relatorio_db, mensagem, calcularSaldoNormal, calcularSaldoRetirada
+from funcoes import relatorio_dbVazio, relatorio_db, mensagem, calcularSaldoNormal, calcularSaldoRetirada, inserirAposta
 from graficos import graficoBanca, graficoAproveitamentoDiario, graficoAproveitamentoGeral
 
 ########### ########### ###########
@@ -1401,35 +1401,23 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
     if 'id_botao_novaApostaInserir' == ctx.triggered_id:
         if state_calendario_novaAposta and state_dpd_novaApostaEsportes and state_dpd_novaApostaTipo and state_input_novaApostaInvestimento and state_input_novaApostaOdd and state_dpd_novaApostaResultado and state_dpd_novaApostaFinalizacao is not None:
             
-            aposta_data = datetime.strptime(state_calendario_novaAposta, '%Y-%m-%d')
-            aposta_esporte = state_dpd_novaApostaEsportes
-            aposta_tipo = state_dpd_novaApostaTipo
-            aposta_investimento = float(state_input_novaApostaInvestimento)
-            aposta_odd = float(state_input_novaApostaOdd)
-            aposta_resultado = state_dpd_novaApostaResultado
-            aposta_finalizacao = state_dpd_novaApostaFinalizacao
-            aposta_retirada = state_input_novaApostaRetirada
+            apostaData = datetime.strptime(state_calendario_novaAposta, '%Y-%m-%d')
+            apostaEsporte = state_dpd_novaApostaEsportes
+            apostaTipo = state_dpd_novaApostaTipo
+            apostaInvestimento = float(state_input_novaApostaInvestimento)
+            apostaOdd = float(state_input_novaApostaOdd)
+            apostaResultado = state_dpd_novaApostaResultado
+            apostaFinalizacao = state_dpd_novaApostaFinalizacao
+            apostaRetirada = state_input_novaApostaRetirada
             soma = 1
 
             if state_dpd_novaApostaFinalizacao == 'Normal': 
 
-                aposta_saldo = calcularSaldoNormal(aposta_resultado, aposta_investimento, aposta_odd)
+                apostaSaldo = calcularSaldoNormal(apostaResultado, apostaInvestimento, apostaOdd)
                     
                 df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
 
-                nova_aposta = [aposta_data, aposta_esporte, aposta_tipo, aposta_odd, aposta_investimento, aposta_finalizacao, aposta_resultado, aposta_saldo, soma]
-                df_nova_aposta = pd.DataFrame([nova_aposta], columns=list(['Data', 'Esporte', 'Tipo', 'Odd', 'Investimento', 'Finalização', 'Resultado', 'Saldo', 'Soma']))
-                df_concat = pd.concat([df_apostas,df_nova_aposta], ignore_index=True)
-                
-                with pd.ExcelWriter(
-                    r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx", 
-                    mode="a", 
-                    engine="openpyxl", 
-                    if_sheet_exists="overlay",
-                    date_format="YYYY-MM-DD",
-                    datetime_format="YYYY-MM-DD HH:MM:SS"
-                ) as writer:
-                    df_concat.to_excel(writer, sheet_name="Plan1", index=False)  
+                inserirAposta(df_apostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma)
                 
                 time.sleep(0.1)
 
@@ -1439,24 +1427,12 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
             else: 
                 if state_input_novaApostaRetirada is not None:
 
-                    aposta_saldo = calcularSaldoRetirada(aposta_resultado, aposta_investimento, aposta_retirada)
+                    apostaSaldo = calcularSaldoRetirada(apostaResultado, apostaInvestimento, apostaRetirada)
 
                     df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
 
-                    nova_aposta = [aposta_data, aposta_esporte, aposta_tipo, aposta_odd, aposta_investimento, aposta_finalizacao, aposta_resultado, aposta_saldo, soma]
-                    df_nova_aposta = pd.DataFrame([nova_aposta], columns=list(['Data', 'Esporte', 'Tipo', 'Odd', 'Investimento', 'Finalização', 'Resultado', 'Saldo', 'Soma']))
-                    df_concat = pd.concat([df_apostas,df_nova_aposta], ignore_index=True)
-                    
-                    with pd.ExcelWriter(
-                        r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx", 
-                        mode="a", 
-                        engine="openpyxl", 
-                        if_sheet_exists="overlay",
-                        date_format="YYYY-MM-DD",
-                        datetime_format="YYYY-MM-DD HH:MM:SS"
-                    ) as writer:
-                        df_concat.to_excel(writer, sheet_name="Plan1", index=False)  
-                    
+                    inserirAposta(df_apostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma)
+     
                     time.sleep(0.1)
 
                     mensagemAlerta, corAlerta, stateAlerta = mensagem('Sucesso','Aposta')

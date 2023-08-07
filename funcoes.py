@@ -1,4 +1,5 @@
 import math
+import pandas as pd
 
 #Função que retorna os parâmetros de análise de um DB vazio
 
@@ -96,7 +97,7 @@ def mensagem(resultado,tipo):
 
     return mensagemAlerta, corAlerta, stateAlerta
 
-#Função para definir o saldo da aposta
+#Função para definir o saldo da aposta por finalização normal
 
 def calcularSaldoNormal(resultado, investimento, odd):
     if resultado == 'Acerto':
@@ -107,6 +108,8 @@ def calcularSaldoNormal(resultado, investimento, odd):
         saldo = 0
     return saldo
 
+#Função para definir o saldo da aposta por finalização retirada
+
 def calcularSaldoRetirada(resultado, investimento, valorRetirado):
     if resultado == 'Acerto':
         saldo = round(valorRetirado-investimento,2)
@@ -115,3 +118,23 @@ def calcularSaldoRetirada(resultado, investimento, valorRetirado):
     elif resultado == 'Retornada':
         saldo = 0
     return saldo
+
+#Função para inserir aposta no DB
+
+def inserirAposta(dataframe, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma):
+    
+    novaAposta = [apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma]
+    df_novaAposta = pd.DataFrame([novaAposta], columns=list(['Data', 'Esporte', 'Tipo', 'Odd', 'Investimento', 'Finalização', 'Resultado', 'Saldo', 'Soma']))
+    df_concat = pd.concat([dataframe,df_novaAposta], ignore_index=True)
+    
+    with pd.ExcelWriter(
+        r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx", 
+        mode="a", 
+        engine="openpyxl", 
+        if_sheet_exists="overlay",
+        date_format="YYYY-MM-DD",
+        datetime_format="YYYY-MM-DD HH:MM:SS"
+    ) as writer:
+        df_concat.to_excel(writer, sheet_name="Plan1", index=False)  
+
+    return
