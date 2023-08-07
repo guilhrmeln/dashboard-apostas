@@ -42,11 +42,14 @@ def relatorio_db(dataframe, parametros, colors):
             'color':'white'
         }
 
-    if math.isnan(dataframe["Investimento"].sum() and dataframe["Odd"].mean()) == 0:
+    if dataframe["Investimento"].sum() == 0:
         roi = '0 %'
-        oddMedia = '0.00'
     else:
         roi = str(round(saldo*100/dataframe["Investimento"].sum(),2)) + ' %'
+
+    if math.isnan(dataframe["Odd"].mean()) == True:
+        oddMedia = '0.00'  
+    else:
         oddMedia = str(round(dataframe["Odd"].mean(),2))
 
     bancaInicial = round(float(parametros["Banca Inicial"].dropna()),2)
