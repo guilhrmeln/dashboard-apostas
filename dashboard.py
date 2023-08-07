@@ -70,7 +70,7 @@ fig_banca = graficoBanca(df_apostas, dummy_data_x, dummy_data_y, cores)
 fig_aproveitamentoDiario = graficoAproveitamentoDiario(df_apostas, cores)
 
 # Geral
- 
+
 fig_aproveitamentoGeral = graficoAproveitamentoGeral(df_apostas, cores)
 
 ########### ########### ###########

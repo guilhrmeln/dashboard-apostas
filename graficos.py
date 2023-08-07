@@ -63,7 +63,7 @@ def graficoBanca(dataframe, dadosX, dadosY, cores):
     )
 
     return grafico
-
+ 
 def graficoAproveitamentoDiario(dataframe, cores):
 
     grafico = px.pie(
