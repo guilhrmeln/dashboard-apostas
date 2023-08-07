@@ -151,6 +151,8 @@ def inserirAposta(dataframe, apostaData, apostaEsporte, apostaTipo, apostaOdd, a
     ) as writer:
         dataframe.to_excel(writer, sheet_name="Plan1", index=False)  
 
+#Função para inserir parâmetro no DB
+
 def inserirParametro(dataframe, tipo, novoParametro, nomeArquivo):
 
     if tipo == 'Esporte':
