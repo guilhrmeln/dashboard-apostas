@@ -53,7 +53,7 @@ def relatorio_db(dataframe, parametros, colors):
         oddMedia = str(round(oddMedia,2))
 
     bancaInicial = round(float(parametros["Banca Inicial"].dropna()),2)
-    bancaAtual = 'R$' + " " + str(bancaInicial + saldo)
+    bancaAtual = 'R$' + " " + str(round(bancaInicial + saldo,2))
     saldo = 'R$' + " " + str(saldo)
     numApostas = str(dataframe['Saldo'].count())
     investimento = 'R$' + " " + str(round(dataframe['Investimento'].sum(),2))
@@ -125,7 +125,7 @@ def inserirAposta(dataframe, apostaData, apostaEsporte, apostaTipo, apostaOdd, a
     
     novaAposta = [apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma]
     df_novaAposta = pd.DataFrame([novaAposta], columns=list(['Data', 'Esporte', 'Tipo', 'Odd', 'Investimento', 'Finalização', 'Resultado', 'Saldo', 'Soma']))
-    df_concat = pd.concat([dataframe,df_novaAposta], ignore_index=True)
+    dataframe = pd.concat([dataframe,df_novaAposta], ignore_index=True)
     
     with pd.ExcelWriter(
         r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx", 
@@ -135,6 +135,25 @@ def inserirAposta(dataframe, apostaData, apostaEsporte, apostaTipo, apostaOdd, a
         date_format="YYYY-MM-DD",
         datetime_format="YYYY-MM-DD HH:MM:SS"
     ) as writer:
-        df_concat.to_excel(writer, sheet_name="Plan1", index=False)  
+        dataframe.to_excel(writer, sheet_name="Plan1", index=False)  
 
-    return
+def inserirParametro(dataframe, tipo, novoParametro):
+
+    if tipo == 'Esporte':
+
+        df_novoParametro = pd.DataFrame([novoParametro], columns=list([tipo]))
+        dataframe = pd.concat([dataframe,df_novoParametro], ignore_index=True)   
+    
+    elif tipo == 'Banca Inicial': 
+
+        dataframe['Banca Inicial'][0] = novoParametro
+
+    with pd.ExcelWriter(
+        r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx", 
+        mode="a", 
+        engine="openpyxl", 
+        if_sheet_exists="overlay",
+        date_format="DD-MM-YYYY",
+        datetime_format="DD-MM-YYYY"
+    ) as writer:
+        dataframe.to_excel(writer, sheet_name="Plan1", index=False)     

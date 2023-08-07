@@ -11,7 +11,7 @@ from datetime import date, datetime
 import time
 import math
 
-from funcoes import relatorio_dbVazio, relatorio_db, mensagem, calcularSaldoNormal, calcularSaldoRetirada, inserirAposta
+from funcoes import relatorio_dbVazio, relatorio_db, mensagem, calcularSaldoNormal, calcularSaldoRetirada, inserirAposta, inserirParametro
 from graficos import graficoBanca, graficoAproveitamentoDiario, graficoAproveitamentoGeral
 
 ########### ########### ###########
@@ -1540,25 +1540,14 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
         if state_input_configEsporte is not None: 
             
             df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
-            novo_esporte = state_input_configEsporte
-            df_parametros_novo = pd.DataFrame([novo_esporte], columns=list(['Esporte']))
-            df_concat = pd.concat([df_parametros,df_parametros_novo], ignore_index=True)
-            
-            with pd.ExcelWriter(
-                r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx", 
-                mode="a", 
-                engine="openpyxl", 
-                if_sheet_exists="overlay",
-                date_format="DD-MM-YYYY",
-                datetime_format="DD-MM-YYYY"
-            ) as writer:
-                df_concat.to_excel(writer, sheet_name="Plan1", index=False)      
 
-                time.sleep(0.1)
+            inserirParametro(df_parametros, 'Esporte', state_input_configEsporte)  
 
-                mensagemAlerta, corAlerta, stateAlerta = mensagem('Sucesso','Esporte')
+            time.sleep(0.1)
 
-                return stateAlerta, mensagemAlerta, corAlerta, False, '', 'danger'
+            mensagemAlerta, corAlerta, stateAlerta = mensagem('Sucesso','Esporte')
+
+            return stateAlerta, mensagemAlerta, corAlerta, False, '', 'danger'
         else:
             
             time.sleep(0.1)
@@ -1566,31 +1555,20 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
             mensagemAlerta, corAlerta, stateAlerta = mensagem('Erro','Esporte')
 
             return stateAlerta, mensagemAlerta, corAlerta, False, '', 'danger'
+        
     elif 'id_botao_configBancaInicial' == ctx.triggered_id:
         if state_input_configBancaInicial is not None: 
             
             df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
             
-            df_nova_banca = df_parametros
-            lista_banca_inicial = list(df_parametros['Banca Inicial'])
-            nova_banca = state_input_configBancaInicial
-            lista_banca_inicial[0] = nova_banca
-            df_nova_banca['Banca Inicial'] = lista_banca_inicial
+            inserirParametro(df_parametros, 'Banca Inicial', state_input_configBancaInicial) 
 
-            with pd.ExcelWriter(
-                r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx", 
-                mode="a", 
-                engine="openpyxl", 
-                if_sheet_exists="overlay",
-                date_format="DD-MM-YYYY",
-                datetime_format="DD-MM-YYYY"
-            ) as writer:
-                df_nova_banca.to_excel(writer, sheet_name="Plan1", index=False)      
+            time.sleep(0.1)
 
-                time.sleep(0.1)
-                mensagemAlerta, corAlerta, stateAlerta = mensagem('Sucesso','Banca')
+            mensagemAlerta, corAlerta, stateAlerta = mensagem('Sucesso','Banca')
 
-                return False, '', 'danger', stateAlerta, mensagemAlerta, corAlerta
+            return False, '', 'danger', stateAlerta, mensagemAlerta, corAlerta
+        
         else:
             
             time.sleep(0.1)
