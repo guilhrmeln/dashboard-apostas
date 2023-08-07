@@ -1,9 +1,20 @@
 import math
 import pandas as pd
+import os
+
+#Função para ler o DB
+
+def leituraDB(nomeArquivo):
+
+    dir = os.getcwd()
+    filePath = dir + '\\' + nomeArquivo
+    df_apostas = pd.read_excel(filePath)
+
+    return df_apostas
 
 #Função que retorna os parâmetros de análise de um DB vazio
 
-def relatorio_dbVazio():
+def relatorioDBVazio():
     saldo = 'Sem dados'
     roi = 'Sem dados'
     numApostas = 'Sem dados'
@@ -19,7 +30,7 @@ def relatorio_dbVazio():
 
 #Função que retorna os parâmetros de análise do DB, seja ele completo ou filtrado
 
-def relatorio_db(dataframe, parametros, colors):
+def relatorioDB(dataframe, parametros, colors):
 
     saldo = float(round(dataframe['Saldo'].sum(),2))
 
@@ -156,4 +167,5 @@ def inserirParametro(dataframe, tipo, novoParametro):
         date_format="DD-MM-YYYY",
         datetime_format="DD-MM-YYYY"
     ) as writer:
-        dataframe.to_excel(writer, sheet_name="Plan1", index=False)     
+        dataframe.to_excel(writer, sheet_name="Plan1", index=False) 
+            

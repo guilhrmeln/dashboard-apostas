@@ -10,8 +10,9 @@ import dash_bootstrap_components as dbc
 from datetime import date, datetime
 import time
 import math
+import os
 
-from funcoes import relatorio_dbVazio, relatorio_db, mensagem, calcularSaldoNormal, calcularSaldoRetirada, inserirAposta, inserirParametro
+from funcoes import relatorioDBVazio, relatorioDB, mensagem, calcularSaldoNormal, calcularSaldoRetirada, inserirAposta, inserirParametro, leituraDB
 from graficos import graficoBanca, graficoAproveitamento
 
 ########### ########### ###########
@@ -24,8 +25,8 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.CYBORG], suppress_callback
 ########### BASE DE DADOS 
 ########### ########### ###########
 
-df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
-df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
+df_apostas = leituraDB('db_apostas.xlsx')
+df_parametros = leituraDB('db_parametros.xlsx')
 
 ########### ########### ###########
 ########### VARIÁVEIS GLOBAIS
@@ -613,8 +614,8 @@ app.layout = html.Div(
 )
 def graf_banca(input_botao_novaApostaClose,input_title_header):
     
-    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
-    df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
+    df_apostas = leituraDB('db_apostas.xlsx')
+    df_parametros = leituraDB('db_parametros.xlsx')
 
     banca_inicial = round(float(df_parametros["Banca Inicial"].dropna()),2)
 
@@ -654,7 +655,7 @@ def graf_banca(input_botao_novaApostaClose,input_title_header):
 )
 def switch_tab(input_tab_abas):
 
-    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
+    df_apostas = leituraDB('db_apostas.xlsx')
 
     lista_esportessUsados = list(df_apostas["Esporte"].unique())
     lista_esportessUsados.sort()
@@ -1113,13 +1114,13 @@ def switch_tab(input_tab_abas):
 )
 def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd_abaDiariaTipo, input_botao_novaApostaClose):
     
-    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
+    df_apostas = leituraDB('db_apostas.xlsx')
 
     if df_apostas.empty:
 
         fig_aproveitamentoDiario = graficoAproveitamento(df_apostas, cores)
         
-        saldo, roi, numApostas, investimento, oddMedia, simbolo, style = relatorio_dbVazio()
+        saldo, roi, numApostas, investimento, oddMedia, simbolo, style = relatorioDBVazio()
 
     else:
 
@@ -1134,7 +1135,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
 
                 fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
 
-                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, cores)
+                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
 
             if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is None:
 
@@ -1142,7 +1143,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 
                 fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
             
-                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, cores)
+                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
 
             if input_dpd_abaDiariaEsporte is None and input_dpd_abaDiariaTipo is not None:
 
@@ -1150,7 +1151,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 
                 fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
             
-                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, cores)
+                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
 
             if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is not None:
 
@@ -1158,7 +1159,7 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
                 
                 fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
             
-                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, cores)
+                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
 
     return fig_aproveitamentoDiario, saldo, roi, numApostas, investimento, oddMedia, simbolo, style, simbolo, style
 
@@ -1181,13 +1182,13 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
 )
 def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_novaApostaClose):
 
-    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
+    df_apostas = leituraDB('db_apostas.xlsx')
 
     if df_apostas.empty:
         
         fig_aproveitamentoGeral = graficoAproveitamento(df_apostas, cores) 
 
-        saldo, roi, numApostas, investimento, oddMedia, simbolo, style = relatorio_dbVazio()
+        saldo, roi, numApostas, investimento, oddMedia, simbolo, style = relatorioDBVazio()
         
     else:
 
@@ -1195,7 +1196,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
 
             fig_aproveitamentoGeral = graficoAproveitamento(df_apostas, cores) 
 
-            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(df_apostas, df_parametros, cores)
+            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(df_apostas, df_parametros, cores)
 
         if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is None:
 
@@ -1203,7 +1204,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             
             fig_aproveitamentoGeral = graficoAproveitamento(tabela_filtrada, cores) 
 
-            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, cores)
+            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
 
         if input_dpd_abaGeralEsporte is None and input_dpd_abaGeralTipo is not None:
 
@@ -1211,7 +1212,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             
             fig_aproveitamentoGeral = graficoAproveitamento(tabela_filtrada, cores) 
             
-            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, cores)
+            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
 
         if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is not None:
 
@@ -1219,7 +1220,7 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
             
             fig_aproveitamentoGeral = graficoAproveitamento(tabela_filtrada, cores) 
 
-            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(tabela_filtrada, df_parametros, cores)
+            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
 
     return fig_aproveitamentoGeral, saldo, roi, numApostas, investimento, oddMedia, simbolo, style, simbolo, style
 
@@ -1271,7 +1272,7 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
 
                 apostaSaldo = calcularSaldoNormal(apostaResultado, apostaInvestimento, apostaOdd)
                     
-                df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
+                df_apostas = leituraDB('db_apostas.xlsx')
 
                 inserirAposta(df_apostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma)
                 
@@ -1285,7 +1286,7 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
 
                     apostaSaldo = calcularSaldoRetirada(apostaResultado, apostaInvestimento, apostaRetirada)
 
-                    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
+                    df_apostas = leituraDB('db_apostas.xlsx')
 
                     inserirAposta(df_apostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma)
      
@@ -1395,7 +1396,7 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
     if 'id_botao_configInserirEsporte' == ctx.triggered_id:
         if state_input_configEsporte is not None: 
             
-            df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
+            df_parametros = leituraDB('db_parametros.xlsx')
 
             inserirParametro(df_parametros, 'Esporte', state_input_configEsporte)  
 
@@ -1415,7 +1416,7 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
     elif 'id_botao_configBancaInicial' == ctx.triggered_id:
         if state_input_configBancaInicial is not None: 
             
-            df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
+            df_parametros = leituraDB('db_parametros.xlsx')
             
             inserirParametro(df_parametros, 'Banca Inicial', state_input_configBancaInicial) 
 
@@ -1451,7 +1452,7 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
 )
 def modal_config_limpeza(input_botao_configInserirEsporte, input_botao_configBancaInicial, input_botao_configClose, input_input_configEsporte, input_input_configBancaInicial):
     
-    df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
+    df_parametros = leituraDB('db_parametros.xlsx')
     lista_esportes = list(df_parametros["Esporte"].dropna())
 
     dropdown = [
@@ -1485,10 +1486,10 @@ def modal_config_limpeza(input_botao_configInserirEsporte, input_botao_configBan
 )
 def cards(input_botao_novaApostaClose, input_title_header):
 
-    df_apostas = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_apostas.xlsx")
-    df_parametros = pd.read_excel(r"E:\Programação\Python\Projetos\Dashboard Apostas\db_parametros.xlsx")
+    df_apostas = leituraDB('db_apostas.xlsx')
+    df_parametros = leituraDB('db_parametros.xlsx')
 
-    saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorio_db(df_apostas, df_parametros, cores)
+    saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(df_apostas, df_parametros, cores)
 
     return bancaInicial, bancaAtual, saldo, roi
 
