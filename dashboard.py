@@ -37,8 +37,8 @@ df_parametros = leituraDB(nomeArquivoDBParametros)
 
 # Dummy data para declaração de figuras
 
-dummy_data_x = ['01/01/01']
-dummy_data_y = ['100']
+dummyDataX = ['01/01/01']
+dummyDataY = ['100']
 
 # Modal
 
@@ -67,7 +67,7 @@ cores = {
 
 # Banca
 
-fig_banca = graficoBanca(df_apostas, dummy_data_x, dummy_data_y, cores)
+fig_banca = graficoBanca(df_apostas, dummyDataX, dummyDataY, cores)
 
 # Diario
 
@@ -620,13 +620,11 @@ def graf_banca(input_botao_novaApostaClose,input_title_header):
     df_apostas = leituraDB(nomeArquivoDBApostas)
     df_parametros = leituraDB(nomeArquivoDBParametros)
 
-    banca_inicial = round(float(df_parametros["Banca Inicial"].dropna()),2)
+    bancaInicial = round(float(df_parametros["Banca Inicial"].dropna()),2)
 
-    vazio = df_apostas.empty
+    if df_apostas.empty:
 
-    if vazio is True:
-
-        fig_banca = graficoBanca(df_apostas, [banca_inicial], dummy_data_y, cores)
+        fig_banca = graficoBanca(df_apostas, [bancaInicial], dummyDataY, cores)
         
         return fig_banca
     else:
@@ -644,7 +642,7 @@ def graf_banca(input_botao_novaApostaClose,input_title_header):
         lista_bancaPorData = list()
 
         for pos in range(len(lista_lucroPorData)):
-            lista_bancaPorData.append(round(sum(lista_lucroPorData[0:pos+1],banca_inicial),2))
+            lista_bancaPorData.append(round(sum(lista_lucroPorData[0:pos+1],bancaInicial),2))
 
         fig_banca = graficoBanca(df_apostas, lista_datas, lista_bancaPorData, cores)
 
