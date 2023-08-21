@@ -30,7 +30,7 @@ def relatorioDBVazio():
 
 #Função que retorna os parâmetros de análise do DB, seja ele completo ou filtrado
 
-def relatorioDB(dataframe, parametros, colors):
+def relatorioDB(dataframe, parametros, cores):
 
     saldo = float(round(dataframe['Saldo'].sum(),2))
 
@@ -38,13 +38,13 @@ def relatorioDB(dataframe, parametros, colors):
         simbolo = '▲'
         style = {
             'textAlign': 'center',
-            'color': colors['col_acerto']
+            'color': cores['col_acerto']
         }
     elif saldo < 0: 
         simbolo = '▼'
         style = {
             'textAlign': 'center',
-            'color': colors['col_erro']
+            'color': cores['col_erro']
         }
     else:
         simbolo = ''
@@ -64,10 +64,10 @@ def relatorioDB(dataframe, parametros, colors):
         oddMedia = str(round(dataframe["Odd"].mean(),2))
 
     bancaInicial = round(float(parametros["Banca Inicial"].dropna()),2)
-    bancaAtual = 'R$' + " " + str(round(bancaInicial + saldo,2))
-    saldo = 'R$' + " " + str(saldo)
+    bancaAtual = 'R$ ' + str(round(bancaInicial + saldo,2))
+    saldo = 'R$ ' + str(saldo)
     numApostas = str(dataframe['Saldo'].count())
-    investimento = 'R$' + " " + str(round(dataframe['Investimento'].sum(),2))
+    investimento = 'R$ ' + str(round(dataframe['Investimento'].sum(),2))
 
     return saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style
 
