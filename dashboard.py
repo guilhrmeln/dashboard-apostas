@@ -293,6 +293,16 @@ app.layout = html.Div(
                                 min=0,
                                 placeholder="Insira o valor investido...",
                             ),
+                            dbc.Switch(
+                                label='Crédito de aposta',
+                                value=False,
+                                id="id_switch_novaApostaCreditoDeAposta",
+                                style={
+                                    #'color':'black',
+                                    #'background-color': cores['background'],
+                                    "margin-top": "10px"
+                                }
+                            ),
                             html.H6(
                                 'Odd:',
                                 style={
@@ -1249,12 +1259,13 @@ def modal_apostas_toggle(input_botao_novaApostaOpen, input_botao_novaApostaClose
     State("id_dpd_novaApostaEsportes", "value"),
     State("id_dpd_novaApostaTipo", "value"),
     State("id_input_novaApostaInvestimento", "value"),
+    State("id_switch_novaApostaCreditoDeAposta", "value"),
     State("id_input_novaApostaOdd", "value"),
     State("id_dpd_novaApostaResultado", "value"),
     State("id_dpd_novaApostaFinalizacao", "value"),
     State("id_input_novaApostaRetirada", "value"), 
 )
-def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaAposta, state_dpd_novaApostaEsportes, state_dpd_novaApostaTipo, state_input_novaApostaInvestimento, state_input_novaApostaOdd, state_dpd_novaApostaResultado, state_dpd_novaApostaFinalizacao, state_input_novaApostaRetirada):
+def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaAposta, state_dpd_novaApostaEsportes, state_dpd_novaApostaTipo, state_input_novaApostaInvestimento, state_switch_creditoDeAposta, state_input_novaApostaOdd, state_dpd_novaApostaResultado, state_dpd_novaApostaFinalizacao, state_input_novaApostaRetirada):
 
     if 'id_botao_novaApostaInserir' == ctx.triggered_id:
         if state_calendario_novaAposta and state_dpd_novaApostaEsportes and state_dpd_novaApostaTipo and state_input_novaApostaInvestimento and state_input_novaApostaOdd and state_dpd_novaApostaResultado and state_dpd_novaApostaFinalizacao is not None:
@@ -1263,6 +1274,7 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
             apostaEsporte = state_dpd_novaApostaEsportes
             apostaTipo = state_dpd_novaApostaTipo
             apostaInvestimento = float(state_input_novaApostaInvestimento)
+            apostaCreditoDeAposta = state_switch_creditoDeAposta
             apostaOdd = float(state_input_novaApostaOdd)
             apostaResultado = state_dpd_novaApostaResultado
             apostaFinalizacao = state_dpd_novaApostaFinalizacao
@@ -1271,11 +1283,11 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
 
             if state_dpd_novaApostaFinalizacao == 'Normal': 
 
-                apostaSaldo = calcularSaldoNormal(apostaResultado, apostaInvestimento, apostaOdd)
+                apostaSaldo = calcularSaldoNormal(apostaResultado, apostaInvestimento, apostaCreditoDeAposta, apostaOdd)
                     
                 df_apostas = leituraDB(nomeArquivoDBApostas)
-
-                inserirAposta(df_apostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma, nomeArquivoDBApostas)
+                print(apostaCreditoDeAposta)
+                inserirAposta(df_apostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaCreditoDeAposta, apostaFinalizacao, apostaResultado, apostaSaldo, soma, nomeArquivoDBApostas)
                 
                 time.sleep(0.1)
 
@@ -1285,11 +1297,11 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
             else: 
                 if state_input_novaApostaRetirada is not None:
 
-                    apostaSaldo = calcularSaldoRetirada(apostaResultado, apostaInvestimento, apostaRetirada)
+                    apostaSaldo = calcularSaldoRetirada(apostaResultado, apostaInvestimento, apostaCreditoDeAposta, apostaRetirada)
 
                     df_apostas = leituraDB(nomeArquivoDBApostas)
 
-                    inserirAposta(df_apostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma, nomeArquivoDBApostas)
+                    inserirAposta(df_apostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaCreditoDeAposta, apostaFinalizacao, apostaResultado, apostaSaldo, soma, nomeArquivoDBApostas)
      
                     time.sleep(0.1)
 
@@ -1335,6 +1347,7 @@ def modal_apostas_colapseRetirada(input_dpd_novaApostaFinalizacao):
     Output("id_dpd_novaApostaEsportes", "value"),
     Output("id_dpd_novaApostaTipo", "value"),
     Output("id_input_novaApostaInvestimento", "value"),
+    Output("id_switch_novaApostaCreditoDeAposta", "value"),
     Output("id_input_novaApostaOdd", "value"),
     Output("id_dpd_novaApostaResultado", "value"),
     Output("id_dpd_novaApostaFinalizacao", "value"),
@@ -1344,27 +1357,28 @@ def modal_apostas_colapseRetirada(input_dpd_novaApostaFinalizacao):
     Input("id_dpd_novaApostaEsportes", "value"),
     Input("id_dpd_novaApostaTipo", "value"),
     Input("id_input_novaApostaInvestimento", "value"),
+    Input("id_switch_novaApostaCreditoDeAposta", "value"),
     Input("id_input_novaApostaOdd", "value"),
     Input("id_dpd_novaApostaResultado", "value"),
     Input("id_dpd_novaApostaFinalizacao", "value"),
     Input("id_input_novaApostaRetirada", "value"), 
 )
-def modal_aposta_limpeza(input_botao_novaApostaInserir, input_botao_novaApostaClose, input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, input_input_novaApostaOdd, input_dpd_novaApostaResultado, input_dpd_novaApostaFinalizacao, input_input_novaApostaRetirada):
+def modal_aposta_limpeza(input_botao_novaApostaInserir, input_botao_novaApostaClose, input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, input_switch_novaApostaCreditoDeAposta, input_input_novaApostaOdd, input_dpd_novaApostaResultado, input_dpd_novaApostaFinalizacao, input_input_novaApostaRetirada):
     if 'id_botao_novaApostaInserir' == ctx.triggered_id:
         if input_dpd_novaApostaEsportes and input_dpd_novaApostaTipo and input_input_novaApostaInvestimento and input_input_novaApostaOdd and input_dpd_novaApostaResultado and input_dpd_novaApostaFinalizacao is not None:
             if input_dpd_novaApostaFinalizacao == 'Normal':
-                return input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, None, None, input_dpd_novaApostaFinalizacao, None
+                return input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, False, None, None, input_dpd_novaApostaFinalizacao, None
             else:
                 if input_input_novaApostaRetirada is not None:
-                    return input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, None, None, None, None
+                    return input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, False, None, None, None, None
                 else:
-                    return input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, input_input_novaApostaOdd, input_dpd_novaApostaResultado, input_dpd_novaApostaFinalizacao, input_input_novaApostaRetirada
+                    return input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, False, input_input_novaApostaOdd, input_dpd_novaApostaResultado, input_dpd_novaApostaFinalizacao, input_input_novaApostaRetirada
         else:
-            return input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, input_input_novaApostaOdd, input_dpd_novaApostaResultado, input_dpd_novaApostaFinalizacao, input_input_novaApostaRetirada
+            return input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, False, input_input_novaApostaOdd, input_dpd_novaApostaResultado, input_dpd_novaApostaFinalizacao, input_input_novaApostaRetirada
     elif 'id_botao_novaApostaClose' == ctx.triggered_id:
-        return None, None, None, None, None, None, None
+        return None, None, None, False, None, None, None, None
     else: 
-        return input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, input_input_novaApostaOdd, input_dpd_novaApostaResultado, input_dpd_novaApostaFinalizacao, input_input_novaApostaRetirada
+        return input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, input_switch_novaApostaCreditoDeAposta, input_input_novaApostaOdd, input_dpd_novaApostaResultado, input_dpd_novaApostaFinalizacao, input_input_novaApostaRetirada
 
 # Modal de configurações (abertura/fechamento)
 

@@ -110,32 +110,56 @@ def mensagem(resultado,tipo):
 
 #Função para definir o saldo da aposta por finalização normal
 
-def calcularSaldoNormal(resultado, investimento, odd):
-    if resultado == 'Acerto':
-        saldo = round((investimento * odd)-investimento,2)
-    elif resultado == 'Erro':
-        saldo = round(-1*investimento,2)
-    elif resultado == 'Retornada':
-        saldo = 0
-    return saldo
+def calcularSaldoNormal(resultado, investimento, creditoDeAposta, odd):
 
+    if creditoDeAposta == True:
+        if resultado == 'Acerto':
+            saldo = round((investimento * odd)-investimento,2)
+        elif resultado == 'Erro':
+            saldo = 0
+        elif resultado == 'Retornada':
+            saldo = 0
+        return saldo
+    else: 
+        if resultado == 'Acerto':
+            saldo = round((investimento * odd)-investimento,2)
+        elif resultado == 'Erro':
+            saldo = round(-1*investimento,2)
+        elif resultado == 'Retornada':
+            saldo = 0
+        return saldo
 #Função para definir o saldo da aposta por finalização retirada
 
-def calcularSaldoRetirada(resultado, investimento, valorRetirado):
-    if resultado == 'Acerto':
-        saldo = round(valorRetirado-investimento,2)
-    elif resultado == 'Erro':
-        saldo = round(valorRetirado-investimento,2)
-    elif resultado == 'Retornada':
-        saldo = 0
-    return saldo
+def calcularSaldoRetirada(resultado, investimento, creditoDeAposta, valorRetirado):
+        
+    if creditoDeAposta == True:
+        if resultado == 'Acerto':
+            saldo = round(valorRetirado-investimento,2)
+        elif resultado == 'Erro':
+            saldo = round(valorRetirado-investimento,2)
+        elif resultado == 'Retornada':
+            saldo = 0
+        return saldo
+    else:
+        if resultado == 'Acerto':
+            saldo = round(valorRetirado-investimento,2)
+        elif resultado == 'Erro':
+            saldo = round(valorRetirado-investimento,2)
+        elif resultado == 'Retornada':
+            saldo = 0
+        return saldo
 
 #Função para inserir aposta no DB
 
-def inserirAposta(dataframe, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma, nomeArquivo):
+def inserirAposta(dataframe, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaCreditoDeAposta, apostaFinalizacao, apostaResultado, apostaSaldo, soma, nomeArquivo):
     
-    novaAposta = [apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaFinalizacao, apostaResultado, apostaSaldo, soma]
-    df_novaAposta = pd.DataFrame([novaAposta], columns=list(['Data', 'Esporte', 'Tipo', 'Odd', 'Investimento', 'Finalização', 'Resultado', 'Saldo', 'Soma']))
+    if apostaCreditoDeAposta == True:
+        apostaCreditoDeAposta = 'Sim'
+    else:
+        apostaCreditoDeAposta = 'Não'
+
+    novaAposta = [apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaCreditoDeAposta, apostaFinalizacao, apostaResultado, apostaSaldo, soma]
+    df_novaAposta = pd.DataFrame([novaAposta], columns=list(['Data', 'Esporte', 'Tipo', 'Odd', 'Investimento', 'Crédito de aposta', 'Finalização', 'Resultado', 'Saldo', 'Soma']))
     dataframe = pd.concat([dataframe,df_novaAposta], ignore_index=True)
     
     dir = os.getcwd()
