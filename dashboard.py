@@ -46,6 +46,7 @@ lista_esportes = list(df_parametros["Esporte"].dropna())
 lista_tipo = list(df_parametros["Tipo"].dropna())
 lista_resultado = list(df_parametros["Resultado"].dropna())
 lista_finalizacao = list(df_parametros["Finalizacão"].dropna())
+lista_creditoDeAposta = list(df_parametros["Crédito de aposta"].dropna())
 
 # Cores
 
@@ -708,23 +709,37 @@ def switch_tab(input_tab_abas):
                             ),
                             dcc.Dropdown(
                                 lista_esportessUsados, 
-                                #value='Todas', 
                                 id='id_dpd_abaDiariaEsporte',
-                                placeholder="Selecione um esporte...",
+                                placeholder="Esporte",
                                 style={
                                     'color':'black',
-                                    #'background-color': cores['background'],
                                     "margin-top": "10px"
                                 }
                             ),
                             dcc.Dropdown(
                                 lista_tipo, 
-                                #value='Todas', 
                                 id='id_dpd_abaDiariaTipo',
-                                placeholder="Selecione um tipo de aposta...",
+                                placeholder="Tipo de aposta",
                                 style={
                                     'color':'black',
-                                    #'background-color': cores['background'],
+                                    "margin-top": "10px"
+                                }
+                            ),
+                            dcc.Dropdown(
+                                lista_creditoDeAposta, 
+                                id='id_dpd_abaDiariaCreditoDeAposta',
+                                placeholder="Crédito de aposta",
+                                style={
+                                    'color':'black',
+                                    "margin-top": "10px"
+                                }
+                            ),
+                            dcc.Dropdown(
+                                lista_finalizacao,  
+                                id='id_dpd_abaDiariaFinalizacao',
+                                placeholder="Crédito de aposta",
+                                style={
+                                    'color':'black',
                                     "margin-top": "10px"
                                 }
                             )
@@ -895,6 +910,7 @@ def switch_tab(input_tab_abas):
         ]
 
         return aba_diaria_conteudo
+    
     elif input_tab_abas == "id_tab_abaGeral":
 
         aba_geral_conteudo = [
@@ -918,10 +934,9 @@ def switch_tab(input_tab_abas):
                                 lista_esportessUsados, 
                                 #value='Todas', 
                                 id='id_dpd_abaGeralEsporte',
-                                placeholder="Selecione um esporte...",
+                                placeholder="Esporte",
                                 style={
                                     'color':'black',
-                                    #'background-color': cores['background'],
                                     "margin-top": "10px"
                                 }
                             ),
@@ -929,10 +944,28 @@ def switch_tab(input_tab_abas):
                                 lista_tipo, 
                                 #value='Todas', 
                                 id='id_dpd_abaGeralTipo',
-                                placeholder="Selecione um tipo de aposta...",
+                                placeholder="Tipo de aposta",
                                 style={
                                     'color':'black',
-                                    #'background-color': cores['background'],
+                                    "margin-top": "10px"
+                                }
+                            ),
+                            dcc.Dropdown(
+                                lista_creditoDeAposta, 
+                                #value='Todas', 
+                                id='id_dpd_abaGeralCreditoDeAposta',
+                                placeholder="Crédito de aposta",
+                                style={
+                                    'color':'black',
+                                    "margin-top": "10px"
+                                }
+                            ),
+                            dcc.Dropdown(
+                                lista_finalizacao,  
+                                id='id_dpd_abaGeralFinalizacao',
+                                placeholder="Crédito de aposta",
+                                style={
+                                    'color':'black',
                                     "margin-top": "10px"
                                 }
                             )
@@ -1121,9 +1154,11 @@ def switch_tab(input_tab_abas):
     Input('id_calendario_abaDiaria', 'date'),
     Input('id_dpd_abaDiariaEsporte', 'value'),
     Input('id_dpd_abaDiariaTipo', 'value'),
+    Input('id_dpd_abaDiariaCreditoDeAposta', 'value'),
+    Input('id_dpd_abaDiariaFinalizacao', 'value'),
     Input("id_botao_novaApostaClose","n_clicks"),
 )
-def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd_abaDiariaTipo, input_botao_novaApostaClose):
+def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd_abaDiariaTipo, input_dpd_abaDiariaCreditoDeAposta, input_dpd_abaDiariaFinalizacao, input_botao_novaApostaClose):
     
     df_apostas = leituraDB(nomeArquivoDBApostas)
 
@@ -1142,6 +1177,8 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
             ((df_apostas['Data']==data_string) if data_string is not None else (df_apostas['Data']!=None))
             & ((df_apostas['Esporte']==input_dpd_abaDiariaEsporte) if input_dpd_abaDiariaEsporte is not None else (df_apostas['Esporte']!=None)) 
             & ((df_apostas['Tipo']==input_dpd_abaDiariaTipo) if input_dpd_abaDiariaTipo is not None else (df_apostas['Tipo']!=None))
+            & ((df_apostas['Crédito de aposta']==input_dpd_abaDiariaCreditoDeAposta) if input_dpd_abaDiariaCreditoDeAposta is not None else (df_apostas['Crédito de aposta']!=None))
+            & ((df_apostas['Finalização']==input_dpd_abaDiariaFinalizacao) if input_dpd_abaDiariaFinalizacao is not None else (df_apostas['Finalização']!=None))
         ]
 
         fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
@@ -1165,9 +1202,11 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
     Output('id_card_abaGeralRoiSimbolo', 'style'),
     Input('id_dpd_abaGeralEsporte', 'value'),
     Input('id_dpd_abaGeralTipo', 'value'),
+    Input('id_dpd_abaGeralCreditoDeAposta', 'value'),
+    Input('id_dpd_abaGeralFinalizacao', 'value'),
     Input("id_botao_novaApostaClose","n_clicks"),
 )
-def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_novaApostaClose):
+def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_dpd_abaGeralCreditoDeAposta, input_dpd_abaGeralFinalizacao, input_botao_novaApostaClose):
 
     df_apostas = leituraDB(nomeArquivoDBApostas)
 
@@ -1182,6 +1221,8 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
         tabela_filtrada = df_apostas.loc[
             ((df_apostas['Esporte']==input_dpd_abaGeralEsporte) if input_dpd_abaGeralEsporte is not None else (df_apostas['Esporte']!=None)) 
             & ((df_apostas['Tipo']==input_dpd_abaGeralTipo) if input_dpd_abaGeralTipo is not None else (df_apostas['Tipo']!=None))
+            & ((df_apostas['Crédito de aposta']==input_dpd_abaGeralCreditoDeAposta) if input_dpd_abaGeralCreditoDeAposta is not None else (df_apostas['Crédito de aposta']!=None))
+            & ((df_apostas['Finalização']==input_dpd_abaGeralFinalizacao) if input_dpd_abaGeralFinalizacao is not None else (df_apostas['Finalização']!=None))
         ]
 
         fig_aproveitamentoGeral = graficoAproveitamento(tabela_filtrada, cores) 
