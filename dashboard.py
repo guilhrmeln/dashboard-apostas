@@ -1135,42 +1135,18 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
 
     else:
 
-        if input_calendario_abaDiaria is not None:
+        data_objeto = date.fromisoformat(input_calendario_abaDiaria)
+        data_string = data_objeto.strftime('%Y, %m, %d')
 
-            data_objeto = date.fromisoformat(input_calendario_abaDiaria)
-            data_string = data_objeto.strftime('%Y, %m, %d')
+        tabela_filtrada = df_apostas.loc[
+            ((df_apostas['Data']==data_string) if data_string is not None else (df_apostas['Data']!=None))
+            & ((df_apostas['Esporte']==input_dpd_abaDiariaEsporte) if input_dpd_abaDiariaEsporte is not None else (df_apostas['Esporte']!=None)) 
+            & ((df_apostas['Tipo']==input_dpd_abaDiariaTipo) if input_dpd_abaDiariaTipo is not None else (df_apostas['Tipo']!=None))
+        ]
 
-            if input_dpd_abaDiariaEsporte is None and input_dpd_abaDiariaTipo is None:
-
-                tabela_filtrada = df_apostas.loc[df_apostas['Data']==data_string]
-
-                fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
-
-                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
-
-            if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is None:
-
-                tabela_filtrada = df_apostas.loc[(df_apostas['Data']==data_string) & (df_apostas['Esporte']==input_dpd_abaDiariaEsporte)]
-                
-                fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
-            
-                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
-
-            if input_dpd_abaDiariaEsporte is None and input_dpd_abaDiariaTipo is not None:
-
-                tabela_filtrada = df_apostas.loc[(df_apostas['Data']==data_string) & (df_apostas['Tipo']==input_dpd_abaDiariaTipo)]
-                
-                fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
-            
-                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
-
-            if input_dpd_abaDiariaEsporte is not None and input_dpd_abaDiariaTipo is not None:
-
-                tabela_filtrada = df_apostas.loc[(df_apostas['Data']==data_string) & (df_apostas['Esporte']==input_dpd_abaDiariaEsporte) & (df_apostas['Tipo']==input_dpd_abaDiariaTipo)]
-                
-                fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
-            
-                saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
+        fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
+    
+        saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
 
     return fig_aproveitamentoDiario, saldo, roi, numApostas, investimento, oddMedia, simbolo, style, simbolo, style
 
@@ -1203,35 +1179,14 @@ def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_botao_nov
         
     else:
 
-        if input_dpd_abaGeralEsporte is None and input_dpd_abaGeralTipo is None:
+        tabela_filtrada = df_apostas.loc[
+            ((df_apostas['Esporte']==input_dpd_abaGeralEsporte) if input_dpd_abaGeralEsporte is not None else (df_apostas['Esporte']!=None)) 
+            & ((df_apostas['Tipo']==input_dpd_abaGeralTipo) if input_dpd_abaGeralTipo is not None else (df_apostas['Tipo']!=None))
+        ]
 
-            fig_aproveitamentoGeral = graficoAproveitamento(df_apostas, cores) 
+        fig_aproveitamentoGeral = graficoAproveitamento(tabela_filtrada, cores) 
 
-            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(df_apostas, df_parametros, cores)
-
-        if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is None:
-
-            tabela_filtrada = df_apostas.loc[df_apostas['Esporte']==input_dpd_abaGeralEsporte]
-            
-            fig_aproveitamentoGeral = graficoAproveitamento(tabela_filtrada, cores) 
-
-            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
-
-        if input_dpd_abaGeralEsporte is None and input_dpd_abaGeralTipo is not None:
-
-            tabela_filtrada = df_apostas.loc[df_apostas['Tipo']==input_dpd_abaGeralTipo]
-            
-            fig_aproveitamentoGeral = graficoAproveitamento(tabela_filtrada, cores) 
-            
-            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
-
-        if input_dpd_abaGeralEsporte is not None and input_dpd_abaGeralTipo is not None:
-
-            tabela_filtrada = df_apostas.loc[(df_apostas['Esporte']==input_dpd_abaGeralEsporte) & (df_apostas['Tipo']==input_dpd_abaGeralTipo)]
-            
-            fig_aproveitamentoGeral = graficoAproveitamento(tabela_filtrada, cores) 
-
-            saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
+        saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
 
     return fig_aproveitamentoGeral, saldo, roi, numApostas, investimento, oddMedia, simbolo, style, simbolo, style
 
