@@ -25,41 +25,41 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.CYBORG], suppress_callback
 ########### BASE DE DADOS 
 ########### ########### ###########
 
-nomeArquivoDBApostas = 'db_apostas.xlsx'
-nomeArquivoDBParametros = 'db_parametros.xlsx'
+NOME_ARQUIVO_APOSTAS = 'db_apostas.xlsx'
+NOME_ARQUIVO_PARAMETROS = 'db_parametros.xlsx'
 
-df_apostas = leituraDB(nomeArquivoDBApostas)
-df_parametros = leituraDB(nomeArquivoDBParametros)
+dfApostas = leituraDB(NOME_ARQUIVO_APOSTAS)
+dfParametros = leituraDB(NOME_ARQUIVO_PARAMETROS)
 
 ########### ########### ###########
 ########### VARIÁVEIS GLOBAIS
 ########### ########### ###########
 
-# Dummy data para declaração de figuras
-
-dummyDataX = ['01/01/01']
-dummyDataY = ['100']
-
 # Modal
 
-lista_esportes = list(df_parametros["Esporte"].dropna())
-lista_tipo = list(df_parametros["Tipo"].dropna())
-lista_resultado = list(df_parametros["Resultado"].dropna())
-lista_finalizacao = list(df_parametros["Finalizacão"].dropna())
-lista_creditoDeAposta = list(df_parametros["Crédito de aposta"].dropna())
+LISTA_ESPORTES = list(dfParametros["Esporte"].dropna())
+LISTA_TIPO = list(dfParametros["Tipo"].dropna())
+LISTA_RESULTADO = list(dfParametros["Resultado"].dropna())
+LISTA_FINALIZACAO = list(dfParametros["Finalizacão"].dropna())
+LISTA_CREDITO_APOSTA = list(dfParametros["Crédito de aposta"].dropna())
+
+# Dummy data para declaração de figuras
+
+DUMMY_DATA_X = ['01/01/01']
+DUMMY_DATA_Y = ['100']
 
 # Cores
 
-cores = {
-    'background': 'rgb(6, 6, 6)',
-    'background2': 'rgb(40, 40, 40)',
-    'text': 'rgb(255, 255, 255)',
-    'col_acerto': 'rgb(49, 252, 195)',
-    'col_erro': 'rgb(159, 8, 201)',
-    'col_retornada': 'rgb(195, 195, 17)',
-    'linha_grafico': 'rgb(49, 252, 195)',
-    'marker_grafico': 'rgb(159, 8, 201)',
-    'grade':'rgb(100, 100, 100)'
+CORES = {
+    'backgroundPreto': 'rgb(6, 6, 6)',
+    'backgroundGrafite': 'rgb(40, 40, 40)',
+    'texto': 'rgb(255, 255, 255)',
+    'colunaAcerto': 'rgb(49, 252, 195)',
+    'colunaErro': 'rgb(159, 8, 201)',
+    'colunaRetornada': 'rgb(195, 195, 17)',
+    'graficoLinha': 'rgb(49, 252, 195)',
+    'graficoMarcador': 'rgb(159, 8, 201)',
+    'graficoGrade':'rgb(100, 100, 100)'
 }
 
 ########### ########### ###########
@@ -68,15 +68,15 @@ cores = {
 
 # Banca
 
-fig_banca = graficoBanca(df_apostas, dummyDataX, dummyDataY, cores)
+figuraBanca = graficoBanca(dfApostas, DUMMY_DATA_X, DUMMY_DATA_Y, CORES)
 
 # Diario
 
-fig_aproveitamentoDiario = graficoAproveitamento(df_apostas, cores)
+figuraAproveitamentoDiario = graficoAproveitamento(dfApostas, CORES)
 
 # Geral
 
-fig_aproveitamentoGeral = graficoAproveitamento(df_apostas, cores)
+figuraAproveitamentoGeral = graficoAproveitamento(dfApostas, CORES)
 
 ########### ########### ###########
 ########### LAYOUT
@@ -88,7 +88,7 @@ app.layout = html.Div(
             dbc.Col([
                 html.H4(
                     'DASHBOARD DE APOSTAS',
-                    id = 'id_title_header',
+                    id = 'colunaHeader',
                     className="app-header",
                     style={
                         'textAlign': 'center',
@@ -110,7 +110,7 @@ app.layout = html.Div(
                         html.H2(
                             '',
                             className="card-text",
-                            id = 'id_card_bancaInicial',
+                            id = 'colunaBancaInicial',
                             style={
                                 'textAlign': 'center',
                             },
@@ -118,7 +118,6 @@ app.layout = html.Div(
                     ]),
                 ], 
                 style={
-                    #'textAlign': 'center',
                     "margin-top": "10px"
                 }
                 ),
@@ -135,7 +134,7 @@ app.layout = html.Div(
                     dbc.CardBody([
                         html.H2(
                             '',
-                            id='id_card_bancaAtual',
+                            id='colunaBancaAtual',
                             className="card-text",
                             style={
                                 'textAlign': 'center',
@@ -144,7 +143,6 @@ app.layout = html.Div(
                     ]),
                 ], 
                 style={
-                    #'textAlign': 'center',
                     "margin-top": "10px"
                 }
                 ),
@@ -161,7 +159,7 @@ app.layout = html.Div(
                     dbc.CardBody([
                         html.H2(
                             '',
-                            id='id_card_saldo',
+                            id='colunaSaldo',
                             className="card-text",
                             style={
                                 'textAlign': 'center',
@@ -170,7 +168,6 @@ app.layout = html.Div(
                     ]),
                 ], 
                 style={
-                    #'textAlign': 'center',
                     "margin-top": "10px"
                 }
                 ),
@@ -187,7 +184,7 @@ app.layout = html.Div(
                     dbc.CardBody([
                         html.H2(
                             '',
-                            id='id_card_roi',
+                            id='colunaRoi',
                             className="card-text",
                             style={
                                 'textAlign': 'center',
@@ -196,14 +193,13 @@ app.layout = html.Div(
                     ]),
                 ], 
                 style={
-                    #'textAlign': 'center',
                     "margin-top": "10px"
                 }
                 ),
                 html.Div(  
                     dbc.Button(
                         "Inserir nova aposta", 
-                        id="id_botao_novaApostaOpen", 
+                        id="modalNovaApostaBotaoAbrir", 
                         n_clicks=0,
                         size='lg',
                         color="dark", 
@@ -228,7 +224,7 @@ app.layout = html.Div(
                                 },
                             ),
                             dcc.DatePickerSingle(
-                                id='id_calendario_novaAposta',
+                                id='modalNovaApostaCalendario',
                                 calendar_orientation='vertical',
                                 placeholder='Select a date',
                                 display_format='D/M/Y',
@@ -237,7 +233,7 @@ app.layout = html.Div(
                                 date=date.today(),
                                 style={
                                     'color':'black',
-                                    'background-color': cores['background'],
+                                    'background-color': CORES['backgroundPreto'],
                                     "margin-top": "5px",
                                 }
                             ),   
@@ -250,18 +246,17 @@ app.layout = html.Div(
                             ),
                             html.Div([                           
                                 dcc.Dropdown(
-                                    lista_esportes, 
+                                    LISTA_ESPORTES, 
                                     #value='Todas', 
-                                    id='id_dpd_novaApostaEsportes',
+                                    id='modalNovaApostaEsporte',
                                     placeholder="Selecione um esporte...",
                                     style={
                                         'color':'black',
-                                        #'background-color': cores['background'],
                                         "margin-top": "10px"
                                     }
                                 ),
                             ],
-                            id='id_div_novaApostaEsportes'
+                            id='modalNovaApostaDivEsporte'
                             ),
                             html.H6(
                                 'Tipo da aposta:',
@@ -271,13 +266,12 @@ app.layout = html.Div(
                                 },
                             ),
                             dcc.Dropdown(
-                                lista_tipo, 
+                                LISTA_TIPO, 
                                 #value='Todas', 
-                                id='id_dpd_novaApostaTipo',
+                                id='modalNovaApostaTipo',
                                 placeholder="Selecione o tipo...",
                                 style={
                                     'color':'black',
-                                    #'background-color': cores['background'],
                                     "margin-top": "10px"
                                 }
                             ),
@@ -289,7 +283,7 @@ app.layout = html.Div(
                                 },
                             ),
                             dbc.Input(
-                                id='id_input_novaApostaInvestimento',
+                                id='modalNovaApostaInvestimento',
                                 type="number",
                                 min=0,
                                 placeholder="Insira o valor investido...",
@@ -297,10 +291,8 @@ app.layout = html.Div(
                             dbc.Switch(
                                 label='Crédito de aposta',
                                 value=False,
-                                id="id_switch_novaApostaCreditoDeAposta",
+                                id="modalNovaApostaSwitchCredito",
                                 style={
-                                    #'color':'black',
-                                    #'background-color': cores['background'],
                                     "margin-top": "10px"
                                 }
                             ),
@@ -313,7 +305,7 @@ app.layout = html.Div(
                             ),
                             dbc.Input(
                                 #placeholder="Amount", 
-                                id='id_input_novaApostaOdd',
+                                id='modalNovaApostaOdd',
                                 type="number",
                                 min=0,
                                 placeholder="Insira o valor da odd...",
@@ -326,12 +318,11 @@ app.layout = html.Div(
                                 },
                             ),
                             dcc.Dropdown(
-                                lista_resultado, 
-                                id='id_dpd_novaApostaResultado',
+                                LISTA_RESULTADO, 
+                                id='modalNovaApostaResultado',
                                 placeholder="Selecione o resultado...",
                                 style={
                                     'color':'black',
-                                    #'background-color': cores['background'],
                                     "margin-top": "10px"
                                 }
                             ),
@@ -343,12 +334,11 @@ app.layout = html.Div(
                                 },
                             ),
                             dcc.Dropdown(
-                                lista_finalizacao, 
-                                id='id_dpd_novaApostaFinalizacao',
+                                LISTA_FINALIZACAO, 
+                                id='modalNovaApostaFinalizacao',
                                 placeholder="Selecione o método...",
                                 style={
                                     'color':'black',
-                                    #'background-color': cores['background'],
                                     "margin-top": "10px"
                                 }
                             ),
@@ -361,7 +351,7 @@ app.layout = html.Div(
                                     },
                                 ),
                                 dbc.Input(
-                                    id='id_input_novaApostaRetirada',
+                                    id='modalNovaApostaRetirada',
                                     type="number",
                                     min=0,
                                     placeholder="Insira o valor retirado...",
@@ -372,7 +362,7 @@ app.layout = html.Div(
                             html.Div([
                                     dbc.Button(
                                         "Inserir aposta", 
-                                        id="id_botao_novaApostaInserir", 
+                                        id="modalNovaApostaBotaoInserir", 
                                         className="ms-auto", 
                                         n_clicks=0,
                                         disabled=False,
@@ -381,7 +371,7 @@ app.layout = html.Div(
                                     ),
                                     dbc.Alert(
                                         "",
-                                        id="id_alerta_novaApostaInserir",
+                                        id="modalNovaApostaAlertaInserir",
                                         dismissable=True,
                                         fade=False,
                                         is_open=True,
@@ -403,7 +393,7 @@ app.layout = html.Div(
                         dbc.ModalFooter(
                             dbc.Button(
                                 "Fechar", 
-                                id="id_botao_novaApostaClose", 
+                                id="modalNovaApostaBotaoFechar", 
                                 className="ms-auto", 
                                 n_clicks=0,
                                 color="dark", 
@@ -411,7 +401,7 @@ app.layout = html.Div(
                             )
                         ),
                     ],
-                    id="id_modal_novaAposta",
+                    id="modalNovaAposta",
                     is_open=False,
                     centered=True,
                     size="lg",
@@ -420,7 +410,7 @@ app.layout = html.Div(
                 html.Div(  
                     dbc.Button(
                         "Configurações  do dashboard", 
-                        id="id_botao_configOpen", 
+                        id="modalConfiguracoesBotaoAbrir", 
                         n_clicks=0,
                         size='lg',
                         color="dark", 
@@ -445,7 +435,7 @@ app.layout = html.Div(
                                 },
                             ),
                             dbc.Input(
-                                id='id_input_configEsporte',
+                                id='modalConfiguracoesEsporte',
                                 type="text",
                                 min=0,
                                 placeholder="Insira o nome do esporte...",
@@ -453,7 +443,7 @@ app.layout = html.Div(
                             html.Div([
                                 dbc.Button(
                                     "Inserir esporte", 
-                                    id="id_botao_configInserirEsporte", 
+                                    id="modalConfiguracoesBotaoInserirEsporte", 
                                     className="ms-auto", 
                                     n_clicks=0,
                                     color="dark", 
@@ -465,7 +455,7 @@ app.layout = html.Div(
                                 ),
                                 dbc.Alert(
                                     "",
-                                    id="id_alerta_configEsporte",
+                                    id="modalConfiguracoesAlertaEsporte",
                                     dismissable=True,
                                     fade=False,
                                     is_open=False,
@@ -490,7 +480,7 @@ app.layout = html.Div(
                                 },
                             ),
                             dbc.Input(
-                                id='id_input_configBancaInicial',
+                                id='modalConfiguracoesBancaInicial',
                                 type="number",
                                 min=0,
                                 placeholder="Insira o valor da banca inicial...",
@@ -498,7 +488,7 @@ app.layout = html.Div(
                             html.Div([
                                 dbc.Button(
                                     "Inserir banca inicial", 
-                                    id="id_botao_configBancaInicial", 
+                                    id="modalConfiguracoesBotaoInserirBancaInicial", 
                                     className="ms-auto", 
                                     n_clicks=0,
                                     color="dark", 
@@ -510,7 +500,7 @@ app.layout = html.Div(
                                 ),
                                 dbc.Alert(
                                     "",
-                                    id="id_alerta_configBancaInicial",
+                                    id="modalConfiguracoesAlertaBancaInicial",
                                     dismissable=True,
                                     fade=False,
                                     is_open=False,
@@ -532,7 +522,7 @@ app.layout = html.Div(
                         dbc.ModalFooter(
                             dbc.Button(
                                 "Fechar", 
-                                id="id_botao_configClose", 
+                                id="modalConfiguracoesBotaoFechar", 
                                 className="ms-auto", 
                                 n_clicks=0,
                                 color="dark", 
@@ -540,7 +530,7 @@ app.layout = html.Div(
                             )
                         ),
                     ],
-                    id="id_modal_config",
+                    id="modalConfiguracoes",
                     is_open=False,
                     centered=True,
                     size="lg",
@@ -562,8 +552,8 @@ app.layout = html.Div(
                         ),
                         dbc.CardBody([
                             dcc.Graph(
-                            id='id_graf_banca',
-                            figure=fig_banca
+                            id='graficoBanca',
+                            figure=figuraBanca
                             ),
                         ])
                     ], 
@@ -579,30 +569,27 @@ app.layout = html.Div(
                             dbc.Tabs([
                                 dbc.Tab(
                                     label="Análise diária", 
-                                    tab_id="id_tab_abaDiaria",
-                                    #active_tab_style={"textTransform": "uppercase"},
+                                    tab_id="abaDiaria",
                                 ),
                                 dbc.Tab(
                                     label="Análise geral", 
-                                    tab_id="id_tab_abaGeral",
-                                    #active_tab_style={"textTransform": "uppercase"},
-                                    active_tab_class_name={"backgroundColor": cores['background2']}
+                                    tab_id="abaGeral",
+                                    active_tab_class_name={"backgroundColor": CORES['backgroundGrafite']}
                                 )
                             ],
-                            id="id_tab_abas",
-                            active_tab="id_tab_abaDiaria"
+                            id="abas",
+                            active_tab="abaDiaria"
                             )  
                         ]),
                         dbc.CardBody([
                             html.Div(
                                 children='',
-                                id="id_div_abasConteudo", 
+                                id="abasConteudo", 
                                 className="card-text"
                             )
                         ])
                     ], 
                     style={
-                        #'textAlign': 'center',
                         "margin-top": "10px"
                     }
                     )
@@ -622,59 +609,59 @@ app.layout = html.Div(
 # Gráfico banca
 
 @app.callback(
-    Output("id_graf_banca", "figure"),
-    Input("id_botao_novaApostaClose","n_clicks"),
-    Input('id_title_header','children')
+    Output("graficoBanca", "figure"),
+    Input("modalNovaApostaBotaoFechar","n_clicks"),
+    Input('colunaHeader','children')
 )
-def graf_banca(input_botao_novaApostaClose,input_title_header):
+def graf_banca(input_modalNovaApostaBotaoFechar,input_colunaHeader):
     
-    df_apostas = leituraDB(nomeArquivoDBApostas)
-    df_parametros = leituraDB(nomeArquivoDBParametros)
+    dfApostas = leituraDB(NOME_ARQUIVO_APOSTAS)
+    dfParametros = leituraDB(NOME_ARQUIVO_PARAMETROS)
 
-    bancaInicial = round(float(df_parametros["Banca Inicial"].dropna()),2)
+    bancaInicial = round(float(dfParametros["Banca Inicial"].dropna()),2)
 
-    if df_apostas.empty:
+    if dfApostas.empty:
 
-        fig_banca = graficoBanca(df_apostas, [bancaInicial], dummyDataY, cores)
+        figuraBanca = graficoBanca(dfApostas, [date.today()], [bancaInicial], CORES)
         
-        return fig_banca
+        return figuraBanca
     else:
 
-        df_apostas['Datas'] = pd.to_datetime(df_apostas['Data']).dt.date
-        lista_datas = df_apostas['Datas'].unique() 
-        lista_datas = sorted(lista_datas)
+        dfApostas['Datas'] = pd.to_datetime(dfApostas['Data']).dt.date
+        listaDatas = dfApostas['Datas'].unique() 
+        listaDatas = sorted(listaDatas)
 
-        lista_lucroPorData = list()
+        listaLucroPorData = list()
 
-        for data in lista_datas:
-            lucro_por_data = round(df_apostas.loc[df_apostas['Datas']==data,'Saldo'].sum(),2)
-            lista_lucroPorData.append(float(lucro_por_data))
+        for data in listaDatas:
+            lucroPorData = round(dfApostas.loc[dfApostas['Datas']==data,'Saldo'].sum(),2)
+            listaLucroPorData.append(float(lucroPorData))
 
-        lista_bancaPorData = list()
+        listaBancaPorData = list()
 
-        for pos in range(len(lista_lucroPorData)):
-            lista_bancaPorData.append(round(sum(lista_lucroPorData[0:pos+1],bancaInicial),2))
+        for pos in range(len(listaLucroPorData)):
+            listaBancaPorData.append(round(sum(listaLucroPorData[0:pos+1],bancaInicial),2))
 
-        fig_banca = graficoBanca(df_apostas, lista_datas, lista_bancaPorData, cores)
+        figuraBanca = graficoBanca(dfApostas, listaDatas, listaBancaPorData, CORES)
 
-        return fig_banca
+        return figuraBanca
         
 # Abas (estrutura)
 
 @app.callback(
-    Output("id_div_abasConteudo", "children"), 
-    Input("id_tab_abas", "active_tab")
+    Output("abasConteudo", "children"), 
+    Input("abas", "active_tab")
 )
-def switch_tab(input_tab_abas):
+def switch_tab(input_abas):
 
-    df_apostas = leituraDB(nomeArquivoDBApostas)
+    dfApostas = leituraDB(NOME_ARQUIVO_APOSTAS)
 
-    lista_esportessUsados = list(df_apostas["Esporte"].unique())
-    lista_esportessUsados.sort()
+    listaEsportesUsados = list(dfApostas["Esporte"].unique())
+    listaEsportesUsados.sort()
 
-    if input_tab_abas == "id_tab_abaDiaria":
+    if input_abas == "abaDiaria":
 
-        aba_diaria_conteudo = [
+        abaDiariaConteudo = [
             dbc.Row([
                 dbc.Col([
                         dbc.CardBody([
@@ -684,7 +671,6 @@ def switch_tab(input_tab_abas):
                                 style={
                                     'textAlign': 'center',
                                     'margin-top': "0px",
-                                    #'font-weight': 'bold'
                                 },
                             ),
                             html.Hr(
@@ -694,7 +680,7 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             dcc.DatePickerSingle(
-                                id='id_calendario_abaDiaria',
+                                id='abaDiariaCalendario',
                                 calendar_orientation='vertical',
                                 placeholder='Select a date',
                                 display_format='D/M/Y',
@@ -703,13 +689,13 @@ def switch_tab(input_tab_abas):
                                 date=date.today(),
                                 style={
                                     'color':'black',
-                                    'background-color': cores['background'],
+                                    'background-color': CORES['backgroundPreto'],
                                     "margin-top": "10px",
                                 },
                             ),
                             dcc.Dropdown(
-                                lista_esportessUsados, 
-                                id='id_dpd_abaDiariaEsporte',
+                                listaEsportesUsados, 
+                                id='abaDiariaEsporte',
                                 placeholder="Esporte",
                                 style={
                                     'color':'black',
@@ -717,8 +703,8 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             dcc.Dropdown(
-                                lista_tipo, 
-                                id='id_dpd_abaDiariaTipo',
+                                LISTA_TIPO, 
+                                id='abaDiariaTipo',
                                 placeholder="Tipo de aposta",
                                 style={
                                     'color':'black',
@@ -726,8 +712,8 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             dcc.Dropdown(
-                                lista_creditoDeAposta, 
-                                id='id_dpd_abaDiariaCreditoDeAposta',
+                                LISTA_CREDITO_APOSTA, 
+                                id='abaDiariaCredito',
                                 placeholder="Crédito de aposta",
                                 style={
                                     'color':'black',
@@ -735,9 +721,9 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             dcc.Dropdown(
-                                lista_finalizacao,  
-                                id='id_dpd_abaDiariaFinalizacao',
-                                placeholder="Crédito de aposta",
+                                LISTA_FINALIZACAO,  
+                                id='abaDiariaFinalizacao',
+                                placeholder="Tipo de finalização",
                                 style={
                                     'color':'black',
                                     "margin-top": "10px"
@@ -762,7 +748,7 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             html.H3(
-                                id="id_card_abaDiariaSaldo",
+                                id="abaDiariaSaldo",
                                 children='',
                                 className="card-text",
                                 style={
@@ -770,7 +756,7 @@ def switch_tab(input_tab_abas):
                                 },
                             ),
                             html.H3(
-                                id="id_card_abaDiariaSaldoSimbolo",
+                                id="abaDiariaSaldoSimbolo",
                                 children='',
                                 className="card-text",
                                 style={
@@ -794,7 +780,7 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             html.H3(
-                                id="id_card_abaDiariaRoi",
+                                id="abaDiariaRoi",
                                 children='',
                                 className="card-text",
                                 style={
@@ -802,7 +788,7 @@ def switch_tab(input_tab_abas):
                                 },
                             ), 
                             html.H3(
-                                id="id_card_abaDiariaRoiSimbolo",
+                                id="abaDiariaRoiSimbolo",
                                 children='',
                                 className="card-text",
                                 style={
@@ -814,7 +800,7 @@ def switch_tab(input_tab_abas):
                 dbc.Col([
                         dbc.CardBody([
                             html.H6(
-                                'Número de apostas',
+                                'Quantidade de apostas',
                                 className="card-title",
                                 style={
                                     'textAlign': 'center',
@@ -828,7 +814,7 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             html.H3(
-                                id="id_card_abaDiariaNumApostas",
+                                id="abaDiariaQuantidadeApostas",
                                 children='',
                                 className="card-text",
                                 style={
@@ -852,7 +838,7 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             html.H3(
-                                id="id_card_abaDiariaInvestimento",
+                                id="abaDiariaInvestimento",
                                 children='',
                                 className="card-text",
                                 style={
@@ -876,7 +862,7 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             html.H3(
-                                id="id_card_abaDiariaOddMedia",
+                                id="abaDiariaOddMedia",
                                 children='',
                                 className="card-text",
                                 style={
@@ -901,19 +887,19 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             dcc.Graph(
-                                id='id_graf_aprovDiario',
-                                figure=fig_aproveitamentoDiario
+                                id='graficoAproveitamentoDiario',
+                                figure=figuraAproveitamentoDiario
                             )
                         ]) 
                 ], md=5)
             ])
         ]
 
-        return aba_diaria_conteudo
+        return abaDiariaConteudo
     
-    elif input_tab_abas == "id_tab_abaGeral":
+    elif input_abas == "abaGeral":
 
-        aba_geral_conteudo = [
+        abaGeralConteudo = [
             dbc.Row([
                 dbc.Col([
                         dbc.CardBody([
@@ -931,9 +917,9 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             dcc.Dropdown(
-                                lista_esportessUsados, 
+                                listaEsportesUsados, 
                                 #value='Todas', 
-                                id='id_dpd_abaGeralEsporte',
+                                id='abaGeralEsporte',
                                 placeholder="Esporte",
                                 style={
                                     'color':'black',
@@ -941,9 +927,9 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             dcc.Dropdown(
-                                lista_tipo, 
+                                LISTA_TIPO, 
                                 #value='Todas', 
-                                id='id_dpd_abaGeralTipo',
+                                id='abaGeralTipo',
                                 placeholder="Tipo de aposta",
                                 style={
                                     'color':'black',
@@ -951,9 +937,9 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             dcc.Dropdown(
-                                lista_creditoDeAposta, 
+                                LISTA_CREDITO_APOSTA, 
                                 #value='Todas', 
-                                id='id_dpd_abaGeralCreditoDeAposta',
+                                id='abaGeralCredito',
                                 placeholder="Crédito de aposta",
                                 style={
                                     'color':'black',
@@ -961,9 +947,9 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             dcc.Dropdown(
-                                lista_finalizacao,  
-                                id='id_dpd_abaGeralFinalizacao',
-                                placeholder="Crédito de aposta",
+                                LISTA_FINALIZACAO,  
+                                id='abaGeralFinalizacao',
+                                placeholder="Tipo de finalização",
                                 style={
                                     'color':'black',
                                     "margin-top": "10px"
@@ -988,7 +974,7 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             html.H3(
-                                id="id_card_abaGeralSaldo",
+                                id="abaGeralSaldo",
                                 children='',
                                 className="card-text",
                                 style={
@@ -996,7 +982,7 @@ def switch_tab(input_tab_abas):
                                 },
                             ),
                             html.H3(
-                                id="id_card_abaGeralSaldoSimbolo",
+                                id="abaGeralSaldoSimbolo",
                                 children='',
                                 className="card-text",
                                 style={
@@ -1020,7 +1006,7 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             html.H3(
-                                id="id_card_abaGeralRoi",
+                                id="abaGeralRoi",
                                 children='',
                                 className="card-text",
                                 style={
@@ -1028,7 +1014,7 @@ def switch_tab(input_tab_abas):
                                 },
                             ),
                             html.H3(
-                                id="id_card_abaGeralRoiSimbolo",
+                                id="abaGeralRoiSimbolo",
                                 children='',
                                 className="card-text",
                                 style={
@@ -1040,7 +1026,7 @@ def switch_tab(input_tab_abas):
                 dbc.Col([
                         dbc.CardBody([
                             html.H6(
-                                'Número de apostas',
+                                'Quantidade de apostas',
                                 className="card-title",
                                 style={
                                     'textAlign': 'center',
@@ -1054,7 +1040,7 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             html.H3(
-                                id="id_card_abaGeralNumApostas",
+                                id="abaGeralQuantidadeApostas",
                                 children='',
                                 className="card-text",
                                 style={
@@ -1078,7 +1064,7 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             html.H3(
-                                id="id_card_abaGeralInvestimento",
+                                id="abaGeralInvestimento",
                                 children='',
                                 className="card-text",
                                 style={
@@ -1102,7 +1088,7 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             html.H3(
-                                id="id_card_abaGeralOddMedia",
+                                id="abaGeralOddMedia",
                                 children='',
                                 className="card-text",
                                 style={
@@ -1127,44 +1113,44 @@ def switch_tab(input_tab_abas):
                                 }
                             ),
                             dcc.Graph(
-                                id='id_graf_aprovGeral',
-                                figure=fig_aproveitamentoGeral
+                                id='graficoAproveitamentoGeral',
+                                figure=figuraAproveitamentoGeral
                             )
                         ]) 
                 ], md=5)
             ])
         ]
 
-        return aba_geral_conteudo
+        return abaGeralConteudo
     return html.P("Houve um problema...")
 
 # Aba análise diaria (conteúdo e processamento)
 
 @app.callback(
-    Output('id_graf_aprovDiario', 'figure'),
-    Output('id_card_abaDiariaSaldo', 'children'),
-    Output('id_card_abaDiariaRoi', 'children'),
-    Output('id_card_abaDiariaNumApostas', 'children'),
-    Output('id_card_abaDiariaInvestimento', 'children'),
-    Output('id_card_abaDiariaOddMedia', 'children'),
-    Output('id_card_abaDiariaSaldoSimbolo','children'),
-    Output('id_card_abaDiariaSaldoSimbolo','style'),
-    Output('id_card_abaDiariaRoiSimbolo','children'),
-    Output('id_card_abaDiariaRoiSimbolo','style'),
-    Input('id_calendario_abaDiaria', 'date'),
-    Input('id_dpd_abaDiariaEsporte', 'value'),
-    Input('id_dpd_abaDiariaTipo', 'value'),
-    Input('id_dpd_abaDiariaCreditoDeAposta', 'value'),
-    Input('id_dpd_abaDiariaFinalizacao', 'value'),
-    Input("id_botao_novaApostaClose","n_clicks"),
+    Output('graficoAproveitamentoDiario', 'figure'),
+    Output('abaDiariaSaldo', 'children'),
+    Output('abaDiariaRoi', 'children'),
+    Output('abaDiariaQuantidadeApostas', 'children'),
+    Output('abaDiariaInvestimento', 'children'),
+    Output('abaDiariaOddMedia', 'children'),
+    Output('abaDiariaSaldoSimbolo','children'),
+    Output('abaDiariaSaldoSimbolo','style'),
+    Output('abaDiariaRoiSimbolo','children'),
+    Output('abaDiariaRoiSimbolo','style'),
+    Input('abaDiariaCalendario', 'date'),
+    Input('abaDiariaEsporte', 'value'),
+    Input('abaDiariaTipo', 'value'),
+    Input('abaDiariaCredito', 'value'),
+    Input('abaDiariaFinalizacao', 'value'),
+    Input("modalNovaApostaBotaoFechar","n_clicks"),
 )
 def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd_abaDiariaTipo, input_dpd_abaDiariaCreditoDeAposta, input_dpd_abaDiariaFinalizacao, input_botao_novaApostaClose):
     
-    df_apostas = leituraDB(nomeArquivoDBApostas)
+    dfApostas = leituraDB(NOME_ARQUIVO_APOSTAS)
 
-    if df_apostas.empty:
+    if dfApostas.empty:
 
-        fig_aproveitamentoDiario = graficoAproveitamento(df_apostas, cores)
+        figuraAproveitamentoDiario = graficoAproveitamento(dfApostas, CORES)
         
         saldo, roi, numApostas, investimento, oddMedia, simbolo, style = relatorioDBVazio()
 
@@ -1173,71 +1159,71 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
         data_objeto = date.fromisoformat(input_calendario_abaDiaria)
         data_string = data_objeto.strftime('%Y, %m, %d')
 
-        tabela_filtrada = df_apostas.loc[
-            ((df_apostas['Data']==data_string) if data_string is not None else (df_apostas['Data']!=None))
-            & ((df_apostas['Esporte']==input_dpd_abaDiariaEsporte) if input_dpd_abaDiariaEsporte is not None else (df_apostas['Esporte']!=None)) 
-            & ((df_apostas['Tipo']==input_dpd_abaDiariaTipo) if input_dpd_abaDiariaTipo is not None else (df_apostas['Tipo']!=None))
-            & ((df_apostas['Crédito de aposta']==input_dpd_abaDiariaCreditoDeAposta) if input_dpd_abaDiariaCreditoDeAposta is not None else (df_apostas['Crédito de aposta']!=None))
-            & ((df_apostas['Finalização']==input_dpd_abaDiariaFinalizacao) if input_dpd_abaDiariaFinalizacao is not None else (df_apostas['Finalização']!=None))
+        tabela_filtrada = dfApostas.loc[
+            ((dfApostas['Data']==data_string) if data_string is not None else (dfApostas['Data']!=None))
+            & ((dfApostas['Esporte']==input_dpd_abaDiariaEsporte) if input_dpd_abaDiariaEsporte is not None else (dfApostas['Esporte']!=None)) 
+            & ((dfApostas['Tipo']==input_dpd_abaDiariaTipo) if input_dpd_abaDiariaTipo is not None else (dfApostas['Tipo']!=None))
+            & ((dfApostas['Crédito de aposta']==input_dpd_abaDiariaCreditoDeAposta) if input_dpd_abaDiariaCreditoDeAposta is not None else (dfApostas['Crédito de aposta']!=None))
+            & ((dfApostas['Finalização']==input_dpd_abaDiariaFinalizacao) if input_dpd_abaDiariaFinalizacao is not None else (dfApostas['Finalização']!=None))
         ]
 
-        fig_aproveitamentoDiario = graficoAproveitamento(tabela_filtrada, cores)
+        figuraAproveitamentoDiario = graficoAproveitamento(tabela_filtrada, CORES)
     
-        saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
+        saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, dfParametros, CORES)
 
-    return fig_aproveitamentoDiario, saldo, roi, numApostas, investimento, oddMedia, simbolo, style, simbolo, style
+    return figuraAproveitamentoDiario, saldo, roi, numApostas, investimento, oddMedia, simbolo, style, simbolo, style
 
 # Aba análise geral (conteúdo e processamento)
 
 @app.callback(
-    Output('id_graf_aprovGeral', 'figure'),
-    Output('id_card_abaGeralSaldo', 'children'),
-    Output('id_card_abaGeralRoi', 'children'),
-    Output('id_card_abaGeralNumApostas', 'children'),
-    Output('id_card_abaGeralInvestimento', 'children'),
-    Output('id_card_abaGeralOddMedia', 'children'),
-    Output('id_card_abaGeralSaldoSimbolo', 'children'),
-    Output('id_card_abaGeralSaldoSimbolo', 'style'),
-    Output('id_card_abaGeralRoiSimbolo', 'children'),
-    Output('id_card_abaGeralRoiSimbolo', 'style'),
-    Input('id_dpd_abaGeralEsporte', 'value'),
-    Input('id_dpd_abaGeralTipo', 'value'),
-    Input('id_dpd_abaGeralCreditoDeAposta', 'value'),
-    Input('id_dpd_abaGeralFinalizacao', 'value'),
-    Input("id_botao_novaApostaClose","n_clicks"),
+    Output('graficoAproveitamentoGeral', 'figure'),
+    Output('abaGeralSaldo', 'children'),
+    Output('abaGeralRoi', 'children'),
+    Output('abaGeralQuantidadeApostas', 'children'),
+    Output('abaGeralInvestimento', 'children'),
+    Output('abaGeralOddMedia', 'children'),
+    Output('abaGeralSaldoSimbolo', 'children'),
+    Output('abaGeralSaldoSimbolo', 'style'),
+    Output('abaGeralRoiSimbolo', 'children'),
+    Output('abaGeralRoiSimbolo', 'style'),
+    Input('abaGeralEsporte', 'value'),
+    Input('abaGeralTipo', 'value'),
+    Input('abaGeralCredito', 'value'),
+    Input('abaGeralFinalizacao', 'value'),
+    Input("modalNovaApostaBotaoFechar","n_clicks"),
 )
 def tab_geral(input_dpd_abaGeralEsporte, input_dpd_abaGeralTipo, input_dpd_abaGeralCreditoDeAposta, input_dpd_abaGeralFinalizacao, input_botao_novaApostaClose):
 
-    df_apostas = leituraDB(nomeArquivoDBApostas)
+    dfApostas = leituraDB(NOME_ARQUIVO_APOSTAS)
 
-    if df_apostas.empty:
+    if dfApostas.empty:
         
-        fig_aproveitamentoGeral = graficoAproveitamento(df_apostas, cores) 
+        figuraAproveitamentoGeral = graficoAproveitamento(dfApostas, CORES) 
 
         saldo, roi, numApostas, investimento, oddMedia, simbolo, style = relatorioDBVazio()
         
     else:
 
-        tabela_filtrada = df_apostas.loc[
-            ((df_apostas['Esporte']==input_dpd_abaGeralEsporte) if input_dpd_abaGeralEsporte is not None else (df_apostas['Esporte']!=None)) 
-            & ((df_apostas['Tipo']==input_dpd_abaGeralTipo) if input_dpd_abaGeralTipo is not None else (df_apostas['Tipo']!=None))
-            & ((df_apostas['Crédito de aposta']==input_dpd_abaGeralCreditoDeAposta) if input_dpd_abaGeralCreditoDeAposta is not None else (df_apostas['Crédito de aposta']!=None))
-            & ((df_apostas['Finalização']==input_dpd_abaGeralFinalizacao) if input_dpd_abaGeralFinalizacao is not None else (df_apostas['Finalização']!=None))
+        tabela_filtrada = dfApostas.loc[
+            ((dfApostas['Esporte']==input_dpd_abaGeralEsporte) if input_dpd_abaGeralEsporte is not None else (dfApostas['Esporte']!=None)) 
+            & ((dfApostas['Tipo']==input_dpd_abaGeralTipo) if input_dpd_abaGeralTipo is not None else (dfApostas['Tipo']!=None))
+            & ((dfApostas['Crédito de aposta']==input_dpd_abaGeralCreditoDeAposta) if input_dpd_abaGeralCreditoDeAposta is not None else (dfApostas['Crédito de aposta']!=None))
+            & ((dfApostas['Finalização']==input_dpd_abaGeralFinalizacao) if input_dpd_abaGeralFinalizacao is not None else (dfApostas['Finalização']!=None))
         ]
 
-        fig_aproveitamentoGeral = graficoAproveitamento(tabela_filtrada, cores) 
+        figuraAproveitamentoGeral = graficoAproveitamento(tabela_filtrada, CORES) 
 
-        saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, df_parametros, cores)
+        saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, dfParametros, CORES)
 
-    return fig_aproveitamentoGeral, saldo, roi, numApostas, investimento, oddMedia, simbolo, style, simbolo, style
+    return figuraAproveitamentoGeral, saldo, roi, numApostas, investimento, oddMedia, simbolo, style, simbolo, style
 
 # Modal de inserir apostas (abertura/fechamento)
 
 @app.callback(
-    Output("id_modal_novaAposta", "is_open"),
-    Input("id_botao_novaApostaOpen", "n_clicks"), 
-    Input("id_botao_novaApostaClose", "n_clicks"),
-    Input("id_modal_novaAposta", "is_open"),
+    Output("modalNovaAposta", "is_open"),
+    Input("modalNovaApostaBotaoAbrir", "n_clicks"), 
+    Input("modalNovaApostaBotaoFechar", "n_clicks"),
+    Input("modalNovaAposta", "is_open"),
 )
 def modal_apostas_toggle(input_botao_novaApostaOpen, input_botao_novaApostaClose, input_modal_novaAposta):
     if input_botao_novaApostaOpen or input_botao_novaApostaClose:
@@ -1247,23 +1233,23 @@ def modal_apostas_toggle(input_botao_novaApostaOpen, input_botao_novaApostaClose
 # Modal de inserir apostas (conteúdo e processamento) 
 
 @app.callback(
-    Output("id_alerta_novaApostaInserir", "is_open"),
-    Output("id_alerta_novaApostaInserir", "children"),
-    Output("id_alerta_novaApostaInserir", "color"),
-    Input("id_botao_novaApostaInserir","n_clicks"),
-    State("id_calendario_novaAposta", "date"), 
-    State("id_dpd_novaApostaEsportes", "value"),
-    State("id_dpd_novaApostaTipo", "value"),
-    State("id_input_novaApostaInvestimento", "value"),
-    State("id_switch_novaApostaCreditoDeAposta", "value"),
-    State("id_input_novaApostaOdd", "value"),
-    State("id_dpd_novaApostaResultado", "value"),
-    State("id_dpd_novaApostaFinalizacao", "value"),
-    State("id_input_novaApostaRetirada", "value"), 
+    Output("modalNovaApostaAlertaInserir", "is_open"),
+    Output("modalNovaApostaAlertaInserir", "children"),
+    Output("modalNovaApostaAlertaInserir", "color"),
+    Input("modalNovaApostaBotaoInserir","n_clicks"),
+    State("modalNovaApostaCalendario", "date"), 
+    State("modalNovaApostaEsporte", "value"),
+    State("modalNovaApostaTipo", "value"),
+    State("modalNovaApostaInvestimento", "value"),
+    State("modalNovaApostaSwitchCredito", "value"),
+    State("modalNovaApostaOdd", "value"),
+    State("modalNovaApostaResultado", "value"),
+    State("modalNovaApostaFinalizacao", "value"),
+    State("modalNovaApostaRetirada", "value"), 
 )
 def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaAposta, state_dpd_novaApostaEsportes, state_dpd_novaApostaTipo, state_input_novaApostaInvestimento, state_switch_creditoDeAposta, state_input_novaApostaOdd, state_dpd_novaApostaResultado, state_dpd_novaApostaFinalizacao, state_input_novaApostaRetirada):
 
-    if 'id_botao_novaApostaInserir' == ctx.triggered_id:
+    if 'modalNovaApostaBotaoInserir' == ctx.triggered_id:
         if state_calendario_novaAposta and state_dpd_novaApostaEsportes and state_dpd_novaApostaTipo and state_input_novaApostaInvestimento and state_input_novaApostaOdd and state_dpd_novaApostaResultado and state_dpd_novaApostaFinalizacao is not None:
             
             apostaData = datetime.strptime(state_calendario_novaAposta, '%Y-%m-%d')
@@ -1281,9 +1267,9 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
 
                 apostaSaldo = calcularSaldoNormal(apostaResultado, apostaInvestimento, apostaCreditoDeAposta, apostaOdd)
                     
-                df_apostas = leituraDB(nomeArquivoDBApostas)
-                print(apostaCreditoDeAposta)
-                inserirAposta(df_apostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaCreditoDeAposta, apostaFinalizacao, apostaResultado, apostaSaldo, soma, nomeArquivoDBApostas)
+                dfApostas = leituraDB(NOME_ARQUIVO_APOSTAS)
+                
+                inserirAposta(dfApostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaCreditoDeAposta, apostaFinalizacao, apostaResultado, apostaSaldo, soma, NOME_ARQUIVO_APOSTAS)
                 
                 time.sleep(0.1)
 
@@ -1295,9 +1281,9 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
 
                     apostaSaldo = calcularSaldoRetirada(apostaResultado, apostaInvestimento, apostaCreditoDeAposta, apostaRetirada)
 
-                    df_apostas = leituraDB(nomeArquivoDBApostas)
+                    dfApostas = leituraDB(NOME_ARQUIVO_APOSTAS)
 
-                    inserirAposta(df_apostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaCreditoDeAposta, apostaFinalizacao, apostaResultado, apostaSaldo, soma, nomeArquivoDBApostas)
+                    inserirAposta(dfApostas, apostaData, apostaEsporte, apostaTipo, apostaOdd, apostaInvestimento, apostaCreditoDeAposta, apostaFinalizacao, apostaResultado, apostaSaldo, soma, NOME_ARQUIVO_APOSTAS)
      
                     time.sleep(0.1)
 
@@ -1327,7 +1313,7 @@ def modal_apostas_conteudo(input_botao_novaApostaInserir, state_calendario_novaA
 
 @app.callback(
     Output("id_collapse_novaApostaRetirada", "is_open"),
-    Input("id_dpd_novaApostaFinalizacao", "value"), 
+    Input("modalNovaApostaFinalizacao", "value"), 
 )
 def modal_apostas_colapseRetirada(input_dpd_novaApostaFinalizacao):
     if input_dpd_novaApostaFinalizacao == 'Retirada':
@@ -1340,27 +1326,27 @@ def modal_apostas_colapseRetirada(input_dpd_novaApostaFinalizacao):
 # Modal de inserir apostas (limpeza dos dados)
 
 @app.callback(
-    Output("id_dpd_novaApostaEsportes", "value"),
-    Output("id_dpd_novaApostaTipo", "value"),
-    Output("id_input_novaApostaInvestimento", "value"),
-    Output("id_switch_novaApostaCreditoDeAposta", "value"),
-    Output("id_input_novaApostaOdd", "value"),
-    Output("id_dpd_novaApostaResultado", "value"),
-    Output("id_dpd_novaApostaFinalizacao", "value"),
-    Output("id_input_novaApostaRetirada", "value"), 
-    Input("id_botao_novaApostaInserir","n_clicks"), 
-    Input("id_botao_novaApostaClose","n_clicks"),
-    Input("id_dpd_novaApostaEsportes", "value"),
-    Input("id_dpd_novaApostaTipo", "value"),
-    Input("id_input_novaApostaInvestimento", "value"),
-    Input("id_switch_novaApostaCreditoDeAposta", "value"),
-    Input("id_input_novaApostaOdd", "value"),
-    Input("id_dpd_novaApostaResultado", "value"),
-    Input("id_dpd_novaApostaFinalizacao", "value"),
-    Input("id_input_novaApostaRetirada", "value"), 
+    Output("modalNovaApostaEsporte", "value"),
+    Output("modalNovaApostaTipo", "value"),
+    Output("modalNovaApostaInvestimento", "value"),
+    Output("modalNovaApostaSwitchCredito", "value"),
+    Output("modalNovaApostaOdd", "value"),
+    Output("modalNovaApostaResultado", "value"),
+    Output("modalNovaApostaFinalizacao", "value"),
+    Output("modalNovaApostaRetirada", "value"), 
+    Input("modalNovaApostaBotaoInserir","n_clicks"), 
+    Input("modalNovaApostaBotaoFechar","n_clicks"),
+    Input("modalNovaApostaEsporte", "value"),
+    Input("modalNovaApostaTipo", "value"),
+    Input("modalNovaApostaInvestimento", "value"),
+    Input("modalNovaApostaSwitchCredito", "value"),
+    Input("modalNovaApostaOdd", "value"),
+    Input("modalNovaApostaResultado", "value"),
+    Input("modalNovaApostaFinalizacao", "value"),
+    Input("modalNovaApostaRetirada", "value"), 
 )
 def modal_aposta_limpeza(input_botao_novaApostaInserir, input_botao_novaApostaClose, input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, input_switch_novaApostaCreditoDeAposta, input_input_novaApostaOdd, input_dpd_novaApostaResultado, input_dpd_novaApostaFinalizacao, input_input_novaApostaRetirada):
-    if 'id_botao_novaApostaInserir' == ctx.triggered_id:
+    if 'modalNovaApostaBotaoInserir' == ctx.triggered_id:
         if input_dpd_novaApostaEsportes and input_dpd_novaApostaTipo and input_input_novaApostaInvestimento and input_input_novaApostaOdd and input_dpd_novaApostaResultado and input_dpd_novaApostaFinalizacao is not None:
             if input_dpd_novaApostaFinalizacao == 'Normal':
                 return input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, False, None, None, input_dpd_novaApostaFinalizacao, None
@@ -1371,7 +1357,7 @@ def modal_aposta_limpeza(input_botao_novaApostaInserir, input_botao_novaApostaCl
                     return input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, False, input_input_novaApostaOdd, input_dpd_novaApostaResultado, input_dpd_novaApostaFinalizacao, input_input_novaApostaRetirada
         else:
             return input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, False, input_input_novaApostaOdd, input_dpd_novaApostaResultado, input_dpd_novaApostaFinalizacao, input_input_novaApostaRetirada
-    elif 'id_botao_novaApostaClose' == ctx.triggered_id:
+    elif 'modalNovaApostaBotaoFechar' == ctx.triggered_id:
         return None, None, None, False, None, None, None, None
     else: 
         return input_dpd_novaApostaEsportes, input_dpd_novaApostaTipo, input_input_novaApostaInvestimento, input_switch_novaApostaCreditoDeAposta, input_input_novaApostaOdd, input_dpd_novaApostaResultado, input_dpd_novaApostaFinalizacao, input_input_novaApostaRetirada
@@ -1379,10 +1365,10 @@ def modal_aposta_limpeza(input_botao_novaApostaInserir, input_botao_novaApostaCl
 # Modal de configurações (abertura/fechamento)
 
 @app.callback(
-    Output("id_modal_config", "is_open"),
-    Input("id_botao_configOpen", "n_clicks"), 
-    Input("id_botao_configClose", "n_clicks"),
-    Input("id_modal_config", "is_open"),
+    Output("modalConfiguracoes", "is_open"),
+    Input("modalConfiguracoesBotaoAbrir", "n_clicks"), 
+    Input("modalConfiguracoesBotaoFechar", "n_clicks"),
+    Input("modalConfiguracoes", "is_open"),
 )
 def modal_config_toggle(input_botao_configOpen, input_botao_configClose, input_modal_config):
     if input_botao_configOpen or input_botao_configClose:
@@ -1392,24 +1378,24 @@ def modal_config_toggle(input_botao_configOpen, input_botao_configClose, input_m
 # Modal de configurações (conteúdo e processamento)
 
 @app.callback(
-    Output("id_alerta_configEsporte", "is_open"),
-    Output("id_alerta_configEsporte", "children"),
-    Output("id_alerta_configEsporte", "color"),   
-    Output("id_alerta_configBancaInicial", "is_open"),
-    Output("id_alerta_configBancaInicial", "children"),
-    Output("id_alerta_configBancaInicial", "color"),   
-    Input("id_botao_configInserirEsporte", "n_clicks"),
-    Input("id_botao_configBancaInicial", "n_clicks"),
-    State("id_input_configEsporte", "value"), 
-    State("id_input_configBancaInicial", "value"), 
+    Output("modalConfiguracoesAlertaEsporte", "is_open"),
+    Output("modalConfiguracoesAlertaEsporte", "children"),
+    Output("modalConfiguracoesAlertaEsporte", "color"),   
+    Output("modalConfiguracoesAlertaBancaInicial", "is_open"),
+    Output("modalConfiguracoesAlertaBancaInicial", "children"),
+    Output("modalConfiguracoesAlertaBancaInicial", "color"),   
+    Input("modalConfiguracoesBotaoInserirEsporte", "n_clicks"),
+    Input("modalConfiguracoesBotaoInserirBancaInicial", "n_clicks"),
+    State("modalConfiguracoesEsporte", "value"), 
+    State("modalConfiguracoesBancaInicial", "value"), 
 )
 def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBancaInicial, state_input_configEsporte, state_input_configBancaInicial):
-    if 'id_botao_configInserirEsporte' == ctx.triggered_id:
+    if 'modalConfiguracoesBotaoInserirEsporte' == ctx.triggered_id:
         if state_input_configEsporte is not None: 
             
-            df_parametros = leituraDB(nomeArquivoDBParametros)
+            dfParametros = leituraDB(NOME_ARQUIVO_PARAMETROS)
 
-            inserirParametro(df_parametros, 'Esporte', state_input_configEsporte, nomeArquivoDBParametros)  
+            inserirParametro(dfParametros, 'Esporte', state_input_configEsporte, NOME_ARQUIVO_PARAMETROS)  
 
             time.sleep(0.1)
 
@@ -1424,12 +1410,12 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
 
             return stateAlerta, mensagemAlerta, corAlerta, False, '', 'danger'
         
-    elif 'id_botao_configBancaInicial' == ctx.triggered_id:
+    elif 'modalConfiguracoesBotaoInserirBancaInicial' == ctx.triggered_id:
         if state_input_configBancaInicial is not None: 
             
-            df_parametros = leituraDB(nomeArquivoDBParametros)
+            dfParametros = leituraDB(NOME_ARQUIVO_PARAMETROS)
             
-            inserirParametro(df_parametros, 'Banca Inicial', state_input_configBancaInicial, nomeArquivoDBParametros) 
+            inserirParametro(dfParametros, 'Banca Inicial', state_input_configBancaInicial, NOME_ARQUIVO_PARAMETROS) 
 
             time.sleep(0.1)
 
@@ -1452,35 +1438,34 @@ def modal_config_conteudo(input_botao_configInserirEsporte, input_botao_configBa
 # Modal de configurações (limpeza dos dados) e Modal de configurações (atualização do DPD dos esportes no modal de inserir apostas)
 
 @app.callback(
-    Output("id_input_configEsporte", "value"),
-    Output("id_div_novaApostaEsportes", "children"),
-    Output("id_input_configBancaInicial", "value"),
-    Input("id_botao_configInserirEsporte", "n_clicks"),
-    Input("id_botao_configBancaInicial", "n_clicks"),
-    Input("id_botao_configClose", "n_clicks"),
-    Input("id_input_configEsporte", "value"),
-    Input("id_input_configBancaInicial", "value"),
+    Output("modalConfiguracoesEsporte", "value"),
+    Output("modalNovaApostaDivEsporte", "children"),
+    Output("modalConfiguracoesBancaInicial", "value"),
+    Input("modalConfiguracoesBotaoInserirEsporte", "n_clicks"),
+    Input("modalConfiguracoesBotaoInserirBancaInicial", "n_clicks"),
+    Input("modalConfiguracoesBotaoFechar", "n_clicks"),
+    Input("modalConfiguracoesEsporte", "value"),
+    Input("modalConfiguracoesBancaInicial", "value"),
 )
 def modal_config_limpeza(input_botao_configInserirEsporte, input_botao_configBancaInicial, input_botao_configClose, input_input_configEsporte, input_input_configBancaInicial):
     
-    df_parametros = leituraDB(nomeArquivoDBParametros)
-    lista_esportes = list(df_parametros["Esporte"].dropna())
+    dfParametros = leituraDB(NOME_ARQUIVO_PARAMETROS)
+    lista_esportes = list(dfParametros["Esporte"].dropna())
 
     dropdown = [
         dcc.Dropdown(
             lista_esportes, 
             #value='Todas', 
-            id='id_dpd_novaApostaEsportes',
+            id='modalNovaApostaEsporte',
             placeholder="Selecione um esporte...",
             style={
                 'color':'black',
-                #'background-color': cores['background'],
                 "margin-top": "10px"
             }
         ),
     ]
 
-    if 'id_botao_configInserirEsporte' == ctx.triggered_id or 'id_botao_configClose' == ctx.triggered_id or 'id_botao_configBancaInicial' == ctx.triggered_id:
+    if 'modalConfiguracoesBotaoInserirEsporte' == ctx.triggered_id or 'modalConfiguracoesBotaoFechar' == ctx.triggered_id or 'modalConfiguracoesBotaoInserirBancaInicial' == ctx.triggered_id:
         return None, dropdown, None
     else:
         return input_input_configEsporte, dropdown, input_input_configBancaInicial
@@ -1488,19 +1473,19 @@ def modal_config_limpeza(input_botao_configInserirEsporte, input_botao_configBan
 # Cards
 
 @app.callback(
-    Output("id_card_bancaInicial", "children"),
-    Output("id_card_bancaAtual", "children"),
-    Output("id_card_saldo", "children"),
-    Output("id_card_roi", "children"),
-    Input("id_botao_novaApostaClose","n_clicks"),
-    Input('id_title_header','children')
+    Output("colunaBancaInicial", "children"),
+    Output("colunaBancaAtual", "children"),
+    Output("colunaSaldo", "children"),
+    Output("colunaRoi", "children"),
+    Input("modalNovaApostaBotaoFechar","n_clicks"),
+    Input('colunaHeader','children')
 )
 def cards(input_botao_novaApostaClose, input_title_header):
 
-    df_apostas = leituraDB(nomeArquivoDBApostas)
-    df_parametros = leituraDB(nomeArquivoDBParametros)
+    dfApostas = leituraDB(NOME_ARQUIVO_APOSTAS)
+    dfParametros = leituraDB(NOME_ARQUIVO_PARAMETROS)
 
-    saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(df_apostas, df_parametros, cores)
+    saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(dfApostas, dfParametros, CORES)
 
     return bancaInicial, bancaAtual, saldo, roi
 
