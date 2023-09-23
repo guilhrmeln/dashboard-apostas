@@ -12,11 +12,11 @@ def graficoBanca(dataframe, dadosX, dadosY, cores):
     grafico.update_traces(
         line=dict(
             width=2,
-            color=cores['linha_grafico']
+            color=cores['graficoLinha']
         ),
         marker=dict(
             size=12,
-            color=cores['marker_grafico'],
+            color=cores['graficoMarcador'],
             opacity=0.8
         )
     )
@@ -43,9 +43,9 @@ def graficoBanca(dataframe, dadosX, dadosY, cores):
             showticklabels = True,
             gridwidth = 1,
         ),
-        plot_bgcolor=cores['background2'],
-        paper_bgcolor=cores['background2'],
-        font_color=cores['text'],
+        plot_bgcolor=cores['backgroundGrafite'],
+        paper_bgcolor=cores['backgroundGrafite'],
+        font_color=cores['texto'],
         autosize=True,
         margin=dict(
             t=20, b=0, l=0, r=0
@@ -54,12 +54,12 @@ def graficoBanca(dataframe, dadosX, dadosY, cores):
 
     grafico.update_xaxes(
         showgrid=True,
-        gridcolor=cores['grade']
+        gridcolor=cores['graficoGrade']
     )
 
     grafico.update_yaxes(
         showgrid=True,
-        gridcolor=cores['grade']
+        gridcolor=cores['graficoGrade']
     )
 
     return grafico
@@ -74,9 +74,9 @@ def graficoAproveitamento(dataframe, cores):
         height=300,
         color='Resultado',
         color_discrete_map = {
-            'Acerto': cores['col_acerto'],
-            'Erro': cores['col_erro'],
-            'Retornada': cores['col_retornada']
+            'Acerto': cores['colunaAcerto'],
+            'Erro': cores['colunaErro'],
+            'Retornada': cores['colunaRetornada']
         }
     )
 
@@ -86,9 +86,9 @@ def graficoAproveitamento(dataframe, cores):
 
     grafico.update_layout(
         title_x=0.5,
-        plot_bgcolor=cores['background2'],
-        paper_bgcolor=cores['background2'],
-        font_color=cores['text'],
+        plot_bgcolor=cores['backgroundGrafite'],
+        paper_bgcolor=cores['backgroundGrafite'],
+        font_color=cores['texto'],
         autosize=True,
         margin=dict(
             t=20, b=0, l=0, r=0

@@ -38,13 +38,13 @@ def relatorioDB(dataframe, parametros, cores):
         simbolo = '▲'
         style = {
             'textAlign': 'center',
-            'color': cores['col_acerto']
+            'color': cores['colunaAcerto']
         }
     elif saldo < 0: 
         simbolo = '▼'
         style = {
             'textAlign': 'center',
-            'color': cores['col_erro']
+            'color': cores['colunaErro']
         }
     else:
         simbolo = ''
