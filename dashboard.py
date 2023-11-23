@@ -895,10 +895,40 @@ def switch_tab(input_abas):
                 ], md=5)
             ]),
             dbc.Row([
+                html.H6(
+                    'Tabela de apostas',
+                    className="card-title",
+                    style={
+                        'textAlign': 'center',
+                        'margin-top': "0px",
+                    },
+                ),
+                html.Hr(
+                    style={
+                        "width": "100%", 
+                        "color": "white"
+                    }
+                ),
                 dash_table.DataTable(
                     id="tabelaApostas",
-                    data=dfApostas.to_dict('records'))
-                    #, [{"name": i, "id": i} for i in dfApostas.columns]
+                    data=dfApostas.to_dict('records'),
+                    page_size=10,
+                    style_cell={'textAlign': 'left'},
+                    style_cell_conditional=[
+                        {
+                            'if': {'column_id': 'Region'},
+                            'textAlign': 'left'
+                        }
+                    ],
+                    style_header={
+                        'backgroundColor': CORES['backgroundGrafite'],
+                        'color': 'white'
+                    },
+                    style_data={
+                        'backgroundColor': CORES['backgroundGrafite'],
+                        'color': 'white'
+                    },
+                )
             ])
 
         ]
@@ -1180,9 +1210,9 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
     
         saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, dfParametros, CORES)
 
-        tabela = tabela_filtrada.to_dict('records')
+        tabelaApostas = tabela_filtrada.iloc[:,1:9].to_dict('records')
 
-    return figuraAproveitamentoDiario, saldo, roi, numApostas, investimento, oddMedia, simbolo, style, simbolo, style, tabela
+    return figuraAproveitamentoDiario, saldo, roi, numApostas, investimento, oddMedia, simbolo, style, simbolo, style, tabelaApostas
 
 # Aba análise geral (conteúdo e processamento)
 
