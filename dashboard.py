@@ -7,6 +7,7 @@ from dash import Dash, html, dcc, Input, Output, State, ctx
 import plotly.express as px
 import pandas as pd
 import dash_bootstrap_components as dbc
+from dash import dash_table
 from datetime import date, datetime
 import time
 import math
@@ -892,7 +893,14 @@ def switch_tab(input_abas):
                             )
                         ]) 
                 ], md=5)
+            ]),
+            dbc.Row([
+                dash_table.DataTable(
+                    id="tabelaApostas",
+                    data=dfApostas.to_dict('records'))
+                    #, [{"name": i, "id": i} for i in dfApostas.columns]
             ])
+
         ]
 
         return abaDiariaConteudo
@@ -1137,6 +1145,7 @@ def switch_tab(input_abas):
     Output('abaDiariaSaldoSimbolo','style'),
     Output('abaDiariaRoiSimbolo','children'),
     Output('abaDiariaRoiSimbolo','style'),
+    Output('tabelaApostas','data'),
     Input('abaDiariaCalendario', 'date'),
     Input('abaDiariaEsporte', 'value'),
     Input('abaDiariaTipo', 'value'),
@@ -1171,7 +1180,9 @@ def tab_diario(input_calendario_abaDiaria, input_dpd_abaDiariaEsporte, input_dpd
     
         saldo, roi, numApostas, investimento, oddMedia, bancaInicial, bancaAtual, simbolo, style = relatorioDB(tabela_filtrada, dfParametros, CORES)
 
-    return figuraAproveitamentoDiario, saldo, roi, numApostas, investimento, oddMedia, simbolo, style, simbolo, style
+        tabela = tabela_filtrada.to_dict('records')
+
+    return figuraAproveitamentoDiario, saldo, roi, numApostas, investimento, oddMedia, simbolo, style, simbolo, style, tabela
 
 # Aba análise geral (conteúdo e processamento)
 
